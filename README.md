@@ -128,20 +128,30 @@ Open `http://localhost:8501` in your browser to test live text screening, anti-o
 
 ---
 
-## Deploying the model
+## 🌐 Cloud Deployment (Render Blueprint)
+
+This repository includes a pre-configured [render.yaml](render.yaml) blueprint tailored for CPU serving.
+
+1. Push this repository to your GitHub account (`git push origin main`).
+2. Go to **[Render Dashboard](https://dashboard.render.com/)** > **New +** > **Blueprint**.
+3. Select this repository (`Telugu_Hate_Speech_Detector`).
+4. Render automatically reads `render.yaml`, installs CPU-only PyTorch, loads `onnx_model_muril_int8/`, and starts the Streamlit app. It stays well within memory limits (<300 MB).
+
+---
+
+## Local Service & CLI
 
 ```bash
 # CLI
 python src/infer.py --model_dir onnx_model_muril_int8 --text "your text here"
 
-# HTTP service
+# HTTP REST API (FastAPI)
 MODEL_DIR=onnx_model_muril_int8 uvicorn src.serve:app --host 0.0.0.0 --port 8000
-# POST /predict {"texts": ["...", "..."]}
+# Test health: curl localhost:8000/readyz
+# POST /predict {"texts": ["మీ వ్యాఖ్య ఇక్కడ"]}
 ```
 
-`infer.py` auto-detects whether `model_dir` holds a full model or a PEFT
-adapter (looks for `adapter_config.json`) and merges the adapter into the
-base model at load time so inference has no extra PEFT overhead.
+`infer.py` auto-detects whether `model_dir` holds an ONNX model, full PyTorch model, or PEFT adapter (merging adapter weights into the base model on load).
 
 ## Notes on faithfulness to your professor's plan
 
