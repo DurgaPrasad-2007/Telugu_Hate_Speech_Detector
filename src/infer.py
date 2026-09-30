@@ -107,10 +107,17 @@ class HateSpeechClassifier:
         self.defend = defend  # anti-obfuscation canonicalization (src/canon.py)
 
         is_adapter = os.path.exists(os.path.join(model_dir, "adapter_config.json"))
+        is_onnx = any(f.endswith(".onnx") for f in os.listdir(model_dir)) if os.path.isdir(model_dir) else False
 
         self.tokenizer = AutoTokenizer.from_pretrained(model_dir)
+        self.is_onnx = is_onnx
 
-        if is_adapter:
+        if is_onnx:
+            from optimum.onnxruntime import ORTModelForSequenceClassification
+            onnx_files = [f for f in os.listdir(model_dir) if f.endswith(".onnx")]
+            onnx_file = "model_quantized.onnx" if "model_quantized.onnx" in onnx_files else onnx_files[0]
+            self.model = ORTModelForSequenceClassification.from_pretrained(model_dir, file_name=onnx_file)
+        elif is_adapter:
             from peft import PeftModel, PeftConfig
             if base_model_for_adapter is None:
                 base_model_for_adapter = PeftConfig.from_pretrained(model_dir).base_model_name_or_path
@@ -119,11 +126,13 @@ class HateSpeechClassifier:
             self.model = PeftModel.from_pretrained(base_model, model_dir)
             # merge adapter weights into the base model for fastest inference
             self.model = self.model.merge_and_unload()
+            self.model.to(self.device)
+            self.model.eval()
         else:
             self.model = AutoModelForSequenceClassification.from_pretrained(model_dir)
+            self.model.to(self.device)
+            self.model.eval()
 
-        self.model.to(self.device)
-        self.model.eval()
         self.thresholds = load_thresholds()
         self.temperature = load_temperature()
 

@@ -29,8 +29,15 @@ def load_json(rel):
 
 
 FINAL = load_json("results/final_summary.json")
-MODEL_DIR = os.environ.get("MODEL_DIR") or os.path.join(
-    ROOT, "results", FINAL.get("run_name", "baseline__muril__full__telugu"), "model")
+default_pytorch_dir = os.path.join(ROOT, "results", FINAL.get("run_name", "baseline__muril__full__telugu"), "model")
+default_onnx_dir = os.path.join(ROOT, "onnx_model_muril_int8")
+
+MODEL_DIR = os.environ.get("MODEL_DIR")
+if not MODEL_DIR:
+    if os.path.isdir(default_onnx_dir):
+        MODEL_DIR = default_onnx_dir
+    else:
+        MODEL_DIR = default_pytorch_dir
 BASE_MODEL = os.environ.get("BASE_MODEL_FOR_ADAPTER")
 
 st.markdown("""

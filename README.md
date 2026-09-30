@@ -93,22 +93,50 @@ Every run in `results/<run_name>/` contains:
 comparison table, the mean±std multi-seed table, and paired significance
 tests (paired t-test between two methods across matching seeds).
 
-## Deploying the best model
+## 🚀 Instant Run on Any GPU-less Laptop (e.g. 2019 Core i3/i5, 4GB RAM)
+
+The repository **includes the winning quantized INT8 MuRIL model** (`onnx_model_muril_int8/`) via Git LFS. It runs locally on pure CPU with **~7.6ms per sample** and uses under **300 MB of RAM**.
+
+### 1. One-line Setup (Terminal / PowerShell)
+```bash
+# Clone repo (Git LFS pulls the quantized weights automatically)
+git clone https://github.com/DurgaPrasad-2007/Telugu_Hate_Speech_Detector.git
+cd Telugu_Hate_Speech_Detector
+
+# Create virtual environment & install lightweight CPU packages
+python -m venv .venv
+
+# On Windows:
+.venv\Scripts\pip install torch --index-url https://download.pytorch.org/whl/cpu
+.venv\Scripts\pip install -r requirements-deploy.txt
+
+# On Linux/macOS:
+# source .venv/bin/activate && pip install torch --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements-deploy.txt
+```
+
+### 2. Instant Run Interactive Web App (Streamlit)
+```bash
+# Runs immediately using the bundled lightweight CPU model:
+.venv\Scripts\streamlit run app.py
+```
+Open `http://localhost:8501` in your browser to test live text screening, anti-obfuscation defenses, and blurred word highlights!
+
+### 3. Instant Run CLI Inference
+```bash
+.venv\Scripts\python src/infer.py --model_dir onnx_model_muril_int8 --text "చాలా మంచి వీడియో"
+```
+
+---
+
+## Deploying the model
 
 ```bash
 # CLI
-python src/infer.py --model_dir results/peft__qlora__telugu/model \
-    --base_model_for_adapter xlm-roberta-base --text "your text here"
+python src/infer.py --model_dir onnx_model_muril_int8 --text "your text here"
 
 # HTTP service
-MODEL_DIR=results/peft__qlora__telugu/model \
-BASE_MODEL_FOR_ADAPTER=xlm-roberta-base \
-uvicorn src.serve:app --host 0.0.0.0 --port 8000
+MODEL_DIR=onnx_model_muril_int8 uvicorn src.serve:app --host 0.0.0.0 --port 8000
 # POST /predict {"texts": ["...", "..."]}
-
-# faster CPU/GPU inference via ONNX
-python src/export_onnx.py --model_dir results/peft__qlora__telugu/model \
-    --base_model_for_adapter xlm-roberta-base --out_dir onnx_model --quantize
 ```
 
 `infer.py` auto-detects whether `model_dir` holds a full model or a PEFT

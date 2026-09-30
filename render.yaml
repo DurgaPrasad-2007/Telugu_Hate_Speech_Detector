@@ -2,7 +2,7 @@ services:
   - type: web
     name: telugu-abuse-detector
     runtime: python
-    plan: standard            # 2 GB RAM: model + torch measured at ~1.4 GB with the larger XLM-R candidate, MuRIL is ~15% smaller; free/starter (512 MB) will OOM
+    plan: starter             # 512MB-1GB RAM is plenty for INT8 ONNX (runs in ~250MB RAM)
     buildCommand: pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements-deploy.txt
     startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
     healthCheckPath: /_stcore/health
@@ -10,6 +10,4 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: MODEL_DIR
-        value: YOUR_HF_USERNAME/telugu-abuse-muril  # HF Hub repo holding results/baseline__muril__full__telugu/model
-      - key: HF_TOKEN
-        sync: false                                  # set in the Render dashboard if the repo is private
+        value: onnx_model_muril_int8

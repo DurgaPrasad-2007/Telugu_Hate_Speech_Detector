@@ -21,12 +21,13 @@ Thumbs.db
 *.key
 *.token
 
-# Model artifacts and binary checkpoints (Host weights on HuggingFace Hub, not Git)
+# Model artifacts and binary checkpoints
 onnx_model/
 onnx_model_int8/
 onnx_model_muril/
-onnx_model_muril_int8/
-*.onnx
+# onnx_model_muril_int8 is tracked with Git LFS for out-of-the-box CPU deployment
+!onnx_model_muril_int8/
+!onnx_model_muril_int8/**
 *.safetensors
 *.bin
 *.pt
