@@ -1,0 +1,40 @@
+# Python virtual environments & bytecode
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints/
+
+# System and IDE metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.claude/
+
+# Sensitive files / Secrets
+.env
+.env.*
+*.pem
+*.key
+*.token
+
+# Model artifacts and binary checkpoints (Host weights on HuggingFace Hub, not Git)
+onnx_model/
+onnx_model_int8/
+onnx_model_muril/
+onnx_model_muril_int8/
+*.onnx
+*.safetensors
+*.bin
+*.pt
+*.pth
+results/*/model/
+results/*/checkpoints/
+
+# Temporary / scratch / local log files
+*.log
+scratch/
+tmp/

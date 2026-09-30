@@ -1,0 +1,14 @@
+morph,abusive_caught_%,abusive_blocked_%,clean_wrongly_blocked_%
+zero-width joiner,100.0,100.0,0.0
+zero-width non-joiner,100.0,100.0,0.0
+letter spacing,89.0,88.0,4.3
+dots between letters,99.7,98.7,0.7
+dashes between letters,99.7,98.7,1.0
+emoji inside word,100.0,100.0,2.7
+emoji wrapped,100.0,100.0,4.7
+char repetition,96.7,95.3,28.3
+leetspeak digits,100.0,99.7,0.3
+star-censored,100.0,100.0,96.7
+UPPERCASE,100.0,100.0,0.3
+trailing emoji spam,100.0,100.0,2.0
+COMBO (repeat+ZWJ+emoji),97.0,97.0,33.3

@@ -1,0 +1,26 @@
+{
+  "pytorch_gpu_fp32": {
+    "p50_ms_per_sample": 6.470435000001089,
+    "mean_ms_per_sample": 6.4455061666679585,
+    "throughput_per_sec": 155.14685334898311,
+    "n": 200
+  },
+  "pytorch_cpu_fp32": {
+    "p50_ms_per_sample": 130.5983864999962,
+    "mean_ms_per_sample": 122.60431916666676,
+    "throughput_per_sec": 8.156319506498075,
+    "n": 200
+  },
+  "onnx_fp32": {
+    "p50_ms_per_sample": 36.9759090000025,
+    "mean_ms_per_sample": 35.37480266666838,
+    "throughput_per_sec": 28.268708928862573,
+    "n": 200
+  },
+  "onnx_int8": {
+    "p50_ms_per_sample": 28.215957000002163,
+    "mean_ms_per_sample": 28.584569333334002,
+    "throughput_per_sec": 34.98390996690114,
+    "n": 200
+  }
+}

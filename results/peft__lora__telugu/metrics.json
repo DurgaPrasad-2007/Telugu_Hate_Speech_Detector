@@ -1,0 +1,40 @@
+{
+  "run_name": "peft__lora__telugu",
+  "model": "google/muril-base-cased",
+  "method": "lora",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 42,
+  "test_accuracy": 0.8678678678678678,
+  "test_precision": 0.867625149319176,
+  "test_recall": 0.8676654936928867,
+  "test_macro_f1": 0.8676449333547455,
+  "test_weighted_f1": 0.8678714928193008,
+  "val_macro_f1": 0.8642245825754937,
+  "total_params": 238444036,
+  "trainable_params": 886274,
+  "trainable_pct": 0.37169057145132367,
+  "training_time_sec": 140.80080318450928,
+  "peak_gpu_memory_mb": 2152.29736328125,
+  "avg_inference_latency_ms": 0.7831323146820068,
+  "throughput_samples_per_sec": 1276.9234282026184,
+  "hyperparams": {
+    "lr": 0.0001,
+    "epochs": 3,
+    "train_bs": 32,
+    "max_length": 96,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "target_modules": "query,key,value"
+  },
+  "confusion_matrix": [
+    [
+      1239,
+      197
+    ],
+    [
+      199,
+      1362
+    ]
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "val": {
+    "macro_f1": 0.9029,
+    "precision": 0.9023,
+    "recall": 0.9037
+  },
+  "test": {
+    "macro_f1": 0.9048,
+    "precision": 0.9047,
+    "recall": 0.9053
+  },
+  "decisions": {
+    "allow": 1449,
+    "review": 26,
+    "block": 1522
+  }
+}

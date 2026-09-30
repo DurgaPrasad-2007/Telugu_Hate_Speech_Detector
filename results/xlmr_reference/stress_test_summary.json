@@ -1,0 +1,84 @@
+{
+  "n_abusive": 300,
+  "n_clean": 300,
+  "results": [
+    {
+      "morph": "zero-width joiner",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 100.0,
+      "clean_wrongly_blocked_%": 0.0
+    },
+    {
+      "morph": "zero-width non-joiner",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 100.0,
+      "clean_wrongly_blocked_%": 0.0
+    },
+    {
+      "morph": "letter spacing",
+      "abusive_caught_%": 89.0,
+      "abusive_blocked_%": 88.0,
+      "clean_wrongly_blocked_%": 4.3
+    },
+    {
+      "morph": "dots between letters",
+      "abusive_caught_%": 99.7,
+      "abusive_blocked_%": 98.7,
+      "clean_wrongly_blocked_%": 0.7
+    },
+    {
+      "morph": "dashes between letters",
+      "abusive_caught_%": 99.7,
+      "abusive_blocked_%": 98.7,
+      "clean_wrongly_blocked_%": 1.0
+    },
+    {
+      "morph": "emoji inside word",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 100.0,
+      "clean_wrongly_blocked_%": 2.7
+    },
+    {
+      "morph": "emoji wrapped",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 100.0,
+      "clean_wrongly_blocked_%": 4.7
+    },
+    {
+      "morph": "char repetition",
+      "abusive_caught_%": 96.7,
+      "abusive_blocked_%": 95.3,
+      "clean_wrongly_blocked_%": 28.3
+    },
+    {
+      "morph": "leetspeak digits",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 99.7,
+      "clean_wrongly_blocked_%": 0.3
+    },
+    {
+      "morph": "star-censored",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 100.0,
+      "clean_wrongly_blocked_%": 96.7
+    },
+    {
+      "morph": "UPPERCASE",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 100.0,
+      "clean_wrongly_blocked_%": 0.3
+    },
+    {
+      "morph": "trailing emoji spam",
+      "abusive_caught_%": 100.0,
+      "abusive_blocked_%": 100.0,
+      "clean_wrongly_blocked_%": 2.0
+    },
+    {
+      "morph": "COMBO (repeat+ZWJ+emoji)",
+      "abusive_caught_%": 97.0,
+      "abusive_blocked_%": 97.0,
+      "clean_wrongly_blocked_%": 33.3
+    }
+  ]
+}

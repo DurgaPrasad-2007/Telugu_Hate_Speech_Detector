@@ -1,0 +1,31 @@
+{
+  "char_repeat": {
+    "flip_rate": 0.15,
+    "accuracy_vs_true_label": 0.78
+  },
+  "extra_spacing": {
+    "flip_rate": 0.155,
+    "accuracy_vs_true_label": 0.755
+  },
+  "emoji_insert": {
+    "flip_rate": 0.02,
+    "accuracy_vs_true_label": 0.86
+  },
+  "punctuation_insert": {
+    "flip_rate": 0.0,
+    "accuracy_vs_true_label": 0.85
+  },
+  "capitalization": {
+    "flip_rate": 0.0,
+    "accuracy_vs_true_label": 0.85
+  },
+  "number_substitution": {
+    "flip_rate": 0.0,
+    "accuracy_vs_true_label": 0.85
+  },
+  "random_case": {
+    "flip_rate": 0.015,
+    "accuracy_vs_true_label": 0.835
+  },
+  "_baseline_accuracy": 0.85
+}

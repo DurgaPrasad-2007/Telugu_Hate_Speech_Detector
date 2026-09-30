@@ -1,0 +1,5 @@
+{
+  "_comment": "target_modules per backbone, derived from named_modules() inspection (docs/RESEARCH_REVIEW.md sec 2), not guessed",
+  "google/muril-base-cased": ["query", "key", "value"],
+  "FacebookAI/xlm-roberta-base": ["query", "key", "value"]
+}

@@ -1,0 +1,41 @@
+{
+  "run_name": "baseline__muril__full__telugu",
+  "model": "google/muril-base-cased",
+  "method": "full",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 42,
+  "test_accuracy": 0.9045712379045713,
+  "test_precision": 0.9045375720998835,
+  "test_recall": 0.9052413994314765,
+  "test_macro_f1": 0.9045263285461089,
+  "test_weighted_f1": 0.9046126926969981,
+  "total_params": 237557762,
+  "trainable_params": 237557762,
+  "trainable_pct": 100.0,
+  "training_time_sec": 371.8319368362427,
+  "peak_gpu_memory_mb": 4598.4384765625,
+  "avg_inference_latency_ms": 0.6557071208953857,
+  "throughput_samples_per_sec": 1525.07113028523,
+  "hyperparams": {
+    "lr": 2e-05,
+    "epochs": 3,
+    "train_bs": 32,
+    "max_length": 96,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "target_modules": "query,key,value"
+  },
+  "confusion_matrix": [
+    [
+      1323,
+      113
+    ],
+    [
+      173,
+      1388
+    ]
+  ],
+  "val_macro_f1": 0.9029419066977697,
+  "val_macro_f1_note": "backfilled post-hoc with same eval as trainer (normalized text, argmax, max_length=256); original run predated val logging"
+}

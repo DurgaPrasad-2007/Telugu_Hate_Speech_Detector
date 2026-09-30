@@ -1,0 +1,129 @@
+{
+  "telugu": {
+    "train": {
+      "n": 23980,
+      "label_counts": {
+        "1": 12401,
+        "0": 11579
+      },
+      "char_len_mean": 85.7,
+      "char_len_p95": 235,
+      "token_len_mean": 12.8,
+      "empty_after_strip": 0,
+      "exact_dup_texts": 1,
+      "script_mix": {
+        "telugu_script": 18959,
+        "telugu+english": 5021
+      },
+      "emoji_rows": 9624,
+      "url_rows": 1
+    },
+    "val": {
+      "n": 3000,
+      "label_counts": {
+        "1": 1618,
+        "0": 1382
+      },
+      "char_len_mean": 87.6,
+      "char_len_p95": 236,
+      "token_len_mean": 13.2,
+      "empty_after_strip": 0,
+      "exact_dup_texts": 0,
+      "script_mix": {
+        "telugu_script": 2356,
+        "telugu+english": 644
+      },
+      "emoji_rows": 1216,
+      "url_rows": 0
+    },
+    "test": {
+      "n": 3000,
+      "label_counts": {
+        "1": 1564,
+        "0": 1436
+      },
+      "char_len_mean": 85.1,
+      "char_len_p95": 235,
+      "token_len_mean": 12.7,
+      "empty_after_strip": 0,
+      "exact_dup_texts": 0,
+      "script_mix": {
+        "telugu_script": 2381,
+        "telugu+english": 619
+      },
+      "emoji_rows": 1180,
+      "url_rows": 0
+    },
+    "leakage": {
+      "train_val_overlap": 2,
+      "train_test_overlap": 4,
+      "val_test_overlap": 1
+    }
+  },
+  "codemixed": {
+    "train": {
+      "n": 3179,
+      "label_counts": {
+        "0": 1637,
+        "1": 1542
+      },
+      "char_len_mean": 67.3,
+      "char_len_p95": 144,
+      "token_len_mean": 10.0,
+      "empty_after_strip": 0,
+      "exact_dup_texts": 8,
+      "script_mix": {
+        "latin_only": 1746,
+        "telugu_script": 1113,
+        "telugu+english": 318,
+        "other": 2
+      },
+      "emoji_rows": 3,
+      "url_rows": 0
+    },
+    "val": {
+      "n": 398,
+      "label_counts": {
+        "0": 204,
+        "1": 194
+      },
+      "char_len_mean": 66.6,
+      "char_len_p95": 148,
+      "token_len_mean": 9.8,
+      "empty_after_strip": 0,
+      "exact_dup_texts": 1,
+      "script_mix": {
+        "latin_only": 219,
+        "telugu_script": 131,
+        "telugu+english": 47,
+        "other": 1
+      },
+      "emoji_rows": 1,
+      "url_rows": 0
+    },
+    "test": {
+      "n": 400,
+      "label_counts": {
+        "0": 206,
+        "1": 194
+      },
+      "char_len_mean": 64.1,
+      "char_len_p95": 134,
+      "token_len_mean": 9.7,
+      "empty_after_strip": 0,
+      "exact_dup_texts": 0,
+      "script_mix": {
+        "latin_only": 231,
+        "telugu_script": 132,
+        "telugu+english": 37
+      },
+      "emoji_rows": 0,
+      "url_rows": 0
+    },
+    "leakage": {
+      "train_val_overlap": 6,
+      "train_test_overlap": 11,
+      "val_test_overlap": 2
+    }
+  }
+}

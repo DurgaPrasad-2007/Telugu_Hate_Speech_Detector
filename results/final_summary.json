@@ -1,0 +1,15 @@
+{
+  "best_model": "google/muril-base-cased",
+  "best_configuration": "full on telugu",
+  "run_name": "baseline__muril__full__telugu",
+  "validation_macro_f1": 0.9029419066977697,
+  "test_macro_f1": 0.9045263285461089,
+  "precision": 0.9045375720998835,
+  "recall": 0.9052413994314765,
+  "ece": 0.014133705088422611,
+  "model_size_mb": null,
+  "policy_thresholds": {
+    "low": 0.45,
+    "high": 0.5
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "telugu": {
+    "n": 2997,
+    "macro_f1": 0.9048
+  },
+  "codemixed": {
+    "n": 387,
+    "macro_f1": 0.7605,
+    "latin_only": {
+      "n": 226,
+      "macro_f1": 0.7488
+    },
+    "has_telugu_script": {
+      "n": 161,
+      "macro_f1": 0.6785
+    }
+  }
+}

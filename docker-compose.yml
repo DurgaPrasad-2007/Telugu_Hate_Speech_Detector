@@ -1,0 +1,14 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    volumes: ["./results:/app/model:ro"]
+    environment:
+      - MODEL_DIR=/app/model/<winning_run>/model
+  streamlit:
+    build: .
+    command: ["streamlit", "run", "app.py", "--server.address=0.0.0.0"]
+    ports: ["8501:8501"]
+    volumes: ["./results:/app/model:ro"]
+    environment:
+      - MODEL_DIR=/app/model/<winning_run>/model
