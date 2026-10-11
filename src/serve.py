@@ -3,7 +3,7 @@ FastAPI service exposing the classifier over HTTP, for wiring into a
 moderation pipeline (e.g. a bot reading Instagram/Google chat webhooks).
 
 Run:
-  MODEL_DIR=results/peft__qlora__telugu/model uvicorn src.serve:app --host 0.0.0.0 --port 8000
+  MODEL_DIR=models/best uvicorn src.serve:app --host 0.0.0.0 --port 8000
 
 POST /predict
   {"texts": ["...", "..."]}
@@ -21,7 +21,7 @@ from pydantic import BaseModel, conlist
 sys.path.insert(0, os.path.dirname(__file__))
 from infer import HateSpeechClassifier
 
-MODEL_DIR = os.environ.get("MODEL_DIR", "results/baseline__muril__full__telugu/model")
+MODEL_DIR = os.environ.get("MODEL_DIR", "models/best")
 BASE_MODEL = os.environ.get("BASE_MODEL_FOR_ADAPTER")  # only needed if MODEL_DIR is an adapter
 MAX_BATCH = int(os.environ.get("MAX_BATCH", "64"))
 MAX_TEXT_CHARS = int(os.environ.get("MAX_TEXT_CHARS", "2000"))

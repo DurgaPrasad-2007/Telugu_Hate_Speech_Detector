@@ -1,0 +1,8 @@
+              precision    recall  f1-score   support
+
+ Non-Abusive     0.8781    0.9130    0.8952      1436
+     Abusive     0.9169    0.8834    0.8998      1561
+
+    accuracy                         0.8976      2997
+   macro avg     0.8975    0.8982    0.8975      2997
+weighted avg     0.8983    0.8976    0.8976      2997

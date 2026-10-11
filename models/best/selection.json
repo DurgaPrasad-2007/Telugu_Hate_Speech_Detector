@@ -1,0 +1,434 @@
+{
+  "rule": "1. Group runs by config key (model, method, lr, epochs, and lora_r+lora_alpha only when method != full). 2. Keep configs with >= 3 seeds. 3. For each config: mean and sample SD (ddof=1) of val and test macro-F1; mean trainable params, peak GPU MB, train time. 4. top = config with highest mean val macro-F1. 5. Tie set = all configs with mean val >= top.mean_val - top.std_val. 6. Winner = tie-set member with the FEWEST trainable params (ties: higher mean val). 7. Winner run = winner config's seed with the highest val macro-F1. Selection uses validation only; test is never used.",
+  "selection_metric": "val_macro_f1 (test never used for selection)",
+  "min_seeds": 3,
+  "top": {
+    "label": "xlm-roberta-base / full / lr2e-05 / e5 / full",
+    "val_mean": 0.9040221081797081,
+    "val_std": 0.0010521798560960804
+  },
+  "tie_threshold": 0.902969928323612,
+  "tie_set": [
+    "xlm-roberta-base / full / lr2e-05 / e5 / full",
+    "xlm-roberta-base / lora / lr0.0002 / e10 / r8a64",
+    "muril-base-cased / full / lr2e-05 / e5 / full"
+  ],
+  "ranking": [
+    {
+      "rank": 1,
+      "config": "xlm-roberta-base / full / lr2e-05 / e5 / full",
+      "model": "FacebookAI/xlm-roberta-base",
+      "method": "full",
+      "lr": 2e-05,
+      "epochs": 5,
+      "lora_r": null,
+      "lora_alpha": null,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.9040221081797081,
+      "val_std": 0.0010521798560960804,
+      "test_mean": 0.9056632417465175,
+      "test_std": 0.0032677737772124752,
+      "trainable_params_mean": 278045186.0,
+      "peak_gpu_mb_mean": 5352.835123697917,
+      "train_time_s_mean": 1564.1455680529277,
+      "in_tie_set": true
+    },
+    {
+      "rank": 2,
+      "config": "xlm-roberta-base / lora / lr0.0002 / e10 / r8a64",
+      "model": "FacebookAI/xlm-roberta-base",
+      "method": "lora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.9034665020691905,
+      "val_std": 0.0042947923492380816,
+      "test_mean": 0.9035225830510646,
+      "test_std": 0.003338714170450054,
+      "trainable_params_mean": 887042.0,
+      "peak_gpu_mb_mean": 1753.0901692708333,
+      "train_time_s_mean": 774.3919769128164,
+      "in_tie_set": true
+    },
+    {
+      "rank": 3,
+      "config": "muril-base-cased / full / lr2e-05 / e5 / full",
+      "model": "google/muril-base-cased",
+      "method": "full",
+      "lr": 2e-05,
+      "epochs": 5,
+      "lora_r": null,
+      "lora_alpha": null,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.9034571072234945,
+      "val_std": 0.0022588318044661953,
+      "test_mean": 0.9049256162183859,
+      "test_std": 0.002845813963648352,
+      "trainable_params_mean": 237557762.0,
+      "peak_gpu_mb_mean": 4586.364095052083,
+      "train_time_s_mean": 1250.1250526110332,
+      "in_tie_set": true
+    },
+    {
+      "rank": 4,
+      "config": "xlm-roberta-base / dora / lr0.0002 / e10 / r8a64",
+      "model": "FacebookAI/xlm-roberta-base",
+      "method": "dora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.902719808361689,
+      "val_std": 0.0010514799228097086,
+      "test_mean": 0.9055010630444859,
+      "test_std": 0.0009457716396851098,
+      "trainable_params_mean": 905474.0,
+      "peak_gpu_mb_mean": 1892.9436848958333,
+      "train_time_s_mean": 1125.103442509969,
+      "in_tie_set": false
+    },
+    {
+      "rank": 5,
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r8a64",
+      "model": "google/muril-base-cased",
+      "method": "lora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.9025879824220294,
+      "val_std": 0.002003060850218535,
+      "test_mean": 0.9051526282641064,
+      "test_std": 0.003032454724458779,
+      "trainable_params_mean": 296450.0,
+      "peak_gpu_mb_mean": 1592.10546875,
+      "train_time_s_mean": 718.4650157292684,
+      "in_tie_set": false
+    },
+    {
+      "rank": 6,
+      "config": "bert-base-multilingual-cased / lora / lr0.0002 / e10 / r8a64",
+      "model": "bert-base-multilingual-cased",
+      "method": "lora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.8998906863894012,
+      "val_std": 0.0010132016563309957,
+      "test_mean": 0.89461400017005,
+      "test_std": 0.0015459994201159437,
+      "trainable_params_mean": 296450.0,
+      "peak_gpu_mb_mean": 1365.35546875,
+      "train_time_s_mean": 680.4281963507334,
+      "in_tie_set": false
+    },
+    {
+      "rank": 7,
+      "config": "IndicBERTv2-MLM-only / lora / lr0.0002 / e10 / r8a64",
+      "model": "ai4bharat/IndicBERTv2-MLM-only",
+      "method": "lora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.8985144399576115,
+      "val_std": 0.0013992412359759303,
+      "test_mean": 0.9017134981717491,
+      "test_std": 0.0038653458973794018,
+      "trainable_params_mean": 296450.0,
+      "peak_gpu_mb_mean": 1746.60546875,
+      "train_time_s_mean": 672.7317074139913,
+      "in_tie_set": false
+    },
+    {
+      "rank": 8,
+      "config": "muril-base-cased / dora / lr0.0002 / e10 / r8a64",
+      "model": "google/muril-base-cased",
+      "method": "dora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.8984400023995925,
+      "val_std": 0.0013245775836540857,
+      "test_mean": 0.9004625603285191,
+      "test_std": 0.0029999173984153605,
+      "trainable_params_mean": 314882.0,
+      "peak_gpu_mb_mean": 1731.396484375,
+      "train_time_s_mean": 1077.7393022378285,
+      "in_tie_set": false
+    },
+    {
+      "rank": 9,
+      "config": "xlm-roberta-base / lora / lr0.0002 / e5 / r4a32",
+      "model": "FacebookAI/xlm-roberta-base",
+      "method": "lora",
+      "lr": 0.0002,
+      "epochs": 5,
+      "lora_r": 4,
+      "lora_alpha": 32,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.8957258223623232,
+      "val_std": 0.0013764220399221652,
+      "test_mean": 0.8985037127596446,
+      "test_std": 0.0017669255408855416,
+      "trainable_params_mean": 739586.0,
+      "peak_gpu_mb_mean": 1589.1031901041667,
+      "train_time_s_mean": 706.2621564070383,
+      "in_tie_set": false
+    },
+    {
+      "rank": 10,
+      "config": "xlm-roberta-base / lora / lr0.0002 / e5 / r16a32",
+      "model": "FacebookAI/xlm-roberta-base",
+      "method": "lora",
+      "lr": 0.0002,
+      "epochs": 5,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.8933287545768281,
+      "val_std": 0.00016767608347701261,
+      "test_mean": 0.8952670824388774,
+      "test_std": 0.0032681704796113675,
+      "trainable_params_mean": 1181954.0,
+      "peak_gpu_mb_mean": 1915.1292317708333,
+      "train_time_s_mean": 453.6186788876851,
+      "in_tie_set": false
+    },
+    {
+      "rank": 11,
+      "config": "muril-base-cased / adalora / lr0.0002 / e10 / r8a64",
+      "model": "google/muril-base-cased",
+      "method": "adalora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.8891509081130926,
+      "val_std": 0.003036273719967354,
+      "test_mean": 0.8945049072255733,
+      "test_std": 0.0003416383890704291,
+      "trainable_params_mean": 444194.0,
+      "peak_gpu_mb_mean": 1599.4765625,
+      "train_time_s_mean": 1281.9471163749695,
+      "in_tie_set": false
+    },
+    {
+      "rank": 12,
+      "config": "xlm-roberta-base / adalora / lr0.0002 / e10 / r8a64",
+      "model": "FacebookAI/xlm-roberta-base",
+      "method": "adalora",
+      "lr": 0.0002,
+      "epochs": 10,
+      "lora_r": 8,
+      "lora_alpha": 64,
+      "n_seeds": 3,
+      "seeds": [
+        42,
+        123,
+        2024
+      ],
+      "val_mean": 0.885546318539307,
+      "val_std": 0.0014670290392446005,
+      "test_mean": 0.889124246861,
+      "test_std": 0.0013018970321370979,
+      "trainable_params_mean": 1034786.0,
+      "peak_gpu_mb_mean": 1760.4612630208333,
+      "train_time_s_mean": 1617.673940261205,
+      "in_tie_set": false
+    }
+  ],
+  "excluded_configs": [
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r4a16",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r4_a16_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r4a32",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r4_a32_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r4a64",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r4_a64_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r8a16",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r8_a16_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r8a32",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r8_a32_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r16a16",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r16_a16_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r16a32",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r16_a32_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r16a64",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r16_a64_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r32a16",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r32_a16_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r32a32",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r32_a32_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0002 / e10 / r32a64",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r32_a64_lr2e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0001 / e10 / r8a64",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r8_a64_lr1e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "muril-base-cased / lora / lr0.0005 / e10 / r8a64",
+      "n_seeds": 1,
+      "runs": [
+        "lora_r8_a64_lr5e-4_e10_s42"
+      ]
+    },
+    {
+      "config": "bert-base-multilingual-cased / dora / lr0.0002 / e10 / r8a64",
+      "n_seeds": 1,
+      "runs": [
+        "bert-base-multilingual-cased_dora_r8_a64_lr2e-4_e10_s42"
+      ]
+    }
+  ],
+  "winner": {
+    "label": "xlm-roberta-base / lora / lr0.0002 / e10 / r8a64",
+    "model": "FacebookAI/xlm-roberta-base",
+    "method": "lora",
+    "lr": 0.0002,
+    "epochs": 10,
+    "lora_r": 8,
+    "lora_alpha": 64,
+    "n_seeds": 3,
+    "val_mean": 0.9034665020691905,
+    "val_std": 0.0042947923492380816,
+    "test_mean": 0.9035225830510646,
+    "test_std": 0.003338714170450054,
+    "trainable_params_mean": 887042.0,
+    "run_name": "xlm-roberta-base_lora_r8_a64_lr2e-4_e10_s2024",
+    "run_val_macro_f1": 0.9073105325855637,
+    "run_test_macro_f1": 0.9041991738179893,
+    "run_confusion_matrix": [
+      [
+        1325,
+        111
+      ],
+      [
+        176,
+        1385
+      ]
+    ]
+  }
+}

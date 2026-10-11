@@ -1,16 +1,16 @@
 """
 Fast inference wrapper for the trained abusive-content classifier.
 
-Designed for short, informal, code-mixed text as seen in Google/Instagram
+Designed for short, informal Telugu text as seen in Google/Instagram
 comments — not for the full "any-format multimodal hate speech" problem
 (see README for that scope caveat).
 
 Usage:
-  python src/infer.py --model_dir results/peft__qlora__telugu/model --text "..."
+  python src/infer.py --model_dir models/best --text "..."
 
 Or import:
   from infer import HateSpeechClassifier
-  clf = HateSpeechClassifier("results/peft__qlora__telugu/model")
+  clf = HateSpeechClassifier("models/best")
   clf.predict(["some text", "another text"])
 """
 import argparse
@@ -95,7 +95,7 @@ def sanitize_text(t) -> str:
 
 
 class HateSpeechClassifier:
-    def __init__(self, model_dir: str, device: str = None, max_length: int = 256,
+    def __init__(self, model_dir: str, device: str = None, max_length: int = 96,
                  base_model_for_adapter: str = None, defend: bool = True):
         """
         model_dir: path to a saved full model, OR a saved PEFT adapter directory.

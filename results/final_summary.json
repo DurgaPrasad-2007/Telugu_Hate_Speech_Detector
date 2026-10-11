@@ -1,15 +1,20 @@
 {
-  "best_model": "google/muril-base-cased",
-  "best_configuration": "full on telugu",
-  "run_name": "baseline__muril__full__telugu",
-  "validation_macro_f1": 0.9029419066977697,
-  "test_macro_f1": 0.9045263285461089,
-  "precision": 0.9045375720998835,
-  "recall": 0.9052413994314765,
-  "ece": 0.014133705088422611,
-  "model_size_mb": null,
+  "best_model": "FacebookAI/xlm-roberta-base",
+  "best_configuration": "LoRA r=8 alpha=64 (query,value), lr 2e-4, telugu",
+  "run_name": "xlm-roberta-base_lora_r8_a64_lr2e-4_e10_s2024",
+  "selection": "mean validation macro-F1 over 3 seeds, tie-set rule (results/study/selection.md)",
+  "validation_macro_f1_config_mean": 0.9034665020691905,
+  "test_macro_f1_config_mean": 0.9035225830510646,
+  "test_macro_f1_config_std": 0.003338714170450054,
+  "deployed_run_val_macro_f1": 0.9073105325855637,
+  "deployed_run_test_macro_f1": 0.9041991738179893,
+  "trainable_params": 887042,
+  "temperature": 1.334395170211792,
+  "ece_before": 0.03531909392546464,
+  "ece_after": 0.01289443754211439,
   "policy_thresholds": {
     "low": 0.45,
     "high": 0.5
-  }
+  },
+  "model_dir": "models/best"
 }

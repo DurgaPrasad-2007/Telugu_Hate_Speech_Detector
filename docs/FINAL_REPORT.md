@@ -1,122 +1,66 @@
-# Final Report — Telugu / Code-mixed Abusive Content Classifier
+# Final Report (corrected summary)
 
-## 1. Task
-Binary classification (Abusive vs Non-Abusive) of Telugu and
-Telugu-English code-mixed short social comments, built on the
-`ShareChatAI/MACD` (NeurIPS 2022) dataset. Label semantics verified by
-hash-matching against upstream (`docs/RESEARCH_REVIEW.md`), not assumed.
+This report replaces an earlier version. That version named a MuRIL full fine-tune as the
+winner, and its numbers, calibration, policy and deployment claims are out of date. The
+current state is below. Full evidence is in:
 
-## 2. Data
-- `telugu`: 23,980 / 3,000 / 3,000 train/val/test, near-balanced
-  (52%/48% abusive/non-abusive), mean length ~86 chars, 27% code-mixed
-  (Telugu+English).
-- `codemixed`: 3,179 / 398 / 400, split roughly evenly, 55% Latin-only
-  script (Romanized Telugu / English), 35% Telugu script.
-- Exact-text train-to-val/test leakage found and removed at load time
-  (not by editing CSVs): 2+4 rows for telugu, 6+11 for codemixed.
-  Full numbers: `results/data_quality_report.md`.
+- [PEFT_STUDY_REPORT.md](PEFT_STUDY_REPORT.md): the parameter-efficient study, seeds, grids and quantization.
+- [ARCHITECTURE.md](ARCHITECTURE.md): pipeline, selection rule, and components.
+- [models/INDEX.md](models/INDEX.md): per-experiment reports and figures.
+- [MODEL_CARD.md](MODEL_CARD.md): intended use, limitations, ethics.
+- [DEPLOYMENT.md](DEPLOYMENT.md): deployment variants, latency, export and run commands.
 
-## 3. Experiments run
-Reduced matrix, chosen for the available time/GPU budget — **not** the
-full 5-backbone x 5-method x 5-seed grid `src/run_experiments.py` was
-originally scaffolded for. Stated plainly, not glossed over.
+(`docs/PAPER_ALIGNMENT.md` is referenced by an earlier plan but does not exist in this repository.)
 
-**Backbone comparison** (full fine-tune, 3 epochs, telugu domain):
-| backbone | val macro-F1 | test macro-F1 |
-|---|---|---|
-| MuRIL | 0.9029 | 0.9045 |
-| XLM-R | 0.9010 | 0.9042 |
+## Task and data
+Binary classification (1 = abusive, 0 = non-abusive) of short Telugu social-media comments.
+Data: pure Telugu MACD split. 23,980 / 3,000 / 3,000 train / validation / test rows before
+the loader drops validation and test texts that also appear in train. That leaves 2,998
+validation and 2,997 test rows. The code-mixed data was removed and is not used. Code-mixed
+performance was not evaluated.
 
-A statistical tie (about 0.5 pt sampling noise). MuRIL was used as the PEFT backbone for the sweep below.
-(MuRIL's validation score was backfilled after the fact; see section 4.)
+## Selected model
+- `FacebookAI/xlm-roberta-base` + LoRA (r=8, alpha=64, `query`/`value`, dropout 0.05),
+  stored in `models/best/`.
+- Run `xlm-roberta-base_lora_r8_a64_lr2e-4_e10_s2024`: val macro-F1 0.9073, test macro-F1 0.9042.
+- Configuration over 3 seeds: val 0.9035 ± 0.0043, test 0.9035 ± 0.0033.
+- Chosen by the validation-only tie-set rule in `results/study/selection.md`. The margin is
+  knife-edge: the winner clears the tie threshold (0.9030) by 0.0005, and MuRIL LoRA
+  (0.9026) misses it by 0.0004. See MODEL_CARD.md.
 
-**PEFT sweep on MuRIL** (telugu domain, 3 epochs each):
-| method | val macro-F1 | test macro-F1 |
-|---|---|---|
-| DoRA | 0.8672 | 0.8628 |
-| QLoRA | 0.8665 | 0.8701 |
-| LoRA | 0.8642 | 0.8676 |
-| IA3 | 0.7323 | 0.7261 |
-| AdaLoRA | 0.3502 | 0.3425 |
+## Calibration and policy
+- Temperature T = 1.334 (validation). ECE 0.0353 -> 0.0129. Brier 0.0730 -> 0.0711.
+- Thresholds `low` = 0.45, `high` = 0.50. On validation: block precision 0.9277,
+  block recall 0.8973, 1.07% of comments to review.
 
-Every PEFT method underperformed full fine-tuning by 3-16 points of
-macro-F1. AdaLoRA collapsed to near-random on this binary task at the
-tried config — reported as-is rather than dropped from the table.
+## Deployment
+- fp32 PyTorch (adapter merged): val 0.9073 / test 0.9042, 1.11 GB.
+- INT8 ONNX (dynamic, per-channel): val 0.8995 / test 0.8926, 279 MB. Agreement with
+  fp32 0.961 / 0.968.
+- Latency on the development PC (CPU, batch 1, tokenization included): INT8 median 8.3 ms
+  at 4 threads, 23.1 ms at 1 thread. fp32 median 17.9 ms at 4 threads, 43.1 ms at 1 thread.
+  Memory not measured. Not measured on low-end hardware.
+- `onnx_model_muril_int8/` is broken and deprecated (about 0.37 macro-F1 on a 600-comment
+  sample). See its `DEPRECATED.md`.
 
-## 4. Winner
-Selected by **validation** macro-F1 across all runs (`src/finalize.py`):
+## Robustness
+- Perturbations (200 comments per transform, baseline accuracy 0.875): character repetition
+  causes the most prediction flips (12.5%), then extra spacing (5.5%). Other transforms flip
+  at most 2%.
+- Obfuscated abuse: letter spacing is caught 77.3% of the time, character repetition 92.3%.
+  Some clean-text false-block numbers in the stress test are very high (star-censored 99%).
+  These need checking before use. MODEL_CARD.md has the full tables.
 
-**`baseline__muril__full__telugu`** — MuRIL, full fine-tune.
-val macro-F1 **0.9029**, test macro-F1 **0.9045**
-(0.9048 through the deployed pipeline, `results/deployed_pipeline_metrics.json`).
+## Removed or withdrawn
+- Code-mixed numbers, including the 0.76 zero-shot macro-F1 and `results/codemixed_zero_shot.json`,
+  do not describe this model and are withdrawn.
+- The MuRIL full-fine-tune winner and its ONNX/INT8 exports were removed from disk. Only
+  their metrics remain.
+- The earlier claims that every PEFT method trailed full fine-tuning by 3-16 points were an
+  artefact of undertraining. The corrected study finds LoRA within noise of full fine-tuning
+  for XLM-R.
 
-Correction to an earlier version of this report: XLM-R was first reported as the
-winner "on validation", but MuRIL's original run had no saved validation score,
-so the automatic ranking had skipped it. Its validation score was then measured
-with the same method (0.9029 vs XLM-R 0.9007-0.9010), the selection re-run, and
-calibration, thresholds, stress test and ONNX export regenerated for MuRIL.
-XLM-R artifacts are preserved in `results/xlmr_reference/`. The two models are
-statistically tied; MuRIL is also ~15% smaller. Trade-off found afterwards: with
-the same guard, XLM-R resisted letter-spaced disguises better (89% vs 66%).
-
-Because the winner is a full fine-tune rather than a PEFT adapter, the
-"parameter-efficient" angle is a documented negative result for this
-dataset/budget, not hidden.
-
-## 5. Calibration
-Temperature scaling fit on validation only (never test):
-T=1.216, ECE 0.0374 -> 0.0141, Brier 0.0758 -> 0.0740 (`results/calibration.json`).
-
-## 6. Robustness
-See `docs/ROBUSTNESS.md`. Stress test on 300 real abusive + 300 clean test
-comments with every word disguised: with the anti-obfuscation guard, abusive
-comments are still caught 90-100% (spaced letters 66%). MuRIL's tokenizer
-already ignores zero-width characters. No measurable cost on ordinary text
-(test macro-F1 0.9045 -> 0.9048). Weak spots: code-mixed/Romanised input
-(zero-shot macro-F1 0.76 vs 0.90) and implicit or double-meaning abuse (not
-tested, not covered).
-
-## 6b. Brutal obfuscation (measured)
-Developed on the XLM-R candidate (0-32% caught before the guard, 89-100% after)
-and then re-measured from scratch on the selected MuRIL model; tables in
-`docs/ROBUSTNESS.md`.
-
-## 7. Error analysis
-9.58% test misclassification rate (287/2997) for MuRIL. The failure modes below
-were hand-read on the XLM-R candidate's errors (285 of 2997); 70% of MuRIL's
-errors are also XLM-R errors and the false-negative share is similar (60% vs
-63%), so the same modes apply. MuRIL makes more high-confidence errors (49% at
-0.9+ vs 36%). Modes, dominant first: long unpunctuated comments burying one
-abusive clause, code-mixed/Romanised sentiment words, high-confidence wrong
-predictions, emoji-carried sentiment. Detail: `docs/ERROR_ANALYSIS.md`.
-
-## 8. Deployment
-- Decision policy (`configs/policy.json`): allow below calibrated P(abusive)=0.45,
-  review 0.45-0.50, block at 0.50 or above (a block never contradicts the
-  argmax label) -> block precision 0.921, block recall 0.898, ~0.8% of traffic
-  to review. Probabilities use the validation-fit temperature (T=1.216).
-- Exported to ONNX fp32 and int8 (`onnx_model_muril*/`). int8 is ~4.6x faster
-  than PyTorch on CPU in the same run; absolute times depend on machine load
-  (an idle earlier session measured ~5x lower for both models). int8 accuracy
-  has not been measured; the live app runs the PyTorch model.
-- `src/serve.py` (FastAPI) and `app.py` (Streamlit) tested against the model.
-
-## 9. Scope cut (stated plainly)
-- Only 2 backbones compared, not the originally planned 4-5
-  (mBERT/IndicBERT skipped) — time budget.
-- Cross-domain transfer (telugu<->codemixed) and multi-seed
-  variance study were planned but not run in this session.
-- `src/run_experiments.py`'s full grid was never run wholesale — the
-  hand-driven reduced matrix above is what is real and reported.
-
-## 10. Reproduction
-```bash
-python src/train.py --model google/muril-base-cased --method full --domain telugu --epochs 3
-python src/finalize.py
-python src/calibration.py --model_dir results/baseline__muril__full__telugu/model
-python src/robustness.py --model_dir results/baseline__muril__full__telugu/model --domain telugu --n 200
-python src/stress_test.py            # add --no_defend for the no-guard column
-python src/export_onnx.py --model_dir results/baseline__muril__full__telugu/model --out_dir onnx_model_muril --quantize
-python src/benchmarking.py --model_dir results/baseline__muril__full__telugu/model --onnx_dir onnx_model_muril --onnx_int8_dir onnx_model_muril_int8
-streamlit run app.py                 # defaults to the selected model
-```
+## Scope and open items
+- One dataset, one language, three seeds per configuration. The test column was visible
+  during selection, so it is a report, not a clean holdout.
+- Error analysis, robustness and ethics documents for the selected model still need a full review (see PROGRESS.md).

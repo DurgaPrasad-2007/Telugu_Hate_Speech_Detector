@@ -10,8 +10,9 @@ RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/wh
 COPY src/ src/
 COPY configs/ configs/
 COPY app.py .
+COPY models/ models/
 
-ENV MODEL_DIR=/app/model
+ENV MODEL_DIR=/app/models/best
 EXPOSE 8000 8501
 
 CMD ["uvicorn", "src.serve:app", "--host", "0.0.0.0", "--port", "8000"]

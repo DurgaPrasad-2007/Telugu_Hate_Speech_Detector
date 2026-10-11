@@ -5,6 +5,7 @@ Run:  streamlit run app.py     (MODEL_DIR env var overrides the model; default =
 import html
 import json
 import os
+import re
 import sys
 
 import pandas as pd
@@ -20,25 +21,109 @@ log = setup_logging()
 st.set_page_config(page_title="Telugu Abuse Detector", page_icon="🛡️", layout="centered")
 
 
-def load_json(rel):
+# ------------------------------------------------------------ file helpers
+def na(what):
+    st.info(f"not available: {what}")
+
+
+@st.cache_data(show_spinner=False)
+def read_text(rel):
     p = os.path.join(ROOT, rel)
-    if os.path.exists(p):
-        with open(p, encoding="utf-8") as f:
-            return json.load(f)
-    return {}
+    if not os.path.isfile(p):
+        return None
+    with open(p, encoding="utf-8") as f:
+        return f.read()
 
 
-FINAL = load_json("results/final_summary.json")
-default_pytorch_dir = os.path.join(ROOT, "results", FINAL.get("run_name", "baseline__muril__full__telugu"), "model")
-default_onnx_dir = os.path.join(ROOT, "onnx_model_muril_int8")
+@st.cache_data(show_spinner=False)
+def read_json(rel):
+    t = read_text(rel)
+    try:
+        return json.loads(t) if t else None
+    except ValueError:
+        return None
 
-MODEL_DIR = os.environ.get("MODEL_DIR")
-if not MODEL_DIR:
-    if os.path.isdir(default_onnx_dir):
-        MODEL_DIR = default_onnx_dir
-    else:
-        MODEL_DIR = default_pytorch_dir
+
+@st.cache_data(show_spinner=False)
+def read_csv(rel):
+    p = os.path.join(ROOT, rel)
+    if not os.path.isfile(p):
+        return None
+    try:
+        return pd.read_csv(p)
+    except Exception:
+        return None
+
+
+@st.cache_data(show_spinner=False)
+def read_bytes(rel):
+    p = os.path.join(ROOT, rel)
+    if not os.path.isfile(p):
+        return None
+    with open(p, "rb") as f:
+        return f.read()
+
+
+def file_mb(rel):
+    p = os.path.join(ROOT, rel)
+    return os.path.getsize(p) / 1e6 if os.path.isfile(p) else None
+
+
+def fmt(x, nd=3):
+    try:
+        if x is None or x != x:  # None or NaN
+            return "-"
+        return f"{float(x):.{nd}f}"
+    except (TypeError, ValueError):
+        return "-"
+
+
+def fmt_pm(m, s, nd=4):
+    return "-" if fmt(m, nd) == "-" else (f"{fmt(m, nd)} ± {fmt(s, nd)}" if fmt(s, nd) != "-" else fmt(m, nd))
+
+
+FINAL = read_json("results/final_summary.json") or {}
+# Selected model (src/select_best.py): XLM-R + LoRA adapter at models/best.
+_DEFAULT_MODEL_DIR = os.path.join(ROOT, "models", "best")
+MODEL_DIR = os.environ.get("MODEL_DIR") or _DEFAULT_MODEL_DIR
+if not os.path.isabs(MODEL_DIR):
+    MODEL_DIR = os.path.join(ROOT, MODEL_DIR)
+_MODEL_DIR_NOTE = None
+if not os.path.isdir(MODEL_DIR):  # e.g. a stale MODEL_DIR left in the shell from an older run
+    _MODEL_DIR_NOTE = f"MODEL_DIR '{MODEL_DIR}' does not exist; using the selected model instead."
+    MODEL_DIR = _DEFAULT_MODEL_DIR
 BASE_MODEL = os.environ.get("BASE_MODEL_FOR_ADAPTER")
+
+BACKBONE_SHORT = {"xlm-roberta-base": "XLM-R", "muril-base-cased": "MuRIL",
+                  "bert-base-multilingual-cased": "mBERT", "indicbertv2-mlm-only": "IndicBERTv2"}
+METHOD_NAMES = {"full": "full FT", "lora": "LoRA", "qlora": "QLoRA", "adalora": "AdaLoRA", "dora": "DoRA", "ia3": "IA3"}
+
+
+def model_label():
+    """'XLM-R base + LoRA r=8' from results/final_summary.json."""
+    ms, cfg = FINAL.get("best_model") or "", FINAL.get("best_configuration") or ""
+    if not ms:
+        return None
+    base = re.sub(r"xlm-roberta-(\w+)", lambda m: f"XLM-R {m.group(1)}", ms.split("/")[-1])
+    method = cfg.split(" alpha")[0].strip()
+    return f"{base} + {method}" if method else base
+
+
+def cfg_short(model, method, lora_r):
+    base = BACKBONE_SHORT.get(str(model).split("/")[-1], str(model).split("/")[-1])
+    lab = f"{base} {METHOD_NAMES.get(method, method)}"
+    return lab + (f" r{int(lora_r)}" if pd.notna(lora_r) else "")
+
+
+def e2_mean(prof, col):
+    if prof is None or col not in prof.columns:
+        return None
+    s = prof.loc[prof["group"] == "E2", col].dropna()
+    return float(s.mean()) if len(s) else None
+
+
+PROF = read_csv("results/study/prof_table.csv")
+label = model_label()
 
 st.markdown("""
 <style>
@@ -69,9 +154,10 @@ st.markdown("""
 .step {flex:1 1 120px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:.8rem .9rem;}
 .step b {display:block; font-size:.72rem; color:#1d4ed8; letter-spacing:.05em; text-transform:uppercase;}
 .step span {font-size:.85rem; color:#334155; display:block; margin-top:.25rem;}
-.kpis {display:grid; grid-template-columns:repeat(4,1fr); gap:.6rem; margin-top:.5rem;}
+.kpis {display:grid; grid-template-columns:repeat(auto-fit,minmax(135px,1fr)); gap:.6rem; margin-top:.5rem;}
 .kpi {background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:.8rem;}
-.kpi .n {font-size:1.5rem; font-weight:700;} .kpi .l {color:#64748b; font-size:.78rem;}
+.kpi .n {font-size:1.5rem; font-weight:700;} .kpi .n small {font-size:.9rem; font-weight:600; color:#475569;}
+.kpi .l {color:#64748b; font-size:.78rem;}
 .decs {display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:.5rem;}
 .dec {background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:1rem 1.1rem;}
 .dec .dt {font-weight:700; font-size:.98rem; margin-bottom:.4rem; display:flex; gap:.5rem; align-items:center;}
@@ -80,15 +166,15 @@ st.markdown("""
 .dec .dl {font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:#1d4ed8; font-weight:700; margin-top:.5rem;}
 .dec p {margin:.15rem 0 0; font-size:.84rem; color:#334155; line-height:1.45;}
 @media (max-width:760px){.decs{grid-template-columns:1fr;}}
-@media (max-width:640px){.kpis{grid-template-columns:repeat(2,1fr);}}
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown(
     '<div class="hero"><h1>🛡️ Telugu Abuse Detector</h1>'
-    '<p>Screens Telugu and Telugu-English comments and blurs the offending words.</p>'
-    '<div style="margin-top:.6rem"><span class="pill">MuRIL</span>'
-    '<span class="pill">Telugu / code-mixed</span><span class="pill">Human-in-the-loop</span></div></div>',
+    '<p>Screens Telugu comments and blurs the offending words.</p>'
+    '<div style="margin-top:.6rem">'
+    + (f'<span class="pill">{html.escape(label)}</span>' if label else "")
+    + '<span class="pill">Telugu</span><span class="pill">Human-in-the-loop</span></div></div>',
     unsafe_allow_html=True)
 
 
@@ -100,9 +186,16 @@ def load_classifier(model_dir, base_model):
 
 try:
     clf = load_classifier(MODEL_DIR, BASE_MODEL)
-except Exception:
-    st.error("The model could not be loaded. Check MODEL_DIR and restart.")
+except Exception as _e:
+    log.exception("[app] model load failed for %s", MODEL_DIR)
+    st.error("The model could not be loaded.")
+    st.markdown(f"**Model folder:** `{MODEL_DIR}`")
+    st.markdown(f"**Reason:** `{type(_e).__name__}: {str(_e)[:400]}`")
+    st.markdown("Common causes: no internet on first start (the adapter downloads `FacebookAI/xlm-roberta-base`), "
+                "running outside the project's `.venv`, or a stale `MODEL_DIR` environment variable.")
     st.stop()
+if _MODEL_DIR_NOTE:
+    st.warning(_MODEL_DIR_NOTE)
 
 VERDICT = {"allow": "Allowed", "review": "Needs review", "block": "Blocked"}
 
@@ -115,31 +208,134 @@ def render_text(words):
     return " ".join(parts)
 
 
-tab_an, tab_sys = st.tabs(["Analyze", "System overview"])
+MODEL_NAMES = {"xlmr": "XLM-R + LoRA", "tfidf": "TF-IDF + SVM"}
+MODEL_OPTS = {"xlmr": "XLM-R + LoRA (research model)",
+              "tfidf": "TF-IDF + SVM (lightweight, CPU-only)",
+              "both": "Compare both"}
+TFIDF_MODEL = os.path.join(ROOT, "models", "tfidf", "tfidf_best.joblib")
+TFIDF_CALIB = os.path.join(ROOT, "models", "tfidf", "calibration.json")
+EXPORT = read_json("results/final_best/export_metrics.json") or {}
+BASELINE = read_json("results/study/baseline_classical.json") or {}
 
-# ------------------------------------------------------------------ Analyze
-with tab_an:
-    with st.form("check", clear_on_submit=True, border=False):
-        text = st.text_area("Comment", height=110, label_visibility="collapsed",
-                            placeholder="Type or paste a Telugu comment...")
-        go = st.form_submit_button("Analyze", type="primary", width="stretch")
-    if go and text.strip():
-        log.info("=" * 78)
-        log.info("[app] Analyze clicked")
-        r = clf.predict([text])[0]
-        words = clf.explain(text)
-        st.session_state["res"] = {"r": r, "words": words}
-        log.info("[app] render: verdict card=%s, %d word(s) blurred in text card",
-                 r["decision"].upper(), sum(1 for w in words if w[2]))
-    elif go:
-        st.warning("Please enter some text.")
 
-    res = st.session_state.get("res")
-    if res:
-        r, words = res["r"], res["words"]
-        d = r["decision"]
-        n_flag = sum(1 for w in words if w[2])
-        st.markdown(f"""
+@st.cache_resource(show_spinner="Loading TF-IDF model...")
+def load_tfidf(model_path, calib_path):
+    from tfidf_classifier import TfidfGuardClassifier
+    return TfidfGuardClassifier(model_path, calib_path)
+
+
+def get_tfidf():
+    """Lazy: only called once TF-IDF is selected. None if files are missing or unreadable."""
+    if not (os.path.isfile(TFIDF_MODEL) and os.path.isfile(TFIDF_CALIB)):
+        return None
+    try:
+        return load_tfidf(TFIDF_MODEL, TFIDF_CALIB)
+    except Exception:
+        log.exception("[app] TF-IDF model load failed")
+        return None
+
+
+def model_info(which):
+    """One info line per chosen model, all numbers read from results/ files."""
+    lines = []
+    if which in ("xlmr", "both"):
+        f1 = FINAL.get("test_macro_f1_config_mean")
+        lat = ((EXPORT.get("latency_ms") or {}).get("fp32_torch_threads1") or {}).get("median_ms")
+        lines.append(f"**{MODEL_NAMES['xlmr']}:** test macro-F1 {fmt(f1)} · adapter 3.4 MB on a ~1.1 GB base model "
+                     f"(INT8 ONNX export {fmt(EXPORT.get('int8_onnx_size_mb'), 0)} MB) · CPU latency median "
+                     f"{fmt(lat, 1)} ms (1 thread, PyTorch fp32)")
+    if which in ("tfidf", "both"):
+        f1 = (BASELINE.get("test") or {}).get("macro_f1")
+        lat = (BASELINE.get("cpu_latency_ms_batch1_200rows_1thread") or {}).get("median")
+        lines.append(f"**{MODEL_NAMES['tfidf']}:** test macro-F1 {fmt(f1)} · "
+                     f"{fmt(BASELINE.get('model_size_mb_joblib'), 1)} MB · CPU latency median "
+                     f"{fmt(lat, 2)} ms (1 thread)")
+    return "  \n".join(lines)
+
+
+ROLE = {"full": "Baseline: every weight trained", "lora": "Low-rank adapter on query/value",
+        "dora": "LoRA with magnitude/direction split", "adalora": "LoRA with adaptive rank budget",
+        "tfidf": "Classical floor: n-gram features + linear SVM"}
+
+
+def fmt_params(n):
+    return f"{n / 1e6:.0f} M" if n >= 1e8 else f"{n / 1e6:.2f} M" if n >= 1e6 else f"{n / 1e3:.0f} k"
+
+
+def backbone_name(model):
+    short = str(model).split("/")[-1]
+    return BACKBONE_SHORT.get(short.lower(), short)
+
+
+def glance_table():
+    """One row per trained config (selection.json ranking) plus TF-IDF; numbers read from results/."""
+    sel = read_json("results/study/selection.json") or {}
+    win = (sel.get("winner") or {}).get("label")
+    rows = []
+    for r in sel.get("ranking") or []:
+        meth = r["method"]
+        ep = int(r.get("epochs") or 0)
+        if meth == "full":
+            how, size = f"all weights, {ep} ep", "-"
+            if PROF is not None:  # checkpoint size, only where the profiling table has it
+                raw = str(r["model"]).split("/")[-1].lower()
+                s = PROF[(PROF["method"] == "full") & (PROF["backbone"].astype(str).str.split("/").str[-1]
+                                                       .str.lower() == raw)]["model_size_mb"].dropna()
+                if len(s):
+                    size = f"{s.mean():.0f} MB (checkpoint)"
+        else:
+            how = f"r{int(r['lora_r'])}, alpha{int(r['lora_alpha'])}, {ep} ep"
+            size = f"{r['trainable_params_mean'] * 4 / 1e6:.1f} MB"
+        rows.append({
+            "Model": ("★ " if r["config"] == win else "") + f"{backbone_name(r['model'])} {METHOD_NAMES.get(meth, meth)}",
+            "How adapted": how,
+            "Trained params": fmt_params(r["trainable_params_mean"]),
+            "Test macro-F1 (mean ± sd, n seeds)": f"{r['test_mean']:.4f} ± {r['test_std']:.4f} (n={r['n_seeds']})",
+            "Test macro-F1 (num)": round(float(r["test_mean"]), 4),
+            "Peak GPU (GB)": f"{r['peak_gpu_mb_mean'] / 1e3:.2f}",
+            "Adapter size (est.)": size,
+            "One-line role": ROLE.get(meth, ""),
+        })
+    tf = BASELINE.get("test") or {}
+    if tf.get("macro_f1") is not None:
+        rows.append({
+            "Model": "TF-IDF + LinearSVC", "How adapted": "no fine-tuning; char + word n-grams",
+            "Trained params": f"{(BASELINE.get('features') or {}).get('n_features_total', 0) / 1e3:.0f} k features",
+            "Test macro-F1 (mean ± sd, n seeds)": f"{tf['macro_f1']:.4f} (n=1, deterministic)",
+            "Test macro-F1 (num)": round(float(tf["macro_f1"]), 4),
+            "Peak GPU (GB)": "CPU only",
+            "Adapter size (est.)": f"{BASELINE.get('model_size_mb_joblib', 0):.1f} MB (file)",
+            "One-line role": ROLE["tfidf"],
+        })
+    return pd.DataFrame(rows)
+
+
+def which_for_what():
+    """System overview: three picks, key numbers read from selection.json and the TF-IDF baseline."""
+    rk = (read_json("results/study/selection.json") or {}).get("ranking") or []
+    lora = next((r for r in rk if r["method"] == "lora" and "xlm" in str(r["model"]).lower()), None)
+    full = next((r for r in rk if r["method"] == "full" and "xlm" in str(r["model"]).lower()), None)
+    tf = BASELINE.get("test") or {}
+    lat = (BASELINE.get("cpu_latency_ms_batch1_200rows_1thread") or {}).get("median")
+    rows = [{"Need": "Research / PEFT evidence", "Pick": "XLM-R + LoRA",
+             "Key number": (f"test macro-F1 {lora['test_mean']:.4f} ± {lora['test_std']:.4f} vs "
+                            f"{full['test_mean']:.4f} full FT; {fmt_params(lora['trainable_params_mean'])} trainable "
+                            f"({100 * lora['trainable_params_mean'] / full['trainable_params_mean']:.2f}%)")}
+            if lora and full else {"Need": "Research / PEFT evidence", "Pick": "XLM-R + LoRA", "Key number": "-"},
+            {"Need": "Smallest and fastest", "Pick": "TF-IDF + guard",
+             "Key number": f"test macro-F1 {fmt(tf.get('macro_f1'), 4)}; {fmt(BASELINE.get('model_size_mb_joblib'), 1)} MB; "
+                           f"CPU latency median {fmt(lat, 2)} ms"},
+            {"Need": "Highest raw accuracy (tied within noise)", "Pick": "XLM-R full FT",
+             "Key number": (f"test macro-F1 {full['test_mean']:.4f} ± {full['test_std']:.4f}; "
+                            f"{fmt_params(full['trainable_params_mean'])} trainable") if full else "-"}]
+    return pd.DataFrame(rows)
+
+
+def render_result(title, r, words):
+    d = r["decision"]
+    n_flag = sum(1 for w in words if w[2])
+    st.markdown(f"**{html.escape(title)}**")
+    st.markdown(f"""
 <div class="card verdict-card {d}">
   <div class="verdict"><div><h4>Verdict</h4><div class="v">{VERDICT[d]}</div></div>
   <div class="p">Abuse probability<br><b style="font-size:1.4rem;color:#0f172a">{r['probability']*100:.1f}%</b></div></div>
@@ -150,6 +346,49 @@ with tab_an:
   <div class="note">Words driving the score are blurred; hover over one to reveal it.
   Detected by removing each word and measuring the drop in abuse probability.</div></div>
 """, unsafe_allow_html=True)
+
+
+tab_an, tab_sys, tab_res, tab_mod, tab_arch, tab_rep = st.tabs(
+    ["Analyze", "System overview", "Research results", "Models", "Architecture", "Reports"])
+
+# ------------------------------------------------------------------ Analyze
+with tab_an:
+    which = st.radio("Model", list(MODEL_OPTS), format_func=MODEL_OPTS.get, horizontal=True,
+                     key="which_model")
+    want = which
+    tf = get_tfidf() if which != "xlmr" else None  # lazy: TF-IDF loads only when selected
+    if which != "xlmr" and tf is None:
+        st.info("TF-IDF model not available (models/tfidf missing or unreadable); using XLM-R + LoRA.")
+        want = "xlmr"
+    st.caption(model_info(want))
+    with st.form("check", clear_on_submit=True, border=False):
+        text = st.text_area("Comment", height=110, label_visibility="collapsed",
+                            placeholder="Type or paste a Telugu comment...")
+        go = st.form_submit_button("Analyze", type="primary", width="stretch")
+    if go and text.strip():
+        log.info("=" * 78)
+        log.info("[app] Analyze clicked (model=%s)", want)
+        items = []
+        if want in ("xlmr", "both"):
+            items.append((MODEL_NAMES["xlmr"], clf.predict([text])[0], clf.explain(text)))
+        if want in ("tfidf", "both"):
+            items.append((MODEL_NAMES["tfidf"], tf.predict([text])[0], tf.explain(text)))
+        st.session_state["res"] = {"items": items}
+        for title, r, words in items:
+            log.info("[app] render %s: verdict card=%s, %d word(s) blurred in text card",
+                     title, r["decision"].upper(), sum(1 for w in words if w[2]))
+    elif go:
+        st.warning("Please enter some text.")
+
+    res = st.session_state.get("res")
+    if res and res.get("items"):
+        if len(res["items"]) == 1:
+            render_result(*res["items"][0])
+        else:
+            for col, item in zip(st.columns(2), res["items"]):
+                with col:
+                    render_result(*item)
+        st.caption("Both use the same input guard; on this dataset they are statistically tied (see Research results).")
         st.caption("Trained on Telugu and Telugu-English comments only; other languages are out of scope.")
 
     with st.expander("Score a CSV file"):
@@ -161,15 +400,23 @@ with tab_an:
                     st.error("The CSV needs a `text` column.")
                 else:
                     log.info("=" * 78)
-                    log.info("[app] CSV upload: %d rows", len(df))
-                    results = clf.predict(df["text"].tolist())
-                    log.info("[app] CSV verdicts: %s", pd.Series([r["decision"] for r in results]).value_counts().to_dict())
+                    log.info("[app] CSV upload: %d rows (model=%s)", len(df), want)
+                    texts = df["text"].tolist()
+                    runs = []  # one list of results per selected model; the first one is primary
+                    if want in ("xlmr", "both"):
+                        runs.append(clf.predict(texts))
+                    if want in ("tfidf", "both"):
+                        runs.append(tf.predict(texts))
+                    primary = runs[0]
+                    log.info("[app] CSV verdicts: %s", pd.Series([r["decision"] for r in primary]).value_counts().to_dict())
                     out = pd.DataFrame({
-                        "text": [mask_text(str(t)) if r["decision"] != "allow" else t
-                                 for t, r in zip(df["text"], results)],
-                        "abuse_probability": [round(r.get("probability") or 0, 3) for r in results],
-                        "verdict": [VERDICT[r["decision"]] for r in results],
+                        "text": [mask_text(str(t)) if any(res_[i]["decision"] != "allow" for res_ in runs) else t
+                                 for i, t in enumerate(texts)],
+                        "abuse_probability": [round(r.get("probability") or 0, 3) for r in primary],
+                        "verdict": [VERDICT[r["decision"]] for r in primary],
                     })
+                    if len(runs) == 2:
+                        out["tfidf_decision"] = [VERDICT[r["decision"]] for r in runs[1]]
                     st.dataframe(out, width="stretch", hide_index=True)
                     st.download_button("Download results", out.to_csv(index=False),
                                        "predictions.csv", "text/csv")
@@ -179,46 +426,304 @@ with tab_an:
 # ---------------------------------------------------------- System overview
 with tab_sys:
     import streamlit.components.v1 as components
-    from architecture import load_facts, mermaid_offline, mermaid_online, mermaid_component, decisions
-    F = load_facts()
-    runs = F["runs"]
+
+    st.markdown("##### Which model should I use?")
+    st.markdown(
+        "- **XLM-R + LoRA** is the research contribution: parameter-efficient (3.6 MB adapter), "
+        "but it needs a ~1.1 GB base-model download.\n"
+        "- **TF-IDF + SVM** is the smallest and fastest, and as accurate on this data.")
+    st.markdown("**Which one for what**")
+    st.dataframe(which_for_what(), hide_index=True, width="stretch")
+
+    st.markdown("##### Test-set performance (selected configuration)")
+    p_e2, r_e2 = e2_mean(PROF, "abusive_precision"), e2_mean(PROF, "abusive_recall")
+    sd = FINAL.get("test_macro_f1_config_std")
+    tp = FINAL.get("trainable_params")
+    tiles = [
+        (f"{fmt(FINAL.get('test_macro_f1_config_mean'))}<small> ± {fmt(sd)}</small>", "Macro-F1, mean ± SD over seeds"),
+        (fmt(p_e2), "Abusive precision (mean over seeds)"),
+        (fmt(r_e2), "Abusive recall (mean over seeds)"),
+        (fmt(FINAL.get("ece_after")), "Calibration error (ECE), after scaling"),
+        (f"{int(tp):,}" if isinstance(tp, (int, float)) else "-", "Trainable parameters"),
+    ]
+    st.markdown('<div class="kpis">' + "".join(
+        f'<div class="kpi"><div class="n">{n}</div><div class="l">{l}</div></div>' for n, l in tiles)
+        + "</div>", unsafe_allow_html=True)
 
     st.markdown("##### How it was built")
-    components.html(mermaid_component(mermaid_offline(F), 150, "a"), height=160)
-    st.markdown("##### What happens to one comment")
-    components.html(mermaid_component(mermaid_online(F), 300, "b"), height=320)
+    _img = read_bytes("docs/figures/architecture.png")
+    if _img:
+        st.image(_img, caption="Training and inference pipeline (details in the Architecture tab)")
+    else:
+        na("docs/figures/architecture.png")
+    F = None
 
-    st.markdown("##### Test-set performance")
-    st.markdown(f"""
-<div class="kpis">
- <div class="kpi"><div class="n">{FINAL.get('test_macro_f1',0):.3f}</div><div class="l">Macro-F1</div></div>
- <div class="kpi"><div class="n">{FINAL.get('precision',0):.3f}</div><div class="l">Precision</div></div>
- <div class="kpi"><div class="n">{FINAL.get('recall',0):.3f}</div><div class="l">Recall</div></div>
- <div class="kpi"><div class="n">{FINAL.get('ece') or 0:.3f}</div><div class="l">Calibration error (ECE)</div></div>
-</div>""", unsafe_allow_html=True)
+    st.markdown("##### Model selection")
+    sel = read_json("results/study/selection.json")
+    if not sel:
+        na("results/study/selection.json")
+    else:
+        w = sel.get("winner") or {}
+        st.markdown(
+            f"**Winner:** {w.get('label', '-')} ({w.get('n_seeds', '-')} seeds, "
+            f"val macro-F1 {fmt_pm(w.get('val_mean'), w.get('val_std'))}, "
+            f"test macro-F1 {fmt_pm(w.get('test_mean'), w.get('test_std'))})  \n"
+            f"**Tie set** (within one SD of the top config): "
+            + "; ".join(sel.get("tie_set", [])) + "  \n"
+            f"**Selection metric:** {sel.get('selection_metric', '-')}")
+        steps = re.split(r"\s(?=\d\. )", sel.get("rule", ""))
+        with st.expander("Selection rule"):
+            st.markdown("\n\n".join(s.strip() for s in steps if s.strip()))
 
-    st.markdown("##### Model comparison (validation macro-F1, the selection metric)")
-    short = {"xlm-roberta-base": "XLM-R", "muril-base-cased": "MuRIL"}
-    names = {"full": "full fine-tune", "lora": "LoRA", "qlora": "QLoRA",
-             "adalora": "AdaLoRA", "dora": "DoRA", "ia3": "IA3"}
-    runs["run"] = [f"{short.get(m.split('/')[-1], m)} · {names.get(t, t)}"
-                   for m, t in zip(runs["model"], runs["method"])]
-    chart = runs.sort_values("val_macro_f1")[["run", "val_macro_f1"]].set_index("run")
-    st.bar_chart(chart, horizontal=True, color="#1d4ed8", height=280)
+    st.markdown("##### Model comparison (mean validation macro-F1 over seeds, the selection metric)")
+    rk = (sel or {}).get("ranking") if isinstance(sel, dict) else None
+    if not rk:
+        na("results/study/selection.json")
+    else:
+        import pandas as _pd
+        chart = _pd.DataFrame({"run": [r["config"] for r in rk], "val_macro_f1": [r["val_mean"] for r in rk]})
+        st.bar_chart(chart.sort_values("val_macro_f1").set_index("run"), horizontal=True, color="#1d4ed8", height=320)
+        st.caption("Axis starts at zero; the differences are small. See Research results for error bars on a zoomed axis.")
 
-    st.markdown("##### Why each design choice")
-    cards = "".join(
-        f'<div class="dec"><div class="dt"><span class="num">{i}</span>{html.escape(t)}</div>'
-        f'<div class="dl">Why</div><p>{html.escape(why)}</p>'
-        f'<div class="dl">Evidence</div><p>{html.escape(ev)}</p>'
-        f'<div class="dl">Trade-off accepted</div><p>{html.escape(tr)}</p></div>'
-        for i, (t, why, ev, tr) in enumerate(decisions(F), 1))
-    st.markdown(f'<div class="decs">{cards}</div>', unsafe_allow_html=True)
+    def stress(rel):
+        return {r["morph"]: r for r in (read_json(rel) or {}).get("results", [])}
+    raw, dfn = stress("results/stress_test_raw_summary.json"), stress("results/stress_test_summary.json")
+    if raw and dfn:
+        try:
+            st.markdown("##### Attack test: 300 real abusive + 300 clean comments, every word disguised")
+            rows = [{"Disguise": k, "Caught, no guard": f"{raw[k]['abusive_caught_%']:.0f}%",
+                     "Caught, with guard": f"{v['abusive_caught_%']:.0f}%",
+                     "Clean wrongly blocked": f"{v['clean_wrongly_blocked_%']:.0f}%"}
+                    for k, v in dfn.items() if k in raw]
+            st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+        except Exception:
+            log.exception("[app] attack test table unavailable")
+            na("attack test table")
+    else:
+        na("results/stress_test_*_summary.json")
 
-    if F["raw"] and F["def"]:
-        st.markdown("##### Attack test: 300 real abusive + 300 clean comments, every word disguised")
-        rows = [{"Disguise": k, "Caught, no guard": f"{F['raw'][k]['abusive_caught_%']:.0f}%",
-                 "Caught, with guard": f"{v['abusive_caught_%']:.0f}%",
-                 "Clean wrongly blocked": f"{v['clean_wrongly_blocked_%']:.0f}%"}
-                for k, v in F["def"].items() if k in F["raw"]]
-        st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+# ------------------------------------------------------- Research results
+E_LABEL_COLS = {"accuracy": "Accuracy", "abusive_precision": "Abusive P", "abusive_recall": "Abusive R",
+                "abusive_f1": "Abusive F1", "nonabusive_f1": "Non-abusive F1", "macro_f1": "Macro-F1",
+                "weighted_f1": "Weighted-F1", "trainable_pct": "Trainable %", "peak_gpu_mb": "GPU MB",
+                "model_size_mb": "Adapter size MB", "train_time_sec": "Train time (s)"}
+
+with tab_res:
+    sel = read_json("results/study/selection.json")
+    st.markdown("##### Leaderboard (selected by validation macro-F1; test shown for reporting)")
+    if not sel or not sel.get("ranking"):
+        na("results/study/selection.json")
+    else:
+        win = (sel.get("winner") or {}).get("label")
+        rk = pd.DataFrame(sel["ranking"])
+        rk["label"] = [cfg_short(m, t, lr) for m, t, lr in zip(rk["model"], rk["method"], rk["lora_r"])]
+        board = pd.DataFrame({
+            "Rank": rk["rank"],
+            "Config": rk["config"],
+            "Seeds": rk["n_seeds"],
+            "Val macro-F1 (mean ± SD)": [fmt_pm(m, s) for m, s in zip(rk["val_mean"], rk["val_std"])],
+            "Test macro-F1 (mean ± SD)": [fmt_pm(m, s) for m, s in zip(rk["test_mean"], rk["test_std"])],
+            "Trainable params": [f"{int(p):,}" if pd.notna(p) else "-" for p in rk["trainable_params_mean"]],
+            "In tie set": ["yes" if t else "no" for t in rk["in_tie_set"]],
+            "Selected": ["yes" if c == win else "" for c in rk["config"]],
+        }).set_index("Rank")
+
+        def hl(row):
+            return ["background-color:#dbeafe; font-weight:600" if row["Selected"] == "yes" else ""] * len(row)
+
+        st.dataframe(board.style.apply(hl, axis=1), width="stretch")
+        st.caption(f"Selected: {win}. Rule and tie set are under System overview > Model selection.")
+
+        st.markdown("##### Test macro-F1 by configuration")
+        try:
+            from matplotlib.figure import Figure
+            fig = Figure(figsize=(8, 4), dpi=110)
+            ax = fig.subplots()
+            means = rk["test_mean"].astype(float).tolist()
+            errs = rk["test_std"].fillna(0).astype(float).tolist()
+            colors = ["#1d4ed8" if c == win else "#94a3b8" for c in rk["config"]]
+            ax.bar(range(len(rk)), means, yerr=errs, capsize=4, color=colors)
+            ax.set_ylim(0.88, max(m + e for m, e in zip(means, errs)) + 0.005)
+            ax.set_ylabel("Test macro-F1 (mean ± SD; y-axis starts at 0.88)")
+            ax.set_xticks(range(len(rk)))
+            ax.set_xticklabels(rk["label"], rotation=20, ha="right", fontsize=8)
+            ax.grid(axis="y", alpha=.3)
+            ax.set_axisbelow(True)
+            fig.tight_layout()
+            st.pyplot(fig)
+            st.caption("Blue = selected configuration. Error bars: sample SD over seeds.")
+        except Exception:
+            log.exception("[app] leaderboard chart unavailable")
+            na("chart (matplotlib or selection data)")
+
+    st.markdown("##### Paired significance (selected model vs each alternative)")
+    forest = read_bytes("docs/figures/final_forest.png")
+    if forest:
+        st.image(forest, caption="Paired bootstrap deltas and McNemar tests (docs/FINAL_RESULTS.md, proof 2)",
+                 width="stretch")
+    else:
+        na("docs/figures/final_forest.png")
+
+    st.markdown("##### E1-E7 experiments (mean over seeds)")
+    if PROF is None:
+        na("results/study/prof_table.csv")
+    else:
+        main = PROF[PROF["group"].astype(str).str.match(r"^E[1-7]$")]
+        g = main.groupby("group", sort=True)
+        t = g[list(E_LABEL_COLS)].mean()
+        t.insert(0, "Model", [cfg_short(m, mt, r) for m, mt, r in
+                              zip(g["backbone"].first(), g["method"].first(), g["lora_r"].first())])
+        t.insert(1, "Seeds", g.size())
+        t = t.rename(columns=E_LABEL_COLS).round({"Trainable %": 2, "GPU MB": 0, "Adapter size MB": 2, "Train time (s)": 0})
+        t = t.round({c: 4 for c in ["Accuracy", "Abusive P", "Abusive R", "Abusive F1",
+                                    "Non-abusive F1", "Macro-F1", "Weighted-F1"]}).reset_index()
+        st.dataframe(t, hide_index=True, width="stretch")
+        st.caption("Adapter size is the saved model or adapter; for full fine-tuning it is the whole model. "
+                   "E2 is the selected configuration.")
+
+    st.markdown("##### Rank x alpha grid (E3, MuRIL LoRA)")
+    img = read_bytes("docs/figures/rank_alpha_heatmap.png")
+    if img:
+        st.image(img, width="stretch")
+    else:
+        na("docs/figures/rank_alpha_heatmap.png")
+
+    st.markdown("##### Paper-replication comparison")
+    rep = read_text("results/study/replication_table.md")
+    if rep:
+        st.markdown(rep)
+    else:
+        na("results/study/replication_table.md")
+
+    st.markdown("##### Deployment variants")
+    exp = read_json("results/final_best/export_metrics.json")
+    if not exp:
+        na("results/final_best/export_metrics.json")
+    else:
+        def g2(*keys):
+            d = exp
+            for k in keys:
+                d = d.get(k) if isinstance(d, dict) else None
+            return d
+        lat = "latency_ms"
+        dep = pd.DataFrame([
+            {"Variant": "PyTorch FP32",
+             "Val macro-F1": fmt(g2("fp32_torch", "val", "macro_f1")),
+             "Test macro-F1": fmt(g2("fp32_torch", "test", "macro_f1")),
+             "Size (MB)": fmt(file_mb("results/final_best/hf/model.safetensors"), 1),
+             "Latency median, 1 thread (ms)": fmt(g2(lat, "fp32_torch_threads1", "median_ms"), 1),
+             "Latency median, 4 threads (ms)": fmt(g2(lat, "fp32_torch_threads4", "median_ms"), 1)},
+            {"Variant": "ONNX INT8",
+             "Val macro-F1": fmt(g2("int8_onnx", "val", "macro_f1")),
+             "Test macro-F1": fmt(g2("int8_onnx", "test", "macro_f1")),
+             "Size (MB)": fmt(exp.get("int8_onnx_size_mb"), 1),
+             "Latency median, 1 thread (ms)": fmt(g2(lat, "int8_onnx_threads1", "median_ms"), 1),
+             "Latency median, 4 threads (ms)": fmt(g2(lat, "int8_onnx_threads4", "median_ms"), 1)},
+        ])
+        st.dataframe(dep, hide_index=True, width="stretch")
+        n_lat = g2(lat, "fp32_torch_threads1", "n")
+        st.caption(f"Latency is from the development PC (CPU, {n_lat or '-'} single-comment runs), "
+                   "not a laptop; absolute times will differ on other hardware.")
+
+# ----------------------------------------------------------------- Models
+with tab_mod:
+    st.markdown("##### Models at a glance")
+    glance = glance_table()
+    if glance.empty:
+        na("results/study/selection.json and baseline_classical.json")
+    else:
+        st.dataframe(glance, hide_index=True, width="stretch")
+        st.caption("★ = selected. Adapter size is an estimate (trainable params x 4 bytes); "
+                   "full fine-tuning rows show the saved checkpoint where profiling recorded it.")
+    st.markdown("##### Each model: use, customisation, expectation, outcome")
+    try:
+        from expectations import build_rows
+        exp = pd.DataFrame(build_rows())[["Model", "Typical use", "How we customised it",
+                                          "What we expected", "What happened", "Verdict"]]
+        st.dataframe(exp, hide_index=True, width="stretch", column_config={
+            "Model": st.column_config.TextColumn(width="medium"),
+            "Typical use": st.column_config.TextColumn(width="medium"),
+            "How we customised it": st.column_config.TextColumn(width="large"),
+            "What we expected": st.column_config.TextColumn(width="medium"),
+            "What happened": st.column_config.TextColumn(width="large"),
+            "Verdict": st.column_config.TextColumn(width="small")})
+        st.caption("Expectations are the hypotheses from the paper, the supervisor's plan or common practice; "
+                   "outcomes are measured on the same test set. Full text: docs/EXPECTATIONS.md.")
+    except Exception:
+        log.exception("[app] expectations table unavailable")
+        na("results/study/selection.json (expectations table)")
+    index_txt = read_text("docs/models/INDEX.md") or ""
+    index_order = [s[:-3] for s in re.findall(r"\[([^\]]+\.md)\]\(", index_txt)]
+    mdir = os.path.join(ROOT, "docs", "models")
+    slugs = sorted(f[:-3] for f in os.listdir(mdir) if f.endswith(".md") and f != "INDEX.md") \
+        if os.path.isdir(mdir) else []
+    if not slugs:
+        na("docs/models")
+    slugs.sort(key=lambda s: (index_order.index(s) if s in index_order else 999, s))
+    st.caption("One report per trained configuration, in the order of docs/models/INDEX.md.")
+    for slug in slugs:
+        body = read_text(f"docs/models/{slug}.md") or ""
+        title = next((ln[2:].strip() for ln in body.splitlines() if ln.startswith("# ")), slug)
+        with st.expander(title):
+            st.markdown(body)
+            figs = [(f"docs/models/figures/{slug}_curves.png", "Training curves"),
+                    (f"docs/models/figures/{slug}_cm.png", "Confusion matrix")]
+            figs = [(p, c) for p, c in figs if read_bytes(p)]
+            if figs:
+                cols = st.columns(len(figs))
+                for col, (p, c) in zip(cols, figs):
+                    col.image(read_bytes(p), caption=c, width="stretch")
+
+# ------------------------------------------------------------ Architecture
+with tab_arch:
+    img = read_bytes("docs/figures/architecture.png")
+    if img:
+        st.image(img, width="stretch")
+    else:
+        na("docs/figures/architecture.png")
+    arch = read_text("docs/ARCHITECTURE.md")
+    if not arch:
+        na("docs/ARCHITECTURE.md")
+    else:
+        heads = [(m.start(), m.group(1).strip()) for m in re.finditer(r"^#{2,3}\s+(.+)$", arch, re.M)]
+        blocks = list(re.finditer(r"```mermaid\n(.*?)```", arch, re.S))
+        with st.expander("Diagram source"):
+            for m in blocks:
+                cap = next((h for pos, h in reversed(heads) if pos < m.start()), "Diagram")
+                st.markdown(f"**{cap}**")
+                st.code(m.group(1).strip(), language="mermaid")
+        sections = re.split(r"^(?=## )", arch, flags=re.M)
+        comp = next((s for s in sections if s.startswith("## ") and "Component" in s.split("\n", 1)[0]), None)
+        if comp:
+            st.markdown(comp)
+        else:
+            na("component table in docs/ARCHITECTURE.md")
+
+# ----------------------------------------------------------------- Reports
+REPORTS = ["docs/FINAL_RESULTS.md", "docs/EXPECTATIONS.md", "docs/PEFT_STUDY_REPORT.md", "docs/PAPER_ALIGNMENT.md", "docs/MODEL_CARD.md",
+           "docs/DEPLOYMENT.md", "docs/ARCHITECTURE.md", "docs/LEXICAL_ANALYSIS.md", "docs/ROBUSTNESS.md"]
+LEXICAL_FIGS = ["docs/figures/lexical_log_odds.png", "docs/figures/lexical_top_terms.png"]
+
+with tab_rep:
+    choice = st.selectbox("Report", REPORTS, format_func=os.path.basename)
+    body = read_text(choice)
+    if body is None:
+        na(choice)
+    else:
+        st.download_button(f"Download {os.path.basename(choice)}", body.encode("utf-8"),
+                           file_name=os.path.basename(choice), mime="text/markdown")
+        st.markdown(body)
+        if choice.endswith("FINAL_RESULTS.md"):
+            for p in ["docs/figures/final_forest.png", "docs/figures/final_frontier.png", "docs/figures/final_scorecard.png"]:
+                img = read_bytes(p)
+                if img:
+                    st.image(img, width="stretch")
+                else:
+                    na(p)
+        if choice.endswith("LEXICAL_ANALYSIS.md"):
+            for p in LEXICAL_FIGS:
+                img = read_bytes(p)
+                if img:
+                    st.image(img, width="stretch")
+                else:
+                    na(p)

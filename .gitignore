@@ -39,3 +39,12 @@ results/*/checkpoints/
 *.log
 scratch/
 tmp/
+
+# study exports (large, reproducible via src/export_best.py)
+results/final_lora/
+results/study/*/model/
+results/study/*/checkpoints/
+
+# ship the selected adapter (small); exports stay out of git
+!models/best/*.safetensors
+results/final_best/

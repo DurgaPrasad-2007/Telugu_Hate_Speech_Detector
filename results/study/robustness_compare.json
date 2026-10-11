@@ -1,0 +1,521 @@
+{
+ "n": 600,
+ "results": {
+  "TF-IDF + LinearSVC": {
+   "clean": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "sentence: char_repeat": {
+    "acc": 0.8316666666666667,
+    "flip": 0.12166666666666667
+   },
+   "sentence: extra_spacing": {
+    "acc": 0.79,
+    "flip": 0.15666666666666668
+   },
+   "sentence: emoji_insert": {
+    "acc": 0.8916666666666667,
+    "flip": 0.03166666666666667
+   },
+   "sentence: punctuation_insert": {
+    "acc": 0.8933333333333333,
+    "flip": 0.02
+   },
+   "sentence: capitalization": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "sentence: number_substitution": {
+    "acc": 0.9033333333333333,
+    "flip": 0.01
+   },
+   "sentence: random_case": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "every word: zero-width joiner": {
+    "acc": 0.6883333333333334,
+    "flip": 0.2783333333333333
+   },
+   "every word: zero-width non-joiner": {
+    "acc": 0.45,
+    "flip": 0.5033333333333333
+   },
+   "every word: letter spacing": {
+    "acc": 0.6083333333333333,
+    "flip": 0.4083333333333333
+   },
+   "every word: dots between letters": {
+    "acc": 0.4766666666666667,
+    "flip": 0.4766666666666667
+   },
+   "every word: dashes between letters": {
+    "acc": 0.4533333333333333,
+    "flip": 0.5
+   },
+   "every word: emoji inside word": {
+    "acc": 0.46,
+    "flip": 0.49333333333333335
+   },
+   "every word: emoji wrapped": {
+    "acc": 0.8,
+    "flip": 0.15
+   },
+   "every word: char repetition": {
+    "acc": 0.49333333333333335,
+    "flip": 0.4633333333333333
+   },
+   "every word: leetspeak digits": {
+    "acc": 0.9033333333333333,
+    "flip": 0.01
+   },
+   "every word: star-censored": {
+    "acc": 0.5583333333333333,
+    "flip": 0.485
+   },
+   "every word: UPPERCASE": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "every word: trailing emoji spam": {
+    "acc": 0.8516666666666667,
+    "flip": 0.085
+   },
+   "every word: COMBO (repeat+ZWJ+emoji)": {
+    "acc": 0.45166666666666666,
+    "flip": 0.5016666666666667
+   }
+  },
+  "XLM-R LoRA (selected), raw": {
+   "clean": {
+    "acc": 0.8966666666666666,
+    "flip": 0.0
+   },
+   "sentence: char_repeat": {
+    "acc": 0.7666666666666667,
+    "flip": 0.20333333333333334
+   },
+   "sentence: extra_spacing": {
+    "acc": 0.7633333333333333,
+    "flip": 0.15666666666666668
+   },
+   "sentence: emoji_insert": {
+    "acc": 0.9016666666666666,
+    "flip": 0.008333333333333333
+   },
+   "sentence: punctuation_insert": {
+    "acc": 0.8966666666666666,
+    "flip": 0.02
+   },
+   "sentence: capitalization": {
+    "acc": 0.9016666666666666,
+    "flip": 0.005
+   },
+   "sentence: number_substitution": {
+    "acc": 0.89,
+    "flip": 0.01
+   },
+   "sentence: random_case": {
+    "acc": 0.8966666666666666,
+    "flip": 0.0033333333333333335
+   },
+   "every word: zero-width joiner": {
+    "acc": 0.4583333333333333,
+    "flip": 0.49833333333333335
+   },
+   "every word: zero-width non-joiner": {
+    "acc": 0.4583333333333333,
+    "flip": 0.49833333333333335
+   },
+   "every word: letter spacing": {
+    "acc": 0.4583333333333333,
+    "flip": 0.49833333333333335
+   },
+   "every word: dots between letters": {
+    "acc": 0.48,
+    "flip": 0.48333333333333334
+   },
+   "every word: dashes between letters": {
+    "acc": 0.515,
+    "flip": 0.44166666666666665
+   },
+   "every word: emoji inside word": {
+    "acc": 0.7583333333333333,
+    "flip": 0.22166666666666668
+   },
+   "every word: emoji wrapped": {
+    "acc": 0.89,
+    "flip": 0.03666666666666667
+   },
+   "every word: char repetition": {
+    "acc": 0.6433333333333333,
+    "flip": 0.35333333333333333
+   },
+   "every word: leetspeak digits": {
+    "acc": 0.8933333333333333,
+    "flip": 0.013333333333333334
+   },
+   "every word: star-censored": {
+    "acc": 0.5516666666666666,
+    "flip": 0.49166666666666664
+   },
+   "every word: UPPERCASE": {
+    "acc": 0.8966666666666666,
+    "flip": 0.006666666666666667
+   },
+   "every word: trailing emoji spam": {
+    "acc": 0.9,
+    "flip": 0.04
+   },
+   "every word: COMBO (repeat+ZWJ+emoji)": {
+    "acc": 0.5716666666666667,
+    "flip": 0.45166666666666666
+   }
+  },
+  "XLM-R LoRA (selected), with input guard": {
+   "clean": {
+    "acc": 0.8983333333333333,
+    "flip": 0.0
+   },
+   "sentence: char_repeat": {
+    "acc": 0.8616666666666667,
+    "flip": 0.11333333333333333
+   },
+   "sentence: extra_spacing": {
+    "acc": 0.8633333333333333,
+    "flip": 0.041666666666666664
+   },
+   "sentence: emoji_insert": {
+    "acc": 0.9033333333333333,
+    "flip": 0.008333333333333333
+   },
+   "sentence: punctuation_insert": {
+    "acc": 0.8966666666666666,
+    "flip": 0.018333333333333333
+   },
+   "sentence: capitalization": {
+    "acc": 0.9016666666666666,
+    "flip": 0.0033333333333333335
+   },
+   "sentence: number_substitution": {
+    "acc": 0.8933333333333333,
+    "flip": 0.011666666666666667
+   },
+   "sentence: random_case": {
+    "acc": 0.8983333333333333,
+    "flip": 0.0033333333333333335
+   },
+   "every word: zero-width joiner": {
+    "acc": 0.8983333333333333,
+    "flip": 0.0
+   },
+   "every word: zero-width non-joiner": {
+    "acc": 0.8983333333333333,
+    "flip": 0.0
+   },
+   "every word: letter spacing": {
+    "acc": 0.765,
+    "flip": 0.16333333333333333
+   },
+   "every word: dots between letters": {
+    "acc": 0.89,
+    "flip": 0.021666666666666667
+   },
+   "every word: dashes between letters": {
+    "acc": 0.8883333333333333,
+    "flip": 0.02666666666666667
+   },
+   "every word: emoji inside word": {
+    "acc": 0.905,
+    "flip": 0.02
+   },
+   "every word: emoji wrapped": {
+    "acc": 0.8916666666666667,
+    "flip": 0.04
+   },
+   "every word: char repetition": {
+    "acc": 0.7583333333333333,
+    "flip": 0.21
+   },
+   "every word: leetspeak digits": {
+    "acc": 0.895,
+    "flip": 0.013333333333333334
+   },
+   "every word: star-censored": {
+    "acc": 0.5516666666666666,
+    "flip": 0.49333333333333335
+   },
+   "every word: UPPERCASE": {
+    "acc": 0.8983333333333333,
+    "flip": 0.006666666666666667
+   },
+   "every word: trailing emoji spam": {
+    "acc": 0.9016666666666666,
+    "flip": 0.04
+   },
+   "every word: COMBO (repeat+ZWJ+emoji)": {
+    "acc": 0.7583333333333333,
+    "flip": 0.25
+   }
+  },
+  "XLM-R full FT, raw": {
+   "clean": {
+    "acc": 0.9066666666666666,
+    "flip": 0.0
+   },
+   "sentence: char_repeat": {
+    "acc": 0.7783333333333333,
+    "flip": 0.185
+   },
+   "sentence: extra_spacing": {
+    "acc": 0.775,
+    "flip": 0.165
+   },
+   "sentence: emoji_insert": {
+    "acc": 0.9016666666666666,
+    "flip": 0.011666666666666667
+   },
+   "sentence: punctuation_insert": {
+    "acc": 0.9083333333333333,
+    "flip": 0.018333333333333333
+   },
+   "sentence: capitalization": {
+    "acc": 0.9083333333333333,
+    "flip": 0.0016666666666666668
+   },
+   "sentence: number_substitution": {
+    "acc": 0.9116666666666666,
+    "flip": 0.008333333333333333
+   },
+   "sentence: random_case": {
+    "acc": 0.9083333333333333,
+    "flip": 0.005
+   },
+   "every word: zero-width joiner": {
+    "acc": 0.455,
+    "flip": 0.5116666666666667
+   },
+   "every word: zero-width non-joiner": {
+    "acc": 0.455,
+    "flip": 0.5116666666666667
+   },
+   "every word: letter spacing": {
+    "acc": 0.455,
+    "flip": 0.5116666666666667
+   },
+   "every word: dots between letters": {
+    "acc": 0.5083333333333333,
+    "flip": 0.465
+   },
+   "every word: dashes between letters": {
+    "acc": 0.4866666666666667,
+    "flip": 0.49666666666666665
+   },
+   "every word: emoji inside word": {
+    "acc": 0.655,
+    "flip": 0.345
+   },
+   "every word: emoji wrapped": {
+    "acc": 0.8183333333333334,
+    "flip": 0.16166666666666665
+   },
+   "every word: char repetition": {
+    "acc": 0.57,
+    "flip": 0.4266666666666667
+   },
+   "every word: leetspeak digits": {
+    "acc": 0.9066666666666666,
+    "flip": 0.016666666666666666
+   },
+   "every word: star-censored": {
+    "acc": 0.55,
+    "flip": 0.48333333333333334
+   },
+   "every word: UPPERCASE": {
+    "acc": 0.9083333333333333,
+    "flip": 0.0016666666666666668
+   },
+   "every word: trailing emoji spam": {
+    "acc": 0.8366666666666667,
+    "flip": 0.13666666666666666
+   },
+   "every word: COMBO (repeat+ZWJ+emoji)": {
+    "acc": 0.5066666666666667,
+    "flip": 0.48333333333333334
+   }
+  },
+  "TF-IDF + input guard": {
+   "clean": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "sentence: char_repeat": {
+    "acc": 0.8816666666666667,
+    "flip": 0.055
+   },
+   "sentence: extra_spacing": {
+    "acc": 0.8733333333333333,
+    "flip": 0.04666666666666667
+   },
+   "sentence: emoji_insert": {
+    "acc": 0.8916666666666667,
+    "flip": 0.03166666666666667
+   },
+   "sentence: punctuation_insert": {
+    "acc": 0.895,
+    "flip": 0.021666666666666667
+   },
+   "sentence: capitalization": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "sentence: number_substitution": {
+    "acc": 0.905,
+    "flip": 0.008333333333333333
+   },
+   "sentence: random_case": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "every word: zero-width joiner": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "every word: zero-width non-joiner": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "every word: letter spacing": {
+    "acc": 0.835,
+    "flip": 0.115
+   },
+   "every word: dots between letters": {
+    "acc": 0.8933333333333333,
+    "flip": 0.02666666666666667
+   },
+   "every word: dashes between letters": {
+    "acc": 0.89,
+    "flip": 0.03
+   },
+   "every word: emoji inside word": {
+    "acc": 0.8916666666666667,
+    "flip": 0.025
+   },
+   "every word: emoji wrapped": {
+    "acc": 0.8,
+    "flip": 0.15
+   },
+   "every word: char repetition": {
+    "acc": 0.82,
+    "flip": 0.13666666666666666
+   },
+   "every word: leetspeak digits": {
+    "acc": 0.905,
+    "flip": 0.008333333333333333
+   },
+   "every word: star-censored": {
+    "acc": 0.56,
+    "flip": 0.48333333333333334
+   },
+   "every word: UPPERCASE": {
+    "acc": 0.91,
+    "flip": 0.0
+   },
+   "every word: trailing emoji spam": {
+    "acc": 0.8516666666666667,
+    "flip": 0.085
+   },
+   "every word: COMBO (repeat+ZWJ+emoji)": {
+    "acc": 0.8216666666666667,
+    "flip": 0.12833333333333333
+   }
+  },
+  "XLM-R full FT, with input guard": {
+   "clean": {
+    "acc": 0.9066666666666666,
+    "flip": 0.0
+   },
+   "sentence: char_repeat": {
+    "acc": 0.87,
+    "flip": 0.09666666666666666
+   },
+   "sentence: extra_spacing": {
+    "acc": 0.8866666666666667,
+    "flip": 0.043333333333333335
+   },
+   "sentence: emoji_insert": {
+    "acc": 0.9016666666666666,
+    "flip": 0.011666666666666667
+   },
+   "sentence: punctuation_insert": {
+    "acc": 0.9083333333333333,
+    "flip": 0.018333333333333333
+   },
+   "sentence: capitalization": {
+    "acc": 0.9083333333333333,
+    "flip": 0.0016666666666666668
+   },
+   "sentence: number_substitution": {
+    "acc": 0.9116666666666666,
+    "flip": 0.008333333333333333
+   },
+   "sentence: random_case": {
+    "acc": 0.9083333333333333,
+    "flip": 0.005
+   },
+   "every word: zero-width joiner": {
+    "acc": 0.9066666666666666,
+    "flip": 0.0
+   },
+   "every word: zero-width non-joiner": {
+    "acc": 0.9066666666666666,
+    "flip": 0.0
+   },
+   "every word: letter spacing": {
+    "acc": 0.845,
+    "flip": 0.10833333333333334
+   },
+   "every word: dots between letters": {
+    "acc": 0.9016666666666666,
+    "flip": 0.028333333333333332
+   },
+   "every word: dashes between letters": {
+    "acc": 0.8966666666666666,
+    "flip": 0.02666666666666667
+   },
+   "every word: emoji inside word": {
+    "acc": 0.9,
+    "flip": 0.03
+   },
+   "every word: emoji wrapped": {
+    "acc": 0.8183333333333334,
+    "flip": 0.16166666666666665
+   },
+   "every word: char repetition": {
+    "acc": 0.775,
+    "flip": 0.20833333333333334
+   },
+   "every word: leetspeak digits": {
+    "acc": 0.9066666666666666,
+    "flip": 0.016666666666666666
+   },
+   "every word: star-censored": {
+    "acc": 0.55,
+    "flip": 0.48333333333333334
+   },
+   "every word: UPPERCASE": {
+    "acc": 0.9083333333333333,
+    "flip": 0.0016666666666666668
+   },
+   "every word: trailing emoji spam": {
+    "acc": 0.8366666666666667,
+    "flip": 0.13666666666666666
+   },
+   "every word: COMBO (repeat+ZWJ+emoji)": {
+    "acc": 0.7566666666666667,
+    "flip": 0.22333333333333333
+   }
+  }
+ }
+}

@@ -47,7 +47,7 @@ def main():
         from optimum.onnxruntime.configuration import AutoQuantizationConfig
 
         quantizer = ORTQuantizer.from_pretrained(ort_model)
-        qconfig = AutoQuantizationConfig.avx512_vnni(is_static=False, per_channel=False)
+        qconfig = AutoQuantizationConfig.avx2(is_static=False, per_channel=True)
         quant_dir = args.out_dir + "_int8"
         quantizer.quantize(save_dir=quant_dir, quantization_config=qconfig)
         print(f"Exported int8-quantized ONNX model to {quant_dir}")

@@ -1,0 +1,45 @@
+{
+  "run_name": "full_lr2e-5_e5_s123",
+  "model": "google/muril-base-cased",
+  "method": "full",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 123,
+  "test_accuracy": 0.9022355689022356,
+  "test_precision": 0.9019784276891611,
+  "test_recall": 0.9022743170491025,
+  "test_macro_f1": 0.9021036891232677,
+  "test_weighted_f1": 0.9022535525084585,
+  "val_macro_f1": 0.9024882094649536,
+  "total_params": 237557762,
+  "trainable_params": 237557762,
+  "trainable_pct": 100.0,
+  "training_time_sec": 1168.297615289688,
+  "peak_gpu_memory_mb": 4586.7333984375,
+  "avg_inference_latency_ms": 0.7049310000002151,
+  "throughput_samples_per_sec": 1418.5785559149688,
+  "hyperparams": {
+    "lr": 2e-05,
+    "epochs": 5,
+    "train_bs": 16,
+    "max_length": 96,
+    "lora_r": 8,
+    "lora_alpha": 64,
+    "lora_dropout": 0.05,
+    "target_modules": "query,value",
+    "lr_scheduler": "cosine",
+    "early_stop_patience": 3,
+    "use_dora": false,
+    "best_epoch": 4.0
+  },
+  "confusion_matrix": [
+    [
+      1297,
+      139
+    ],
+    [
+      154,
+      1407
+    ]
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "run_name": "bert-base-multilingual-cased_lora_r8_a64_lr2e-4_e10_s42",
+  "model": "bert-base-multilingual-cased",
+  "method": "lora",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 42,
+  "test_accuracy": 0.8962295628962296,
+  "test_precision": 0.8977913504485198,
+  "test_recall": 0.8977913504485198,
+  "test_macro_f1": 0.8962295628962296,
+  "test_weighted_f1": 0.8962295628962296,
+  "val_macro_f1": 0.8988759054222977,
+  "total_params": 178151428,
+  "trainable_params": 296450,
+  "trainable_pct": 0.1664033812852738,
+  "training_time_sec": 715.3104407787323,
+  "peak_gpu_memory_mb": 1365.73046875,
+  "avg_inference_latency_ms": 1.1413240000001679,
+  "throughput_samples_per_sec": 876.1753892845966,
+  "hyperparams": {
+    "lr": 0.0002,
+    "epochs": 10,
+    "train_bs": 16,
+    "max_length": 96,
+    "lora_r": 8,
+    "lora_alpha": 64,
+    "lora_dropout": 0.05,
+    "target_modules": "query,value",
+    "lr_scheduler": "cosine",
+    "early_stop_patience": 3,
+    "use_dora": false,
+    "best_epoch": 5.0
+  },
+  "confusion_matrix": [
+    [
+      1343,
+      93
+    ],
+    [
+      218,
+      1343
+    ]
+  ]
+}

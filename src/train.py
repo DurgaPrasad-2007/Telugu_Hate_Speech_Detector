@@ -51,6 +51,8 @@ from transformers import (
     AutoModelForSequenceClassification,
     TrainingArguments,
     Trainer,
+    TrainerCallback,
+    EarlyStoppingCallback,
     DataCollatorWithPadding,
     BitsAndBytesConfig,
     set_seed,
@@ -60,7 +62,16 @@ from transformers import (
 PEFT_METHODS = {"lora", "qlora", "adalora", "dora", "ia3"}
 
 
-def build_peft_config(method: str, args):
+class AdaLoraAllocCallback(TrainerCallback):
+    """AdaLoRA only reallocates rank when update_and_allocate(step) is called once per optimizer step.
+    The orthogonal regularisation is already added inside AdaLoraModel.forward (do not duplicate it)."""
+
+    def on_pre_optimizer_step(self, args, state, control, model=None, **kwargs):
+        if model is not None and hasattr(model, "base_model") and hasattr(model.base_model, "update_and_allocate"):
+            model.base_model.update_and_allocate(state.global_step)
+
+
+def build_peft_config(method: str, args, total_steps: int):
     from peft import LoraConfig, AdaLoraConfig, IA3Config, TaskType
 
     if method in {"lora", "qlora", "dora"}:
@@ -80,14 +91,15 @@ def build_peft_config(method: str, args):
             lora_alpha=args.lora_alpha,
             lora_dropout=args.lora_dropout,
             target_modules=args.target_modules.split(","),
-            init_r=args.lora_r,
-            tinit=args.adalora_tinit,
-            tfinal=args.adalora_tfinal,
-            deltaT=args.adalora_deltaT,
+            init_r=args.lora_r * 3 // 2,
+            target_r=args.lora_r,
+            tinit=int(0.1 * total_steps),
+            tfinal=int(0.2 * total_steps),
+            deltaT=10,
             beta1=0.85,
             beta2=0.85,
             orth_reg_weight=0.5,
-            total_step=args.adalora_total_step,
+            total_step=total_steps,
         )
     elif method == "ia3":
         # IA3 scales q/v and the feedforward output projection.
@@ -144,10 +156,8 @@ def main():
     p.add_argument("--target_modules", default=None,
                     help="Comma-separated module names; if unset, resolved from configs/targets.json by --model (docs/RESEARCH_REVIEW.md sec 2)")
     p.add_argument("--ia3_feedforward_modules", default="dense")
-    p.add_argument("--adalora_tinit", type=int, default=100)
-    p.add_argument("--adalora_tfinal", type=int, default=500)
-    p.add_argument("--adalora_deltaT", type=int, default=10)
-    p.add_argument("--adalora_total_step", type=int, default=1000)
+    p.add_argument("--lr_scheduler", default="cosine")
+    p.add_argument("--early_stop_patience", type=int, default=0, help="0 = off")
     p.add_argument("--output_root", default="results")
     p.add_argument("--run_name", default=None)
     p.add_argument("--fp16", action="store_true", default=None)
@@ -156,15 +166,16 @@ def main():
     set_seed(args.seed)
 
     if args.target_modules is None:
-        import json
         targets_path = os.path.join(os.path.dirname(__file__), "..", "configs", "targets.json")
         with open(targets_path, encoding="utf-8") as f:
             targets_cfg = json.load(f)
         if args.model in targets_cfg:
             args.target_modules = ",".join(targets_cfg[args.model])
-        else:
+        elif "bert" in args.model.lower():
             print(f"[train] WARNING: {args.model} not in configs/targets.json, falling back to 'query,value' -- verify via named_modules() before trusting these results")
             args.target_modules = "query,value"
+        else:
+            raise SystemExit(f"{args.model} not in configs/targets.json and not BERT-style; pass --target_modules explicitly")
 
     if args.lr is None:
         args.lr = 2e-5 if args.method == "full" else 1e-4
@@ -190,12 +201,18 @@ def main():
         eval_ds = load_dataset_dict(domain=args.eval_domain, preprocess=args.preprocess)
         eval_test_tok = eval_ds["test"].map(tok_fn, batched=True, remove_columns=["text"])
 
+    # transformers 5.17.0 dropped TrainingArguments.warmup_ratio (verified via
+    # inspect.signature) -- compute warmup_steps (10% of total steps) instead.
+    steps_per_epoch = max(1, len(ds_tok["train"]) // (args.train_bs * args.grad_accum))
+    total_steps = steps_per_epoch * args.epochs
+    warmup_steps = max(1, int(0.1 * total_steps))
+
     # ---- Model ----
     model = load_model(args.method, args.model)
 
     if args.method in PEFT_METHODS:
         from peft import get_peft_model
-        peft_config = build_peft_config(args.method, args)
+        peft_config = build_peft_config(args.method, args, total_steps)
         model = get_peft_model(model, peft_config)
         model.print_trainable_parameters()
 
@@ -206,12 +223,6 @@ def main():
     # QLoRA already loads in 4-bit; fp16 flag on TrainingArguments is unnecessary/conflicting there.
     if args.method == "qlora":
         use_fp16 = False
-
-    # transformers 5.17.0 dropped TrainingArguments.warmup_ratio (verified via
-    # inspect.signature) -- compute warmup_steps (10% of total steps) instead.
-    steps_per_epoch = max(1, len(ds_tok["train"]) // (args.train_bs * args.grad_accum))
-    total_steps = steps_per_epoch * args.epochs
-    warmup_steps = max(1, int(0.1 * total_steps))
 
     training_args = TrainingArguments(
         output_dir=os.path.join(out_dir, "checkpoints"),
@@ -225,7 +236,7 @@ def main():
         num_train_epochs=args.epochs,
         weight_decay=0.01,
         warmup_steps=warmup_steps,
-        lr_scheduler_type="cosine",
+        lr_scheduler_type=args.lr_scheduler,
         load_best_model_at_end=True,
         metric_for_best_model="macro_f1",
         greater_is_better=True,
@@ -235,6 +246,12 @@ def main():
         seed=args.seed,
     )
 
+    callbacks = []
+    if args.method == "adalora":
+        callbacks.append(AdaLoraAllocCallback())
+    if args.early_stop_patience > 0:
+        callbacks.append(EarlyStoppingCallback(early_stopping_patience=args.early_stop_patience))
+
     trainer = Trainer(
         model=model,
         args=training_args,
@@ -243,12 +260,19 @@ def main():
         processing_class=tokenizer,
         data_collator=DataCollatorWithPadding(tokenizer=tokenizer),
         compute_metrics=compute_metrics,
+        callbacks=callbacks,
     )
 
     with GPUMemoryTracker() as mem:
         trainer.train()
     training_time_sec = mem.elapsed_sec
     peak_memory_mb = mem.peak_memory_mb
+
+    with open(os.path.join(out_dir, "log_history.json"), "w") as f:
+        json.dump(trainer.state.log_history, f, indent=2)
+    eval_logs = [e for e in trainer.state.log_history if "eval_macro_f1" in e]
+    best_epoch = next((e.get("epoch") for e in eval_logs
+                       if e["eval_macro_f1"] == trainer.state.best_metric), None)
 
     # ---- Test evaluation ----
     test_results = trainer.evaluate(eval_test_tok)
@@ -310,7 +334,10 @@ def main():
         "hyperparams": {
             "lr": args.lr, "epochs": args.epochs, "train_bs": args.train_bs,
             "max_length": args.max_length, "lora_r": args.lora_r,
-            "lora_alpha": args.lora_alpha, "target_modules": args.target_modules,
+            "lora_alpha": args.lora_alpha, "lora_dropout": args.lora_dropout,
+            "target_modules": args.target_modules, "lr_scheduler": args.lr_scheduler,
+            "early_stop_patience": args.early_stop_patience,
+            "use_dora": args.method == "dora", "best_epoch": best_epoch,
         },
         "confusion_matrix": cm.tolist(),
     }

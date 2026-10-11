@@ -1,71 +1,54 @@
-# Progress snapshot — COMPLETE, demo-ready
+# Progress
 
-See `docs/FINAL_REPORT.md` for the full write-up with real numbers.
+Current state of the project, as of 2026-10-11. The model card is [docs/MODEL_CARD.md](docs/MODEL_CARD.md).
 
-## Done, verified
-- Label semantics resolved by hash-matching against upstream
-  `ShareChatAI/MACD` (`src/data_utils.py` `RAW_LABEL_MAP`,
-  `docs/RESEARCH_REVIEW.md`). Train->val/test leakage filtered at load
-  time (no CSV edits).
-- Backbone comparison (full fine-tune, telugu): MuRIL 0.9045 test
-  macro-F1 (val backfilled 0.9029), XLM-R 0.9042 test / 0.9010 val macro-F1.
-- PEFT sweep on MuRIL, all 5 methods run: LoRA (0.8676 test),
-  QLoRA (0.8701 test), DoRA (0.8628 test), IA3 (0.7261 test),
-  AdaLoRA (0.3425 test, collapsed — reported as-is). All underperformed
-  full fine-tune.
-- **Winner** (`src/finalize.py`, picked by validation macro-F1):
-  `baseline__muril__full__telugu` — val 0.9029 / test 0.9045 macro-F1 (a tie with XLM-R;
-  MuRIL's val score was backfilled, see docs/FINAL_REPORT.md section 4). XLM-R artifacts: `results/xlmr_reference/`.
-  `configs/policy.json` written (low=0.45, high=0.50).
-- Calibration done (MuRIL): T=1.216, ECE 0.0374->0.0141 (`results/calibration.json`).
-- Robustness done: fragile to char-repeat/extra-spacing (~15% flip rate),
-  robust to case/punctuation/emoji/digit obfuscation
-  (`results/robustness_results_summary.json`, `docs/ROBUSTNESS.md`).
-- Error analysis done: 9.51% test error rate, 60 hand-read, 4 real
-  failure modes documented (`results/error_analysis.csv`,
-  `docs/ERROR_ANALYSIS.md`).
-- ONNX export + benchmark done: int8 CPU inference 7.6ms/sample (132/s),
-  ~3.2x speedup over CPU fp32 (`onnx_model/`, `onnx_model_int8/`,
-  `results/benchmark_results.json`).
-- `src/serve.py` (FastAPI) and `app.py` (Streamlit) tested live against
-  the winning model: /health, /readyz, /version, /predict (including
-  empty/whitespace/oversized-batch edge cases) all verified; Streamlit
-  starts and serves without error.
-- Smoke test (`tests/smoke_test.py`) passes end-to-end.
-- All docs filled with real measured numbers: `docs/MODEL_CARD.md`,
-  `docs/DEPLOYMENT.md`, `docs/ERROR_ANALYSIS.md`, `docs/ROBUSTNESS.md`,
-  `docs/FINAL_REPORT.md`.
+## Current model
+- `FacebookAI/xlm-roberta-base` + LoRA (r=8, alpha=64) in `models/best/`.
+- Run `xlm-roberta-base_lora_r8_a64_lr2e-4_e10_s2024`: val macro-F1 0.9073, test 0.9042.
+- Configuration mean over 3 seeds: val 0.9035 ± 0.0043, test 0.9035 ± 0.0033.
+- Selected by validation-only tie-set rule (`results/study/selection.md`). Knife-edge: margin
+  0.0005 over the tie threshold.
 
-## Scope cut (documented, not hidden)
-- Only 2 backbones compared (MuRIL, XLM-R), not the full 4-5 in the
-  original spec (mBERT/IndicBERT skipped) — time budget.
-- Multi-seed study and cross-domain transfer (telugu<->codemixed) not
-  run this session.
-- `src/run_experiments.py`'s full 5x5x5 grid was never run wholesale;
-  the hand-driven reduced matrix above is what's real — say so in any
-  presentation rather than claim the full matrix ran.
+## Done
+- Pure Telugu study: LoRA vs full FT, DoRA, AdaLoRA, backbones (XLM-R, MuRIL, mBERT, IndicBERTv2),
+  rank x alpha grid, learning-rate ablation. See `docs/PEFT_STUDY_REPORT.md`.
+- Selection (`src/select_best.py`), calibration (T = 1.334, ECE 0.0353 -> 0.0129),
+  policy (`configs/policy.json`: low 0.45, high 0.50; block precision 0.9277, recall 0.8973 on validation).
+- Export: fp32 PyTorch (merged), fp32 ONNX, INT8 ONNX (dynamic, per-channel) under `results/final_best/`.
+  INT8 val 0.8995 / test 0.8926. Latency on the development PC only.
+- Robustness and obfuscation tests regenerated on 2026-10-11 (`results/robustness_results_summary.json`,
+  `results/stress_test_summary.json`). The stress script's default model path is the old MuRIL one,
+  so confirm which model each file was run with.
+- Docs refreshed: README, `docs/MODEL_CARD.md`, `docs/DEPLOYMENT.md`, `docs/FINAL_REPORT.md`.
+- `onnx_model_muril_int8/` marked deprecated (`DEPRECATED.md`). Its files are kept.
 
-## Live logging (for the demo)
-`streamlit run app.py` prints a step-by-step trace to the terminal for every
-Analyze click: input (masked), anti-obfuscation fixes, tokenization, logits,
-raw vs calibrated probability, policy decision, per-word occlusion drops and
-which words were hidden. INFO logs show masked text only; `LOG_RAW=1` also
-prints raw input, `LOG_LEVEL=WARNING` silences it.
-Stress test: `python src/stress_test.py` (real model, real test data).
+## Removed or withdrawn
+- Code-mixed CSVs removed from `data/`. Code-mixed results (including the 0.76 zero-shot figure)
+  are withdrawn. Code-mixed performance was not evaluated in this study.
+- MuRIL full-FT winner and its ONNX/INT8 exports removed from disk; metrics remain.
 
-## How to demo
+## Open items
+- `render.yaml` and `README` deploy path still point to `onnx_model_muril_int8` (deprecated). Needs a
+  decision: commit a working INT8 model (e.g. `results/final_best/onnx_int8`) or serve `models/best`.
+- Dockerfile and docker-compose now point `MODEL_DIR` at `/app/models/best` (copied or mounted from `models/`).
+  Not built or run in this pass. The base model still downloads from the Hub at runtime.
+- `.gitignore` excludes `*.safetensors`, so `models/best/adapter_model.safetensors` will not be committed
+  unless the rule is changed.
+- `results/final_best/` is not in `.gitignore`.
+- `docs/ARCHITECTURE.md`: says `max_length` defaults to 256 (code: 96), that `serve.py` defaults to a
+  broken path (code: `models/best`), and that `results/final_best/` does not exist (it does).
+- `docs/PEFT_STUDY_REPORT.md` section 6 and 8 still describe the older `results/final_lora` export.
+- `docs/ERROR_ANALYSIS.md`, `docs/ROBUSTNESS.md`, `docs/RESEARCH_REVIEW.md` have not been re-checked against
+  the selected model.
+- `src/infer.py` docstring still says "code-mixed".
+- `src/data_utils.py` and `src/train.py` still reference code-mixed domains (files are absent).
+- Robustness and stress results: the high false-block rates (star-censored 99%, combined morph 34%) need checking.
+- Memory of the selected model is not measured.
+- `docs/PAPER_ALIGNMENT.md` does not exist in this repository.
+
+## How to run
 ```bash
-# CLI inference
-python src/infer.py --model_dir results/baseline__muril__full__telugu/model --text "..."
-
-# API
-MODEL_DIR=results/baseline__muril__full__telugu/model uvicorn src.serve:app --port 8000
-curl localhost:8000/readyz
-curl -X POST localhost:8000/predict -H "content-type: application/json" -d '{"texts":["..."]}'
-
-# UI (Predict / Batch CSV / Model Info / Metrics Dashboard / Error Explorer / Robustness Playground)
-MODEL_DIR=results/baseline__muril__full__telugu/model streamlit run app.py
+python src/infer.py --model_dir models/best --text "..."
+MODEL_DIR=models/best uvicorn src.serve:app --port 8000
+streamlit run app.py
 ```
-Walk the professor through `docs/FINAL_REPORT.md` for the numbers and
-`docs/RESEARCH_REVIEW.md` for the label-semantics verification work —
-that's the most defensible/rigorous part of the project.

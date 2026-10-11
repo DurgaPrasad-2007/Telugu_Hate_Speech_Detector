@@ -1,0 +1,19 @@
+{
+  "model": "models\\tfidf\\tfidf_best.joblib",
+  "fit_on": "telugu validation split only (raw text, same guard as inference)",
+  "n_val": 2998,
+  "platt": {
+    "coef": 3.7042159701094475,
+    "intercept": 0.09489600205804638
+  },
+  "thresholds": {
+    "low": 0.45,
+    "high": 0.5
+  },
+  "min_block_precision": 0.9,
+  "validation": {
+    "block_precision": 0.9180432020330368,
+    "block_recall": 0.8941831683168316,
+    "review_pct": 0.013008672448298866
+  }
+}

@@ -2,7 +2,7 @@ services:
   - type: web
     name: telugu-abuse-detector
     runtime: python
-    plan: starter             # 512MB-1GB RAM is plenty for INT8 ONNX (runs in ~250MB RAM)
+    plan: standard            # XLM-R INT8 ONNX is ~280MB on disk; RAM use not measured - check before choosing a smaller plan
     buildCommand: pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements-deploy.txt
     startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
     healthCheckPath: /_stcore/health
@@ -10,4 +10,4 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: MODEL_DIR
-        value: onnx_model_muril_int8
+        value: models/best   # LoRA adapter; base xlm-roberta-base downloads from HF on first start

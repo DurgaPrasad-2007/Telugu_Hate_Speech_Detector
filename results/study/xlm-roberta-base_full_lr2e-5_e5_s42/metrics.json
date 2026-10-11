@@ -1,0 +1,45 @@
+{
+  "run_name": "xlm-roberta-base_full_lr2e-5_e5_s42",
+  "model": "FacebookAI/xlm-roberta-base",
+  "method": "full",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 42,
+  "test_accuracy": 0.9052385719052386,
+  "test_precision": 0.9049878519046877,
+  "test_recall": 0.9052686121852466,
+  "test_macro_f1": 0.9051084051084051,
+  "test_weighted_f1": 0.9052549893390734,
+  "val_macro_f1": 0.904426634189567,
+  "total_params": 278045186,
+  "trainable_params": 278045186,
+  "trainable_pct": 100.0,
+  "training_time_sec": 1687.4375112056732,
+  "peak_gpu_memory_mb": 5358.87548828125,
+  "avg_inference_latency_ms": 1.0073209999973187,
+  "throughput_samples_per_sec": 992.7322075114703,
+  "hyperparams": {
+    "lr": 2e-05,
+    "epochs": 5,
+    "train_bs": 16,
+    "max_length": 96,
+    "lora_r": 8,
+    "lora_alpha": 64,
+    "lora_dropout": 0.05,
+    "target_modules": "query,value",
+    "lr_scheduler": "cosine",
+    "early_stop_patience": 3,
+    "use_dora": false,
+    "best_epoch": 5.0
+  },
+  "confusion_matrix": [
+    [
+      1301,
+      135
+    ],
+    [
+      149,
+      1412
+    ]
+  ]
+}
