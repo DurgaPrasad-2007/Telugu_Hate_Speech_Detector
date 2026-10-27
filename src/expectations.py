@@ -78,7 +78,7 @@ def _usage(c):
             "Original multilingual BERT (104 Wikipedia languages): the classic cross-lingual baseline.",
             lora + common),
         "IndicBERTv2 LoRA (E7)": (
-            "BERT pretrained on Indic-language corpora (23 languages incl. Telugu) for Indian-language tasks.",
+            "BERT pretrained on Indic-language corpora (IndicCorp v2, 24 languages incl. Telugu) for Indian-language tasks.",
             "Original IndicBERT is gated, so IndicBERTv2-MLM-only was used. " + lora + common),
         "MuRIL full fine-tune / LoRA": (
             "Google's BERT pretrained on 17 Indian languages incl. transliterated text; the natural choice for Telugu.",
@@ -188,7 +188,7 @@ def build_rows():
         "Inconclusive")
     add("INT8 ONNX export",
         "A small accuracy loss for a 4x smaller CPU model.",
-        "Per-tensor INT8 collapsed (0.63 on the selected model; 0.37 on the previously committed MuRIL file). "
+        "Per-tensor INT8 collapsed (0.63 on the MuRIL LoRA export; 0.37 on the previously committed MuRIL file). "
         "Per-channel INT8 costs about 1.2 points of test macro-F1.",
         "Failed first, fixed after")
     use = _usage(_cfg())

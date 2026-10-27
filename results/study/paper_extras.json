@@ -1,0 +1,520 @@
+{
+ "n_test": 2997,
+ "check_macro_f1": {
+  "lora": 0.9042,
+  "full": 0.9092,
+  "dora": 0.9046,
+  "muril_lora": 0.9018,
+  "tfidf": 0.9029
+ },
+ "slices": {
+  "1-5 words": {
+   "n": 814,
+   "abusive_share": 0.402,
+   "lora": 0.8971,
+   "full": 0.9,
+   "tfidf": 0.9011
+  },
+  "6-10 words": {
+   "n": 976,
+   "abusive_share": 0.468,
+   "lora": 0.903,
+   "full": 0.9104,
+   "tfidf": 0.907
+  },
+  "11-20 words": {
+   "n": 729,
+   "abusive_share": 0.586,
+   "lora": 0.8939,
+   "full": 0.8977,
+   "tfidf": 0.8882
+  },
+  "over 20 words": {
+   "n": 478,
+   "abusive_share": 0.732,
+   "lora": 0.902,
+   "full": 0.9106,
+   "tfidf": 0.8874
+  },
+  "contains emoji": {
+   "n": 1178,
+   "abusive_share": 0.533,
+   "lora": 0.9294,
+   "full": 0.9344,
+   "tfidf": 0.9252
+  },
+  "contains Latin letters": {
+   "n": 616,
+   "abusive_share": 0.646,
+   "lora": 0.9103,
+   "full": 0.9003,
+   "tfidf": 0.9081
+  },
+  "Telugu script only": {
+   "n": 2381,
+   "abusive_share": 0.488,
+   "lora": 0.9007,
+   "full": 0.9096,
+   "tfidf": 0.8998
+  }
+ },
+ "errors": {
+  "lora": 287,
+  "full": 272,
+  "dora": 286,
+  "muril_lora": 294,
+  "tfidf": 291
+ },
+ "all_five_wrong": 122,
+ "all_five_wrong_share_of_lora_errors": 0.425,
+ "all_five_wrong_by_gold": {
+  "gold_abusive": 86,
+  "gold_non_abusive": 36
+ },
+ "lora_tfidf_error_jaccard": 0.449,
+ "lora_full_error_jaccard": 0.602,
+ "oracle_any_correct_acc": 0.9593,
+ "error_confidence": {
+  "n_errors": 290,
+  "conf_ge_0.9": 101,
+  "conf_lt_0.6": 32,
+  "false_negatives": 178,
+  "false_positives": 112
+ },
+ "calibration": {
+  "temperature": 1.334395170211792,
+  "before": [
+   {
+    "lo": 0.0,
+    "hi": 0.1,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.1,
+    "hi": 0.2,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.2,
+    "hi": 0.30000000000000004,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.30000000000000004,
+    "hi": 0.4,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.4,
+    "hi": 0.5,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.5,
+    "hi": 0.6000000000000001,
+    "n": 97,
+    "acc": 0.6597938144329897,
+    "conf": 0.5491876602172852
+   },
+   {
+    "lo": 0.6000000000000001,
+    "hi": 0.7000000000000001,
+    "n": 98,
+    "acc": 0.6428571428571429,
+    "conf": 0.6493239402770996
+   },
+   {
+    "lo": 0.7000000000000001,
+    "hi": 0.8,
+    "n": 153,
+    "acc": 0.6797385620915033,
+    "conf": 0.7555747628211975
+   },
+   {
+    "lo": 0.8,
+    "hi": 0.9,
+    "n": 292,
+    "acc": 0.7671232876712328,
+    "conf": 0.8572514057159424
+   },
+   {
+    "lo": 0.9,
+    "hi": 1.0,
+    "n": 2358,
+    "acc": 0.9609838846480068,
+    "conf": 0.9849888682365417
+   }
+  ],
+  "after": [
+   {
+    "lo": 0.0,
+    "hi": 0.1,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.1,
+    "hi": 0.2,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.2,
+    "hi": 0.30000000000000004,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.30000000000000004,
+    "hi": 0.4,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.4,
+    "hi": 0.5,
+    "n": 0,
+    "acc": null,
+    "conf": null
+   },
+   {
+    "lo": 0.5,
+    "hi": 0.6000000000000001,
+    "n": 137,
+    "acc": 0.656934306569343,
+    "conf": 0.5518856644630432
+   },
+   {
+    "lo": 0.6000000000000001,
+    "hi": 0.7000000000000001,
+    "n": 134,
+    "acc": 0.6417910447761194,
+    "conf": 0.6575427651405334
+   },
+   {
+    "lo": 0.7000000000000001,
+    "hi": 0.8,
+    "n": 231,
+    "acc": 0.7186147186147186,
+    "conf": 0.7540894746780396
+   },
+   {
+    "lo": 0.8,
+    "hi": 0.9,
+    "n": 397,
+    "acc": 0.8236775818639799,
+    "conf": 0.8546262383460999
+   },
+   {
+    "lo": 0.9,
+    "hi": 1.0,
+    "n": 2099,
+    "acc": 0.977608384945212,
+    "conf": 0.9784058332443237
+   }
+  ]
+ },
+ "threshold_curve": {
+  "low": 0.45,
+  "rows": [
+   {
+    "high": 0.5,
+    "block_precision": 0.9277,
+    "block_recall": 0.8973,
+    "review_pct": 0.0107
+   },
+   {
+    "high": 0.525,
+    "block_precision": 0.9303,
+    "block_recall": 0.8917,
+    "review_pct": 0.0153
+   },
+   {
+    "high": 0.55,
+    "block_precision": 0.9348,
+    "block_recall": 0.8874,
+    "review_pct": 0.0203
+   },
+   {
+    "high": 0.575,
+    "block_precision": 0.9369,
+    "block_recall": 0.8818,
+    "review_pct": 0.0247
+   },
+   {
+    "high": 0.6,
+    "block_precision": 0.9401,
+    "block_recall": 0.8744,
+    "review_pct": 0.0307
+   },
+   {
+    "high": 0.625,
+    "block_precision": 0.9425,
+    "block_recall": 0.8719,
+    "review_pct": 0.0334
+   },
+   {
+    "high": 0.65,
+    "block_precision": 0.9452,
+    "block_recall": 0.8651,
+    "review_pct": 0.0387
+   },
+   {
+    "high": 0.675,
+    "block_precision": 0.9481,
+    "block_recall": 0.8595,
+    "review_pct": 0.0434
+   },
+   {
+    "high": 0.7,
+    "block_precision": 0.9504,
+    "block_recall": 0.8546,
+    "review_pct": 0.0474
+   },
+   {
+    "high": 0.725,
+    "block_precision": 0.9519,
+    "block_recall": 0.8453,
+    "review_pct": 0.0534
+   },
+   {
+    "high": 0.75,
+    "block_precision": 0.9549,
+    "block_recall": 0.8379,
+    "review_pct": 0.059
+   },
+   {
+    "high": 0.775,
+    "block_precision": 0.9593,
+    "block_recall": 0.8304,
+    "review_pct": 0.0654
+   },
+   {
+    "high": 0.8,
+    "block_precision": 0.9616,
+    "block_recall": 0.8224,
+    "review_pct": 0.071
+   },
+   {
+    "high": 0.825,
+    "block_precision": 0.9667,
+    "block_recall": 0.8094,
+    "review_pct": 0.0807
+   },
+   {
+    "high": 0.85,
+    "block_precision": 0.9704,
+    "block_recall": 0.7908,
+    "review_pct": 0.0927
+   },
+   {
+    "high": 0.875,
+    "block_precision": 0.9767,
+    "block_recall": 0.7772,
+    "review_pct": 0.1031
+   },
+   {
+    "high": 0.9,
+    "block_precision": 0.984,
+    "block_recall": 0.7599,
+    "review_pct": 0.1157
+   },
+   {
+    "high": 0.925,
+    "block_precision": 0.9875,
+    "block_recall": 0.7345,
+    "review_pct": 0.1311
+   },
+   {
+    "high": 0.95,
+    "block_precision": 0.9904,
+    "block_recall": 0.7017,
+    "review_pct": 0.1501
+   }
+  ]
+ },
+ "per_attack": {
+  "clean": {
+   "TF-IDF + LinearSVC": 0.91,
+   "XLM-R LoRA (selected), raw": 0.897,
+   "XLM-R LoRA (selected), with input guard": 0.898,
+   "XLM-R full FT, raw": 0.907,
+   "TF-IDF + input guard": 0.91,
+   "XLM-R full FT, with input guard": 0.907
+  },
+  "sentence: char_repeat": {
+   "TF-IDF + LinearSVC": 0.832,
+   "XLM-R LoRA (selected), raw": 0.767,
+   "XLM-R LoRA (selected), with input guard": 0.862,
+   "XLM-R full FT, raw": 0.778,
+   "TF-IDF + input guard": 0.882,
+   "XLM-R full FT, with input guard": 0.87
+  },
+  "sentence: extra_spacing": {
+   "TF-IDF + LinearSVC": 0.79,
+   "XLM-R LoRA (selected), raw": 0.763,
+   "XLM-R LoRA (selected), with input guard": 0.863,
+   "XLM-R full FT, raw": 0.775,
+   "TF-IDF + input guard": 0.873,
+   "XLM-R full FT, with input guard": 0.887
+  },
+  "sentence: emoji_insert": {
+   "TF-IDF + LinearSVC": 0.892,
+   "XLM-R LoRA (selected), raw": 0.902,
+   "XLM-R LoRA (selected), with input guard": 0.903,
+   "XLM-R full FT, raw": 0.902,
+   "TF-IDF + input guard": 0.892,
+   "XLM-R full FT, with input guard": 0.902
+  },
+  "sentence: punctuation_insert": {
+   "TF-IDF + LinearSVC": 0.893,
+   "XLM-R LoRA (selected), raw": 0.897,
+   "XLM-R LoRA (selected), with input guard": 0.897,
+   "XLM-R full FT, raw": 0.908,
+   "TF-IDF + input guard": 0.895,
+   "XLM-R full FT, with input guard": 0.908
+  },
+  "sentence: capitalization": {
+   "TF-IDF + LinearSVC": 0.91,
+   "XLM-R LoRA (selected), raw": 0.902,
+   "XLM-R LoRA (selected), with input guard": 0.902,
+   "XLM-R full FT, raw": 0.908,
+   "TF-IDF + input guard": 0.91,
+   "XLM-R full FT, with input guard": 0.908
+  },
+  "sentence: number_substitution": {
+   "TF-IDF + LinearSVC": 0.903,
+   "XLM-R LoRA (selected), raw": 0.89,
+   "XLM-R LoRA (selected), with input guard": 0.893,
+   "XLM-R full FT, raw": 0.912,
+   "TF-IDF + input guard": 0.905,
+   "XLM-R full FT, with input guard": 0.912
+  },
+  "sentence: random_case": {
+   "TF-IDF + LinearSVC": 0.91,
+   "XLM-R LoRA (selected), raw": 0.897,
+   "XLM-R LoRA (selected), with input guard": 0.898,
+   "XLM-R full FT, raw": 0.908,
+   "TF-IDF + input guard": 0.91,
+   "XLM-R full FT, with input guard": 0.908
+  },
+  "every word: zero-width joiner": {
+   "TF-IDF + LinearSVC": 0.688,
+   "XLM-R LoRA (selected), raw": 0.458,
+   "XLM-R LoRA (selected), with input guard": 0.898,
+   "XLM-R full FT, raw": 0.455,
+   "TF-IDF + input guard": 0.91,
+   "XLM-R full FT, with input guard": 0.907
+  },
+  "every word: zero-width non-joiner": {
+   "TF-IDF + LinearSVC": 0.45,
+   "XLM-R LoRA (selected), raw": 0.458,
+   "XLM-R LoRA (selected), with input guard": 0.898,
+   "XLM-R full FT, raw": 0.455,
+   "TF-IDF + input guard": 0.91,
+   "XLM-R full FT, with input guard": 0.907
+  },
+  "every word: letter spacing": {
+   "TF-IDF + LinearSVC": 0.608,
+   "XLM-R LoRA (selected), raw": 0.458,
+   "XLM-R LoRA (selected), with input guard": 0.765,
+   "XLM-R full FT, raw": 0.455,
+   "TF-IDF + input guard": 0.835,
+   "XLM-R full FT, with input guard": 0.845
+  },
+  "every word: dots between letters": {
+   "TF-IDF + LinearSVC": 0.477,
+   "XLM-R LoRA (selected), raw": 0.48,
+   "XLM-R LoRA (selected), with input guard": 0.89,
+   "XLM-R full FT, raw": 0.508,
+   "TF-IDF + input guard": 0.893,
+   "XLM-R full FT, with input guard": 0.902
+  },
+  "every word: dashes between letters": {
+   "TF-IDF + LinearSVC": 0.453,
+   "XLM-R LoRA (selected), raw": 0.515,
+   "XLM-R LoRA (selected), with input guard": 0.888,
+   "XLM-R full FT, raw": 0.487,
+   "TF-IDF + input guard": 0.89,
+   "XLM-R full FT, with input guard": 0.897
+  },
+  "every word: emoji inside word": {
+   "TF-IDF + LinearSVC": 0.46,
+   "XLM-R LoRA (selected), raw": 0.758,
+   "XLM-R LoRA (selected), with input guard": 0.905,
+   "XLM-R full FT, raw": 0.655,
+   "TF-IDF + input guard": 0.892,
+   "XLM-R full FT, with input guard": 0.9
+  },
+  "every word: emoji wrapped": {
+   "TF-IDF + LinearSVC": 0.8,
+   "XLM-R LoRA (selected), raw": 0.89,
+   "XLM-R LoRA (selected), with input guard": 0.892,
+   "XLM-R full FT, raw": 0.818,
+   "TF-IDF + input guard": 0.8,
+   "XLM-R full FT, with input guard": 0.818
+  },
+  "every word: char repetition": {
+   "TF-IDF + LinearSVC": 0.493,
+   "XLM-R LoRA (selected), raw": 0.643,
+   "XLM-R LoRA (selected), with input guard": 0.758,
+   "XLM-R full FT, raw": 0.57,
+   "TF-IDF + input guard": 0.82,
+   "XLM-R full FT, with input guard": 0.775
+  },
+  "every word: leetspeak digits": {
+   "TF-IDF + LinearSVC": 0.903,
+   "XLM-R LoRA (selected), raw": 0.893,
+   "XLM-R LoRA (selected), with input guard": 0.895,
+   "XLM-R full FT, raw": 0.907,
+   "TF-IDF + input guard": 0.905,
+   "XLM-R full FT, with input guard": 0.907
+  },
+  "every word: star-censored": {
+   "TF-IDF + LinearSVC": 0.558,
+   "XLM-R LoRA (selected), raw": 0.552,
+   "XLM-R LoRA (selected), with input guard": 0.552,
+   "XLM-R full FT, raw": 0.55,
+   "TF-IDF + input guard": 0.56,
+   "XLM-R full FT, with input guard": 0.55
+  },
+  "every word: UPPERCASE": {
+   "TF-IDF + LinearSVC": 0.91,
+   "XLM-R LoRA (selected), raw": 0.897,
+   "XLM-R LoRA (selected), with input guard": 0.898,
+   "XLM-R full FT, raw": 0.908,
+   "TF-IDF + input guard": 0.91,
+   "XLM-R full FT, with input guard": 0.908
+  },
+  "every word: trailing emoji spam": {
+   "TF-IDF + LinearSVC": 0.852,
+   "XLM-R LoRA (selected), raw": 0.9,
+   "XLM-R LoRA (selected), with input guard": 0.902,
+   "XLM-R full FT, raw": 0.837,
+   "TF-IDF + input guard": 0.852,
+   "XLM-R full FT, with input guard": 0.837
+  },
+  "every word: COMBO (repeat+ZWJ+emoji)": {
+   "TF-IDF + LinearSVC": 0.452,
+   "XLM-R LoRA (selected), raw": 0.572,
+   "XLM-R LoRA (selected), with input guard": 0.758,
+   "XLM-R full FT, raw": 0.507,
+   "TF-IDF + input guard": 0.822,
+   "XLM-R full FT, with input guard": 0.757
+  }
+ }
+}

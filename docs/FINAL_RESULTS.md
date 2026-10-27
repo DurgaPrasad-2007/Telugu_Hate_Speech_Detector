@@ -92,6 +92,16 @@ The guard is the lever: +13 to +15 points of mean accuracy under attack for ever
 no system gains over another once it is applied. Remaining weak spots for all systems:
 star-censored words (0.55) and letter-spacing/repetition combined (0.76-0.84).
 
+## Proof 4: where the models fail, and a data artifact
+
+Computed by `src/paper_extras.py` and `src/template_audit.py` (outputs in `results/study/paper_extras.json`, `results/study/template_audit.json`).
+
+- **Shared errors.** Of the selected model's 287 test errors (seed 2024, raw argmax), 122 (42.5%) are also made by full fine-tuning, DoRA, MuRIL LoRA and TF-IDF (86 labelled abusive, 36 non-abusive). Error overlap with full FT: Jaccard 0.60; with TF-IDF: 0.45. If one of the five were right on every comment, accuracy would be 0.959. These comments are candidates for label noise or context-dependent abuse; they were not re-annotated.
+- **Advertisement-like templates.** Seven marker strings (Telugu for "problems", "for any problem", "progeny", "husband and wife", a love-spell term, and the formal "will be done / will be told") flag astrology and spell-service ads. They make up 15.5% / 16.3% / 14.5% of abusive comments in train / val / test, and almost all flagged posts are labelled abusive (1,928 of 1,935 in train; 227 of 227 in test). Every system gets 99.6% of them right. Removing them lowers test macro-F1 by about 0.8 points for all systems (LoRA 0.8964, full FT 0.9019, TF-IDF 0.8949), so the comparison does not change, but scores on this corpus are inflated by an easy subset.
+- **Slices.** Transformers beat TF-IDF on comments over 20 words (0.902 / 0.911 vs 0.887); emoji comments are easiest (about 0.93). Single seed, small slices: indicative only.
+- **Emoji disguises** are the one attack family where the model matters: the selected LoRA keeps 0.89 to 0.90 accuracy with words wrapped in emoji or trailing emoji spam, against 0.80 to 0.85 for TF-IDF and 0.82 to 0.84 for full FT.
+- **Thresholds.** Raising the block threshold from 0.50 to 0.90 lifts block precision from 0.928 to 0.984 but cuts recall from 0.897 to 0.760 and raises the review share from 1.1% to 11.6% (validation).
+
 ## What this does and does not support
 
 Supported by the evidence:

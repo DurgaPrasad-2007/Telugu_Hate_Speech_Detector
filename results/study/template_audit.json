@@ -1,0 +1,54 @@
+{
+ "markers": [
+  "సమస్యలు",
+  "సమస్యకైనా",
+  "వశీకరణ",
+  "చేయబడును",
+  "చెప్పబడును",
+  "సంతాన",
+  "భార్యాభర్తల"
+ ],
+ "splits": {
+  "train": {
+   "n": 23980,
+   "flagged": 1935,
+   "flagged_abusive": 1928,
+   "flagged_non_abusive": 7,
+   "flagged_unique_texts": 1930,
+   "flagged_share_of_abusive": 0.155
+  },
+  "val": {
+   "n": 2998,
+   "flagged": 267,
+   "flagged_abusive": 264,
+   "flagged_non_abusive": 3,
+   "flagged_unique_texts": 267,
+   "flagged_share_of_abusive": 0.163
+  },
+  "test": {
+   "n": 2997,
+   "flagged": 227,
+   "flagged_abusive": 227,
+   "flagged_non_abusive": 0,
+   "flagged_unique_texts": 227,
+   "flagged_share_of_abusive": 0.145
+  }
+ },
+ "test_scores": {
+  "lora": {
+   "all_macro_f1": 0.9042,
+   "flagged_accuracy": 0.9956,
+   "without_flagged_macro_f1": 0.8964
+  },
+  "full": {
+   "all_macro_f1": 0.9092,
+   "flagged_accuracy": 0.9956,
+   "without_flagged_macro_f1": 0.9019
+  },
+  "tfidf": {
+   "all_macro_f1": 0.9029,
+   "flagged_accuracy": 0.9956,
+   "without_flagged_macro_f1": 0.8949
+  }
+ }
+}
