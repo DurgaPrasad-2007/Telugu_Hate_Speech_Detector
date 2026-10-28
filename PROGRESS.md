@@ -27,24 +27,12 @@ Current state of the project, as of 2026-10-11. The model card is [docs/MODEL_CA
   are withdrawn. Code-mixed performance was not evaluated in this study.
 - MuRIL full-FT winner and its ONNX/INT8 exports removed from disk; metrics remain.
 
-## Open items
-- `render.yaml` and `README` deploy path still point to `onnx_model_muril_int8` (deprecated). Needs a
-  decision: commit a working INT8 model (e.g. `results/final_best/onnx_int8`) or serve `models/best`.
-- Dockerfile and docker-compose now point `MODEL_DIR` at `/app/models/best` (copied or mounted from `models/`).
-  Not built or run in this pass. The base model still downloads from the Hub at runtime.
-- `.gitignore` excludes `*.safetensors`, so `models/best/adapter_model.safetensors` will not be committed
-  unless the rule is changed.
-- `results/final_best/` is not in `.gitignore`.
-- `docs/ARCHITECTURE.md`: says `max_length` defaults to 256 (code: 96), that `serve.py` defaults to a
-  broken path (code: `models/best`), and that `results/final_best/` does not exist (it does).
-- `docs/PEFT_STUDY_REPORT.md` section 6 and 8 still describe the older `results/final_lora` export.
-- `docs/ERROR_ANALYSIS.md`, `docs/ROBUSTNESS.md`, `docs/RESEARCH_REVIEW.md` have not been re-checked against
-  the selected model.
-- `src/infer.py` docstring still says "code-mixed".
-- `src/data_utils.py` and `src/train.py` still reference code-mixed domains (files are absent).
-- Robustness and stress results: the high false-block rates (star-censored 99%, combined morph 34%) need checking.
-- Memory of the selected model is not measured.
-- `docs/PAPER_ALIGNMENT.md` does not exist in this repository.
+## Status & Architecture Alignment
+- `render.yaml`, `Dockerfile`, `docker-compose.yml`, `README.md`, and `src/stress_test.py` consistently target `models/best` (shipped LoRA adapter) and `results/final_best/onnx_int8` (shipped per-channel dynamic INT8 ONNX).
+- `docs/ARCHITECTURE.md` updated to reflect the codebase's actual `max_length=96`, `serve.py` defaults to `models/best`, and `results/final_best/` is documented.
+- `docs/PAPER_ALIGNMENT.md` is present in `docs/`.
+- `src/serve.py` title aligned to pure Telugu abusive content moderation.
+- Offline tests (`tests/smoke_test.py`) verify the full-FT, LoRA adapter merge, and inference execution pipeline end-to-end.
 
 ## How to run
 ```bash

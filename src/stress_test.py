@@ -74,7 +74,7 @@ def verdict_stats(clf, texts):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model_dir", default="results/baseline__muril__full__telugu/model")
+    ap.add_argument("--model_dir", default="models/best")
     ap.add_argument("--no_defend", action="store_true", help="disable src/canon.py to measure the raw model")
     ap.add_argument("--n", type=int, default=300)
     ap.add_argument("--out", default="results/stress_test")

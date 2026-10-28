@@ -30,7 +30,7 @@ MAX_TEXT_CHARS = int(os.environ.get("MAX_TEXT_CHARS", "2000"))
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("serve")
 
-app = FastAPI(title="Telugu/Code-mixed Abusive Content Classifier")
+app = FastAPI(title="Telugu Abusive Content Classifier")
 _clf = None
 _load_error = None
 

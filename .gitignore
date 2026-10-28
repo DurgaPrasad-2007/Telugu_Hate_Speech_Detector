@@ -13,6 +13,7 @@ Thumbs.db
 .vscode/
 .idea/
 .claude/
+.agents/
 
 # Sensitive files / Secrets
 .env
