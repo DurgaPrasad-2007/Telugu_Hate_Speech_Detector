@@ -49,3 +49,8 @@ results/study/*/checkpoints/
 # ship the selected adapter (small); exports stay out of git
 !models/best/*.safetensors
 results/final_best/
+
+# local data and heavy run artifacts
+external_data/
+results/*/checkpoints/
+results/*/model/

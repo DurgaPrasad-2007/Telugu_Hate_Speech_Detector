@@ -105,3 +105,7 @@ python src/export_best.py --run xlm-roberta-base_lora_r8_a64_lr2e-4_e10_s2024 --
 - Latency was measured on the development PC only, not on a low-end laptop.
 - Human review is required for the review band and for any moderation decision.
   False positives on political or critical speech have not been measured.
+
+## Modern moderation pipeline (Oct 2026)
+
+Added on top of the study above: spam-free data, akshara input guard, TF-IDF+MuRIL ensemble, conformal allow/review/block policy, label audit, Telugu functional tests, and a **Moderator Console** tab in `app.py` (`streamlit run app.py`). Start with [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) (measured results, limits, run commands, next steps). Details: [policy](docs/POLICY_REPORT.md), [functional tests](docs/FUNCTIONAL_TEST_REPORT.md), [negation fix](docs/NEGATION_FIX_REPORT.md), [label audit](docs/LABEL_AUDIT_REPORT.md), [akshara](docs/AKSHARA_REPORT.md), [despam](docs/DESPAM_REPORT.md), [model shortlist](docs/MODEL_SHORTLIST.md). Functional tests are model-authored and unreviewed by native speakers; the console is not browser-checked.

@@ -103,6 +103,14 @@ pending and will report `NOT RUN` for anything not executed.
 
 ## 4. 2026 State-of-the-Art Research Review, Diagnostic Autopsy, and Modern Systems Roadmap (Through October 2026)
 
+> **Status note (Oct 2026) - read before relying on this section.**
+> - The projected F1 and latency numbers in 4.4 are **UNMEASURED projections**, not results from this repo.
+> - The Mamba / BLT / MoE blueprints were **not built** and are **not recommended on this evidence**.
+> - Citation corrections: P17 is titled "Code Mixologist: A Practitioner's Guide to Building Code-Mixed LLMs" (not "Playbook"); P20 is about implicit hate generally, not Telugu.
+> - Author, affiliation and result claims in this section were **not verified against the papers**.
+> - Measured results live in: [PROJECT_STATUS.md](PROJECT_STATUS.md), [POLICY_REPORT.md](POLICY_REPORT.md), [FUNCTIONAL_TEST_REPORT.md](FUNCTIONAL_TEST_REPORT.md), [NEGATION_FIX_REPORT.md](NEGATION_FIX_REPORT.md), [LABEL_AUDIT_REPORT.md](LABEL_AUDIT_REPORT.md), [AKSHARA_REPORT.md](AKSHARA_REPORT.md), [DESPAM_REPORT.md](DESPAM_REPORT.md), [MODEL_SHORTLIST.md](MODEL_SHORTLIST.md). The original text below is kept unchanged.
+
+
 ### 4.1 Comprehensive 2026 Indic & Dravidian NLP Literature Corpus
 
 A systematic survey of peer-reviewed proceedings (ACL, EMNLP, NAACL, LREC-COLING, DravidianLangTech, IJCNLP-AACL, FIRE) and verified preprints (arXiv) published between 2024 and October 2026 identified the following foundational publications, architectures, and empirical benchmarks directly relevant to Telugu hate speech detection, code-mixed NLP, and low-resource Dravidian language processing:
