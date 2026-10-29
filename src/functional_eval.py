@@ -11,7 +11,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 CASES = os.path.join(ROOT, "tests", "functional", "telugu_hatecheck.csv")
-MURIL_RUN = os.path.join(ROOT, "results", "clean_muril-base-cased_lp8_lr5e-5")
+MURIL_RUN = os.environ.get("THS_MURIL_RUN") or os.path.join(ROOT, "results", "clean_muril-base-cased_lp8_lr5e-5")
+REPORT = os.environ.get("THS_REPORT_OUT") or os.path.join(ROOT, "docs", "FUNCTIONAL_TEST_REPORT.md")  # env: candidate run, keep committed report
 BETA = 0.10
 
 
@@ -95,7 +96,9 @@ def main():
         L += [f"| {r.functionality} | {r.expected} | {r[pc]:.2f} | {r.confidence} | {r.text.replace('|', '/')} |" for _, r in bad.iterrows()]
         L.append("")
     out = "# Telugu HateCheck-style functional test report\n\n" + "\n".join(L) + "\n"
-    open(os.path.join(ROOT, "docs", "FUNCTIONAL_TEST_REPORT.md"), "w", encoding="utf-8").write(out)
+    open(REPORT, "w", encoding="utf-8").write(out)
+    if os.environ.get("THS_SCORES_OUT"):
+        df.to_csv(os.environ["THS_SCORES_OUT"], index=False, encoding="utf-8")
     sys.stdout.reconfigure(encoding="utf-8"); print(out)
 
 

@@ -52,7 +52,7 @@ def main(preds):
     lines += ["", "Guarantee is marginal over calibration draws (class-conditional split conformal); one calibration "
               "set gives realized rates that scatter around alpha/beta (see rows where realized exceeds target)."]
     out = "# Conformal allow/review/block policy and ensemble\n\n" + "\n".join(lines) + "\n"
-    open(os.path.join(ROOT, "docs", "POLICY_REPORT.md"), "w", encoding="utf-8").write(out)
+    open(os.environ.get("THS_REPORT_OUT") or os.path.join(ROOT, "docs", "POLICY_REPORT.md"), "w", encoding="utf-8").write(out)
     print(out)
 
 

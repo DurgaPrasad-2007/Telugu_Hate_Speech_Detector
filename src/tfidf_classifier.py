@@ -28,7 +28,7 @@ from infer import LABELS, decide, sanitize_text  # noqa: E402  (same decision ru
 from text_mask import mask_text  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
-DEFAULT_MODEL = os.path.join(ROOT, "models", "tfidf", "tfidf_best.joblib")
+DEFAULT_MODEL = os.environ.get("THS_TFIDF_MODEL") or os.path.join(ROOT, "models", "tfidf", "tfidf_best.joblib")  # env: evaluate a candidate without overwriting the deployed model
 DEFAULT_CALIB = os.path.join(ROOT, "models", "tfidf", "calibration.json")
 STUDY_MODEL = os.path.join(ROOT, "results", "study", "tfidf", "tfidf_best.joblib")
 MIN_BLOCK_PRECISION = 0.9

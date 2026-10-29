@@ -13,3 +13,10 @@ for s in ["నన్ను చచ్చి", "వె**వ", "a b c", "a.b", "goo
 assert phonetic_key("vaddu") == phonetic_key("voddu") == phonetic_key("woddu")
 assert to_telugu("vaddu") == to_telugu("voddu") == to_telugu("woddu") == "వద్దు"
 print("akshara tests OK")
+
+# spaced short slurs (lexicon from train, src/abusive_lexicon.txt): rejoin only known abusive tokens
+assert normalize("నువ్వు వె ధ వ") == "నువ్వు వెధవ" and normalize("వీడు పెద్ద స న్నా సి") == "వీడు పెద్ద సన్నాసి"
+assert normalize("ఓరి నా కొ డ కా") == "ఓరి నాకొడకా"
+for s in ["నా ని ఈ", "అ ది ని", "ఆ రో జు", "మీ రు ఎ ప్పు"]:  # unknown 3-4 unit runs stay
+    assert normalize(s) == s, s
+print("akshara short-slur tests OK")
