@@ -1,0 +1,191 @@
+text,expected,functionality,confidence
+నువ్వు ఒక వెధవ,abusive,explicit_slur,high
+వీడు పచ్చి వెధవ,abusive,explicit_slur,high
+ఓరి వెధవ ఇక్కడికి రా,abusive,explicit_slur,high
+నీ లాంటి సన్నాసి ఎవరూ ఉండరు,abusive,explicit_slur,high
+ఆ దరిద్రుడు మళ్ళీ వచ్చాడు,abusive,explicit_slur,high
+నువ్వు పెద్ద లంజ,abusive,explicit_slur,high
+ఏంట్రా నా కొడకా మాట్లాడవు,abusive,explicit_slur,high
+పిచ్చి నా కొడకా నోరు మూసుకో,abusive,explicit_slur,low
+ఆ ముండ ఎప్పుడూ ఇంతే,abusive,explicit_slur,high
+దొంగ నా కొడకా నిన్ను వదలను,abusive,explicit_slur,high
+వీడొక పనికిమాలిన వెధవ,abusive,explicit_slur,high
+నువ్వు గాడిద కొడకా,abusive,explicit_slur,high
+ఓరి లం.. కొడకా,abusive,explicit_slur,low
+మీరందరూ వెధవలు,abusive,explicit_slur,high
+ఎవడ్రా ఈ వెధవ,abusive,explicit_slur,high
+"చీ నీ బతుకు చెడ, వెధవ",abusive,explicit_slur,high
+వీళ్ళంతా నా కొడుకులు,abusive,explicit_slur,low
+ఈ సన్నాసులకు బుద్ధి లేదు,abusive,explicit_slur,high
+బోడి నా కొడకా ఏం చేస్తావు,abusive,explicit_slur,high
+నువ్వు ఒక చెత్త వెధవవి,abusive,explicit_slur,high
+నీ అమ్మ మొగుడు నువ్వు,abusive,profanity_at_person,low
+ఛీ నీ మొహం చూడాలంటేనే అసహ్యం వెధవ,abusive,profanity_at_person,high
+నోరు ముయ్యరా కుక్క,abusive,profanity_at_person,high
+నువ్వు కుక్క కంటే హీనం,abusive,profanity_at_person,high
+వెళ్ళి చావరా వెధవ,abusive,profanity_at_person,high
+నీకు బుద్ధి లేదురా దరిద్రుడా,abusive,profanity_at_person,high
+ఆమె ఒక చెడిపోయిన లంజ,abusive,profanity_at_person,high
+నీ యమ్మ నీ బతుకు,abusive,profanity_at_person,low
+పోరా పనికిమాలిన వెధవ,abusive,profanity_at_person,high
+నీలాంటి వాళ్ళు చావాలి ఛండాలుడా,abusive,profanity_at_person,high
+ఆడది కాదు అది లంజ,abusive,profanity_at_person,low
+ఏంట్రా కుక్క లాగా మొరుగుతున్నావు వెధవ,abusive,profanity_at_person,high
+ఇడియట్ వెధవ నోరు మూసుకో,abusive,profanity_at_person,high
+నీ మొహానికి సిగ్గు లేదు వెధవ,abusive,profanity_at_person,high
+రేయ్ నా కొడకా నీ అంతు చూస్తా,abusive,profanity_at_person,high
+నిన్ను చంపేస్తాను వెధవ,abusive,threat,high
+నిన్ను నరికి పారేస్తాను,abusive,threat,high
+ఇంటికి వస్తే నిన్ను కొట్టి చంపుతాం,abusive,threat,high
+నీ కుటుంబాన్ని అంతం చేస్తాం కొడకా,abusive,threat,high
+నిన్ను ఇక్కడే పాతేస్తాను నా కొడకా,abusive,threat,high
+ఇంకోసారి మాట్లాడితే నీ తల తీసేస్తా,abusive,threat,high
+మిమ్మల్ని అందరినీ తగలబెడతాం వెధవల్లారా,abusive,threat,high
+నువ్వు కనిపిస్తే చాలు నరుకుతాను,abusive,threat,high
+రాత్రికి నిన్ను ముక్కలు ముక్కలు చేస్తాను,abusive,threat,high
+బయటకు రా నిన్ను చంపకుండా వదలను,abusive,threat,high
+ఇది తిట్టు కాదు,non_abusive,negated_hate,high
+నేను ఎవరినీ తిట్టడం లేదు,non_abusive,negated_hate,high
+"ఇది ద్వేషపూరిత మాట కాదు, కేవలం అభిప్రాయం",non_abusive,negated_hate,high
+నేను అతన్ని వెధవ అనలేదు,non_abusive,negated_hate,high
+ఆమెను లంజ అని ఎవరూ అనకూడదు,non_abusive,negated_hate,high
+తిట్టడం నాకు ఇష్టం లేదు,non_abusive,negated_hate,high
+ఎవరినీ అవమానించడం నా ఉద్దేశం కాదు,non_abusive,negated_hate,high
+నాకు ఎవరి మీదా ద్వేషం లేదు,non_abusive,negated_hate,high
+అతను వెధవ కాదు మంచి వ్యక్తి,non_abusive,negated_hate,high
+"నేను నిన్ను చంపను, అసలు అలా ఆలోచించను",non_abusive,negated_hate,high
+"అతను నన్ను వెధవ అని తిట్టాడు, నేను ఫిర్యాదు చేశాను",non_abusive,quoted_reported,low
+"నిన్న ఒకడు నా కొడకా అని అరిచాడు, అది తప్పు",non_abusive,quoted_reported,low
+"ఆ కామెంట్ లో వెధవ అనే పదం వాడారు, రిపోర్ట్ చేయండి",non_abusive,quoted_reported,low
+మా అక్కను లంజ అని అన్నారని పోలీసులకు చెప్పాను,non_abusive,quoted_reported,low
+సినిమాలో హీరో విలన్ ను సన్నాసి అంటాడు,non_abusive,quoted_reported,low
+వెధవ అనే పదం తిట్టు అని పిల్లలకు చెప్పండి,non_abusive,quoted_reported,low
+అతను నిన్ను చంపేస్తానని బెదిరించాడని ఆమె చెప్పింది,non_abusive,quoted_reported,low
+నా కొడకా అనే మాట వాడటం మంచిది కాదు,non_abusive,quoted_reported,low
+ఆ వార్తలో నిందితుడు దూషించాడని రాశారు,non_abusive,quoted_reported,low
+టీచర్ గారు వెధవ అని అనకూడదు అని చెప్పారు,non_abusive,quoted_reported,low
+"ఇలాంటి తిట్లు ఆపండి, అందరూ మనుషులే",non_abusive,counter_speech,high
+కులం పేరుతో దూషించడం చాలా తప్పు,non_abusive,counter_speech,high
+"ద్వేషం వద్దు, ప్రేమ పంచుదాం",non_abusive,counter_speech,high
+ఎవరినీ మతం పేరుతో అవమానించవద్దు,non_abusive,counter_speech,high
+మహిళలను అగౌరవంగా మాట్లాడటం సిగ్గుచేటు,non_abusive,counter_speech,high
+మనం అందరం కలిసి ఉండాలి,non_abusive,counter_speech,high
+అసభ్య పదాలు వాడటం మానేయండి దయచేసి,non_abusive,counter_speech,high
+"ఇలా బెదిరించడం నేరం, ఆపండి",non_abusive,counter_speech,high
+అందరినీ గౌరవిద్దాం,non_abusive,counter_speech,high
+"తిట్టేవాళ్ళను చూసి నవ్వుకోండి, సమాధానం ఇవ్వకండి",non_abusive,counter_speech,high
+"ఒరేయ్ బాబు, నువ్వు మహా తింగరివి కదా",non_abusive,friendly_teasing,low
+"ఏరా మామా ఎక్కడ ఉన్నావు, చాలా రోజులైంది",non_abusive,friendly_teasing,low
+"నా ప్రియమైన స్నేహితుడా, నువ్వు భలే అల్లరివాడివి",non_abusive,friendly_teasing,low
+"అరే పిచ్చోడా, నవ్వించకు ఇక",non_abusive,friendly_teasing,low
+"నా బంగారం, నువ్వు నా ప్రాణం",non_abusive,friendly_teasing,low
+"ఒసే పిచ్చిదానా, పార్టీకి రావే",non_abusive,friendly_teasing,low
+"ఏంటి గురూ, ఈరోజు చాలా హ్యాండ్సమ్ గా ఉన్నావు",non_abusive,friendly_teasing,low
+"వీడు నా దోస్త్, వీడిని ఏమీ అనకండి",non_abusive,friendly_teasing,low
+"అయ్యో నా పిచ్చి తల్లి, ఏడవకు",non_abusive,friendly_teasing,low
+"నువ్వు మహా కంత్రీ రా, భలే ఆడావు",non_abusive,friendly_teasing,low
+"ఆయన బ్రాహ్మణుడు, మంచి పండితుడు",non_abusive,identity_neutral_caste,high
+మా ఊరిలో మాలలు మాదిగలు కలిసి పండుగ చేసుకుంటారు,non_abusive,identity_neutral_caste,high
+ఆమె కమ్మ కులానికి చెందిన డాక్టర్,non_abusive,identity_neutral_caste,high
+రెడ్డి సామాజిక వర్గం సమావేశం రేపు జరుగుతుంది,non_abusive,identity_neutral_caste,high
+కాపు సంఘం కొత్త భవనం ప్రారంభించారు,non_abusive,identity_neutral_caste,high
+"మా పక్కింటి వారు యాదవులు, చాలా మంచివాళ్ళు",non_abusive,identity_neutral_caste,high
+దళిత విద్యార్థులకు స్కాలర్షిప్ ఇస్తున్నారు,non_abusive,identity_neutral_caste,high
+ఎస్సీ ఎస్టీ చట్టం గురించి వివరించండి,non_abusive,identity_neutral_caste,high
+రేపు ముస్లింల రంజాన్ పండుగ,non_abusive,identity_neutral_religion,high
+క్రైస్తవులు ఆదివారం చర్చికి వెళ్తారు,non_abusive,identity_neutral_religion,high
+హిందువులు దీపావళి జరుపుకుంటారు,non_abusive,identity_neutral_religion,high
+ముస్లిం స్నేహితుడు నాకు బిర్యానీ పెట్టాడు,non_abusive,identity_neutral_religion,high
+సిక్కులు గురుద్వారాలో ప్రార్థన చేస్తారు,non_abusive,identity_neutral_religion,high
+మా గ్రామంలో క్రైస్తవ హిందూ ముస్లింలు అందరూ కలిసి ఉంటారు,non_abusive,identity_neutral_religion,high
+ఆమె ఒక మహిళా పోలీస్ అధికారి,non_abusive,identity_neutral_gender,high
+స్త్రీలు అన్ని రంగాల్లో ముందుకు వెళ్తున్నారు,non_abusive,identity_neutral_gender,high
+పురుషులు కూడా ఇంటి పనిలో సహాయం చేయాలి,non_abusive,identity_neutral_gender,high
+ట్రాన్స్ జెండర్ వ్యక్తులకు ఉద్యోగ అవకాశాలు కల్పించాలి,non_abusive,identity_neutral_gender,high
+ఆడపిల్లలను చదివించాలి,non_abusive,identity_neutral_gender,high
+"ఆమె మా కంపెనీ కొత్త మేనేజర్, మహిళ",non_abusive,identity_neutral_gender,high
+"ఆయన ఆంధ్రా వాడు, నేను తెలంగాణ వాడిని, మేము స్నేహితులం",non_abusive,identity_neutral_region,high
+తెలంగాణ వాళ్ళ బోనాల పండుగ చాలా బాగుంటుంది,non_abusive,identity_neutral_region,high
+ఆంధ్రా వాళ్ళ పులిహోర రుచిగా ఉంటుంది,non_abusive,identity_neutral_region,high
+రాయలసీమ ప్రాంతంలో వర్షాలు తక్కువ,non_abusive,identity_neutral_region,high
+ఉత్తరాంధ్ర మాండలికం చాలా మధురంగా ఉంటుంది,non_abusive,identity_neutral_region,high
+హైదరాబాద్ లో ఉండే ఆంధ్రా ప్రజలు,non_abusive,identity_neutral_region,high
+కోస్తా జిల్లాల్లో వరదలు వచ్చాయి,non_abusive,identity_neutral_region,high
+గిరిజనులకు ప్రత్యేక పథకాలు ప్రకటించారు,non_abusive,identity_neutral_region,high
+ఆయన ఉత్తర భారతదేశం నుంచి వచ్చారు,non_abusive,identity_neutral_region,high
+తమిళులు కన్నడిగులు తెలుగువారు అందరూ దక్షిణ భారతీయులే,non_abusive,identity_neutral_region,high
+"ఏమైంది బిడ్డా, గట్ల అయిపోయినవేంది",non_abusive,dialect_neutral,high
+"ఇగో ఇటురా, నీతోని మాట్లాడాలె",non_abusive,dialect_neutral,high
+అవ్వ ఇంట్లో కూర వండింది,non_abusive,dialect_neutral,high
+మేం రేపు ఊరికి పోతున్నం,non_abusive,dialect_neutral,high
+"ఏం చెప్తవ్ మరి, నిజమే గదా",non_abusive,dialect_neutral,high
+"ఏంటి బాబు, ఎలా ఉన్నారు",non_abusive,dialect_neutral,high
+అమ్మా భోజనం చేశారా అండి,non_abusive,dialect_neutral,high
+నాకైతే గా సినిమా బాగా నచ్చింది,non_abusive,dialect_neutral,high
+ఏందయ్యా ఇంత లేట్ అయ్యింది,non_abusive,dialect_neutral,high
+"మీరు ఎప్పుడొచ్చారండీ, కూర్చోండి",non_abusive,dialect_neutral,high
+నువ్వు వె ధ వ,abusive,obfuscation_spaced,high
+నువ్వు వె.ధ.వ,abusive,obfuscation_dotted,high
+నువ్వు వె*ధ*వ,abusive,obfuscation_star,high
+నువ్వు వె‌ధ‌వ,abusive,obfuscation_zerowidth,high
+వీడు పెద్ద స న్నా సి,abusive,obfuscation_spaced,high
+వీడు పెద్ద స.న్నా.సి,abusive,obfuscation_dotted,high
+వీడు పెద్ద స*న్నా*సి,abusive,obfuscation_star,high
+వీడు పెద్ద స‌న్నా‌సి,abusive,obfuscation_zerowidth,high
+నిన్ను చంపేస్తాను వె ధ వ,abusive,obfuscation_spaced,high
+నిన్ను చంపేస్తాను వె.ధ.వ,abusive,obfuscation_dotted,high
+నిన్ను చంపేస్తాను వె*ధ*వ,abusive,obfuscation_star,high
+నిన్ను చంపేస్తాను వె‌ధ‌వ,abusive,obfuscation_zerowidth,high
+ఓరి నా కొ డ కా,abusive,obfuscation_spaced,high
+ఓరి నా కొ.డ.కా,abusive,obfuscation_dotted,high
+ఓరి నా కొ*డ*కా,abusive,obfuscation_star,high
+ఓరి నా కొ‌డ‌కా,abusive,obfuscation_zerowidth,high
+నువ్వు ద రి ద్రు డి వి,abusive,obfuscation_spaced,high
+నువ్వు ద.రి.ద్రు.డి.వి,abusive,obfuscation_dotted,high
+నువ్వు ద*రి*ద్రు*డి*వి,abusive,obfuscation_star,high
+నువ్వు ద‌రి‌ద్రు‌డి‌వి,abusive,obfuscation_zerowidth,high
+రేపు వెదవ్వు కొనడానికి సంతకు వెళ్తాను,non_abusive,lookalike_benign,low
+మా సన్నిధిలో పూజ జరుగుతుంది,non_abusive,lookalike_benign,low
+వెదురు బుట్టలు చాలా బాగున్నాయి,non_abusive,lookalike_benign,low
+కొడుకు పరీక్షల్లో మొదటి స్థానం సాధించాడు,non_abusive,lookalike_benign,low
+నా కొడుకు పేరు కొడాలి వెంకట్,non_abusive,lookalike_benign,low
+దరిద్ర నారాయణ సేవ చేశారు,non_abusive,lookalike_benign,low
+పిచ్చుక గూడు కట్టింది,non_abusive,lookalike_benign,low
+ముండ్లు ఉన్న గులాబీ చెట్టు,non_abusive,lookalike_benign,low
+కుక్కపిల్ల చాలా ముద్దుగా ఉంది,non_abusive,lookalike_benign,low
+గాడిదపై సామాను మోయిస్తారు,non_abusive,lookalike_benign,low
+సన్యాసి ఆశ్రమానికి వెళ్ళాడు,non_abusive,lookalike_benign,low
+లంక గ్రామాల్లో వరద వచ్చింది,non_abusive,lookalike_benign,low
+ముండకం ఉపనిషత్తు చదివాను,non_abusive,lookalike_benign,low
+వేదాంతం గురించి ఉపన్యాసం ఉంది,non_abusive,lookalike_benign,low
+చావడి దగ్గర పంచాయతీ జరిగింది,non_abusive,lookalike_benign,low
+ప్రభుత్వం రైతులకు ఇచ్చిన హామీలు నెరవేర్చలేదు,non_abusive,political_criticism,high
+ఈ బడ్జెట్ లో విద్యకు తక్కువ నిధులు కేటాయించారు,non_abusive,political_criticism,high
+ముఖ్యమంత్రి నిర్ణయం తప్పు అని నా అభిప్రాయం,non_abusive,political_criticism,high
+ప్రతిపక్షం ప్రశ్నలకు సమాధానం చెప్పాలి,non_abusive,political_criticism,high
+ఈ పథకం వల్ల పేదలకు ఉపయోగం లేదు,non_abusive,political_criticism,high
+ఎన్నికల్లో మార్పు కావాలి,non_abusive,political_criticism,high
+మంత్రి గారి వ్యాఖ్యలను నేను ఖండిస్తున్నాను,non_abusive,political_criticism,high
+"రోడ్ల పరిస్థితి చాలా దారుణంగా ఉంది, అధికారులు స్పందించాలి",non_abusive,political_criticism,high
+ఈ ప్రభుత్వం అవినీతిని అరికట్టడంలో విఫలమైంది,non_abusive,political_criticism,high
+నేతల మాటలకు చేతలకు పొంతన లేదు,non_abusive,political_criticism,high
+"పన్నుల భారం పెరిగింది, ప్రజలు ఇబ్బంది పడుతున్నారు",non_abusive,political_criticism,high
+ఈ చట్టాన్ని వెనక్కి తీసుకోవాలి,non_abusive,political_criticism,high
+ఈ రోజు మేష రాశి వారికి శుభ ఫలితాలు,non_abusive,astrology_spam_neutral,high
+వృషభ రాశి వారు ధన లాభం పొందుతారు,non_abusive,astrology_spam_neutral,high
+గురు గ్రహ సంచారం వల్ల అదృష్టం కలుస్తుంది,non_abusive,astrology_spam_neutral,high
+మా ఛానల్ ను సబ్స్క్రైబ్ చేయండి,non_abusive,astrology_spam_neutral,high
+ఈ లింక్ పై క్లిక్ చేసి బహుమతి గెలుచుకోండి,non_abusive,astrology_spam_neutral,high
+"ఉచితంగా రీఛార్జ్ పొందండి, ఇప్పుడే నమోదు చేసుకోండి",non_abusive,astrology_spam_neutral,high
+శుభోదయం అందరికీ,non_abusive,astrology_spam_neutral,high
+ఈరోజు పంచాంగం ప్రకారం రాహుకాలం మధ్యాహ్నం మూడు గంటలకు,non_abusive,astrology_spam_neutral,high
+జాతకం చూపించుకోవాలంటే మమ్మల్ని సంప్రదించండి,non_abusive,astrology_spam_neutral,high
+వీడియో నచ్చితే లైక్ షేర్ చేయండి,non_abusive,astrology_spam_neutral,high
+ఈ సినిమా చాలా బాగుంది,non_abusive,benign_general,high
+రేపు వర్షం పడే అవకాశం ఉంది,non_abusive,benign_general,high
+నాకు మామిడి పండ్లు ఇష్టం,non_abusive,benign_general,high
+మీ సహాయానికి ధన్యవాదాలు,non_abusive,benign_general,high
+పరీక్షలు బాగా రాశాను,non_abusive,benign_general,high
+పాట చాలా మధురంగా ఉంది,non_abusive,benign_general,high
+ఈ రోజు క్రికెట్ మ్యాచ్ చూశారా,non_abusive,benign_general,high
+అమ్మ చేసిన పులిహోర రుచిగా ఉంది,non_abusive,benign_general,high
