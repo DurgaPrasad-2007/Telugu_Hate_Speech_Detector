@@ -1,0 +1,7 @@
+cond,seed,overall_ens,overall_tfidf,astrology_spam_neutral,benign_general,counter_speech,dialect_neutral,explicit_slur,identity_neutral_caste,identity_neutral_gender,identity_neutral_region,identity_neutral_religion,negated_hate,obfuscation_dotted,obfuscation_spaced,obfuscation_star,obfuscation_zerowidth,political_criticism,profanity_at_person,threat
+clean,1,0.959731543624161,0.9664429530201343,0.9,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,0.7,1.0,1.0,1.0,1.0,1.0,1.0,0.9
+clean,2,0.9731543624161074,0.9664429530201343,1.0,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,0.7,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+clean,42,0.9664429530201343,0.9664429530201343,1.0,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,0.7,1.0,1.0,1.0,1.0,1.0,1.0,0.9
+aug,1,0.9865771812080537,0.9664429530201343,0.9,1.0,1.0,1.0,0.9411764705882353,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+aug,2,0.9798657718120806,0.9664429530201343,1.0,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,0.9
+aug,42,0.9798657718120806,0.9664429530201343,0.9,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,0.9,1.0,1.0,1.0,1.0,1.0,1.0,1.0
