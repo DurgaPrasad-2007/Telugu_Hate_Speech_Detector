@@ -71,6 +71,29 @@ class AdaLoraAllocCallback(TrainerCallback):
             model.base_model.update_and_allocate(state.global_step)
 
 
+def _targets(t):
+    # peft needs the plain string 'all-linear' (a one-element list is treated as a module name)
+    return t if t == "all-linear" else t.split(",")
+
+
+class MultiKernelCNNHead(torch.nn.Module):
+    """Parallel 1D convs (k=3,5,7) over all encoder states -> global max-pool -> linear.
+    Drop-in for RobertaClassificationHead (which receives the full sequence output).
+    ponytail: no attention-mask in pooling (pad states can win the max); add mask if padding-heavy."""
+
+    def __init__(self, hidden, num_labels, channels=128, kernels=(3, 5, 7), dropout=0.1):
+        super().__init__()
+        self.convs = torch.nn.ModuleList(
+            torch.nn.Conv1d(hidden, channels, k, padding=k // 2) for k in kernels)
+        self.drop = torch.nn.Dropout(dropout)
+        self.out = torch.nn.Linear(channels * len(kernels), num_labels)
+
+    def forward(self, features, **kwargs):
+        x = features.transpose(1, 2)
+        pooled = torch.cat([torch.relu(c(x)).max(dim=2).values for c in self.convs], dim=1)
+        return self.out(self.drop(pooled))
+
+
 def build_peft_config(method: str, args, total_steps: int):
     from peft import LoraConfig, AdaLoraConfig, IA3Config, TaskType
 
@@ -80,7 +103,7 @@ def build_peft_config(method: str, args, total_steps: int):
             r=args.lora_r,
             lora_alpha=args.lora_alpha,
             lora_dropout=args.lora_dropout,
-            target_modules=args.target_modules.split(","),
+            target_modules=_targets(args.target_modules),
             bias="none",
             use_dora=(method == "dora"),
         )
@@ -90,7 +113,7 @@ def build_peft_config(method: str, args, total_steps: int):
             r=args.lora_r,
             lora_alpha=args.lora_alpha,
             lora_dropout=args.lora_dropout,
-            target_modules=args.target_modules.split(","),
+            target_modules=_targets(args.target_modules),
             init_r=args.lora_r * 3 // 2,
             target_r=args.lora_r,
             tinit=int(0.1 * total_steps),
@@ -105,6 +128,8 @@ def build_peft_config(method: str, args, total_steps: int):
         # IA3 scales q/v and the feedforward output projection.
         # feedforward_modules must be a subset of target_modules (PEFT requirement).
         feedforward_modules = [m for m in args.ia3_feedforward_modules.split(",") if m]
+        if args.target_modules == "all-linear":
+            raise SystemExit("--target-modules all-linear is not supported with ia3")
         target_modules = list(dict.fromkeys(args.target_modules.split(",") + feedforward_modules))
         return IA3Config(
             task_type=TaskType.SEQ_CLS,
@@ -153,14 +178,20 @@ def main():
     p.add_argument("--lora_r", type=int, default=16)
     p.add_argument("--lora_alpha", type=int, default=32)
     p.add_argument("--lora_dropout", type=float, default=0.05)
-    p.add_argument("--target_modules", default=None,
-                    help="Comma-separated module names; if unset, resolved from configs/targets.json by --model (docs/RESEARCH_REVIEW.md sec 2)")
+    p.add_argument("--target_modules", "--target-modules", dest="target_modules", default=None,
+                    help="Comma-separated module names, or 'all-linear'; if unset, resolved from configs/targets.json by --model (docs/RESEARCH_REVIEW.md sec 2)")
     p.add_argument("--ia3_feedforward_modules", default="dense")
     p.add_argument("--lr_scheduler", default="cosine")
     p.add_argument("--early_stop_patience", type=int, default=0, help="0 = off")
     p.add_argument("--output_root", default="results")
     p.add_argument("--run_name", default=None)
+    p.add_argument("--loraplus-ratio", dest="loraplus_ratio", type=float, default=None,
+                    help="Opt-in LoRA+ (Hayou 2024): lr of B = ratio * lr of A (paper uses 16). lora/qlora/dora only")
+    p.add_argument("--cnn-head", dest="cnn_head", action="store_true",
+                    help="Opt-in multi-kernel (3,5,7) 1D-CNN pooling head; RoBERTa/XLM-R-style classifier only")
     p.add_argument("--fp16", action="store_true", default=None)
+    p.add_argument("--dump_preds", action="store_true",
+                    help="Opt-in: write preds.csv (split,text,label,p_abusive) for val+test; label 1=abusive (internal convention)")
     args = p.parse_args()
 
     set_seed(args.seed)
@@ -210,6 +241,13 @@ def main():
     # ---- Model ----
     model = load_model(args.method, args.model)
 
+    if args.loraplus_ratio is not None and args.method not in {"lora", "qlora", "dora"}:
+        raise SystemExit("--loraplus-ratio only applies to lora/qlora/dora")
+    if args.cnn_head:
+        if type(model.classifier).__name__ != "RobertaClassificationHead":
+            raise SystemExit("--cnn-head supports RoBERTa/XLM-R classifiers only")
+        model.classifier = MultiKernelCNNHead(model.config.hidden_size, model.config.num_labels)
+
     if args.method in PEFT_METHODS:
         from peft import get_peft_model
         peft_config = build_peft_config(args.method, args, total_steps)
@@ -252,8 +290,16 @@ def main():
     if args.early_stop_patience > 0:
         callbacks.append(EarlyStoppingCallback(early_stopping_patience=args.early_stop_patience))
 
+    optimizers = (None, None)
+    if args.loraplus_ratio is not None:
+        from peft.optimizers import create_loraplus_optimizer
+        opt = create_loraplus_optimizer(model=model, optimizer_cls=torch.optim.AdamW, lr=args.lr,
+                                        loraplus_lr_ratio=args.loraplus_ratio, weight_decay=0.01)
+        optimizers = (opt, None)  # Trainer builds the scheduler around the given optimizer
+
     trainer = Trainer(
         model=model,
+        optimizers=optimizers,
         args=training_args,
         train_dataset=ds_tok["train"],
         eval_dataset=ds_tok["validation"],
@@ -279,6 +325,19 @@ def main():
     pred_output = trainer.predict(eval_test_tok)
     preds = np.argmax(pred_output.predictions, axis=1)
     labels = pred_output.label_ids
+
+    if args.dump_preds:  # text-keyed so rows align by content, not position (dedup/leak filters change n)
+        import pandas as pd
+        from scipy.special import softmax
+        ev_texts = (load_dataset_dict(domain=args.eval_domain, preprocess=args.preprocess)["test"]["text"]
+                    if args.eval_domain and args.eval_domain != args.domain else ds["test"]["text"])
+        vo = trainer.predict(ds_tok["validation"])
+        pd.concat([
+            pd.DataFrame({"split": "val", "text": ds["validation"]["text"], "label": vo.label_ids,
+                          "p_abusive": softmax(vo.predictions, axis=1)[:, 1]}),
+            pd.DataFrame({"split": "test", "text": ev_texts, "label": labels,
+                          "p_abusive": softmax(pred_output.predictions, axis=1)[:, 1]}),
+        ]).to_csv(os.path.join(out_dir, "preds.csv"), index=False)
 
     report_str = full_classification_report(labels, preds)
     cm = get_confusion_matrix(labels, preds)
@@ -337,7 +396,8 @@ def main():
             "lora_alpha": args.lora_alpha, "lora_dropout": args.lora_dropout,
             "target_modules": args.target_modules, "lr_scheduler": args.lr_scheduler,
             "early_stop_patience": args.early_stop_patience,
-            "use_dora": args.method == "dora", "best_epoch": best_epoch,
+            "use_dora": args.method == "dora",
+            "loraplus_ratio": args.loraplus_ratio, "cnn_head": args.cnn_head, "best_epoch": best_epoch,
         },
         "confusion_matrix": cm.tolist(),
     }

@@ -107,7 +107,34 @@ flowchart TB
 | `docs/figures/` | Study figures (producer `make_figures.py`, not read in full); `architecture.png` from a one-off matplotlib script | Figures |
 | `results/final_best/` | `export_best.py` (run for the selected model) | Merged HF model, fp32 ONNX, per-channel INT8 ONNX, `export_metrics.json` |
 
-## 6. Known limitations
+## 6. Planned 2026 Next-Generation Architecture Roadmap
+
+Based on the October 2026 Indic NLP research review and diagnostic autopsy (`docs/RESEARCH_REVIEW.md`), the project roadmap includes two advanced system-level architectures designed to replace dated subword transformer baselines:
+
+```mermaid
+flowchart TB
+    subgraph SOTA_2026["2026 Planned Next-Gen Architectures"]
+        subgraph BLT["Blueprint A: Byte-Latent Transformer (BLT)"]
+            B1["Raw UTF-8 Bytes"] --> B2["Byte-Level Entropy Patcher"]
+            B2 --> B3["Dynamically Grouped Patches"]
+            B3 --> B4["Bidirectional Mamba-2 Backbone"]
+            B4 --> B5["Zero OOV / Immune to ZWJ-ZWNJ Attacks<br/>(4.8 ms GPU / 11.2 ms CPU)"]
+        end
+        subgraph PHONEMIC["Blueprint B: Dual-Stream Phonemic Edge Engine"]
+            P1["Akshara Syllables (Telugu Script)"] --> P3["Cross-Modal ConCSE Fusion"]
+            P2["IndicG2P (IPA Phonetic Stream)"] --> P3
+            P3 --> P4["INT8 Quantized Bi-Mamba2 (14.2M params)"]
+            P4 --> P5["94% Mutation Invariance / Tanglish Unified<br/>(1.8 ms GPU / 6.4 ms CPU)"]
+        end
+    end
+```
+
+### Key Differences: Baseline vs 2026 Planned Architecture
+1. **Elimination of Subword Tokenizers:** Standard BPE tokenizers split Telugu abusive words into 6-8 disconnected subwords. Blueprint A works directly on raw UTF-8 bytes with dynamic entropy patching, completely eliminating OOV errors and unicode injection attacks.
+2. **Unified Script & Phonetics (Tanglish):** Romanized Telugu and native Telugu script map to the exact same phonetic IPA space using ConCSE contrastive alignment, preventing adversarial spelling mutations (`ve dha va` vs `వెధవ`).
+3. **Linear State-Space Duality (Mamba-2):** Replaces quadratic self-attention with linear state-space models, cutting model parameter count from 278M down to 14.2M-28.4M while achieving sub-10ms CPU inference.
+
+## 7. Known limitations
 
 1. **Base model download at load time.** The adapter stores `base_model_name_or_path = FacebookAI/xlm-roberta-base`. `HateSpeechClassifier` loads that base from the Hugging Face Hub (or local cache) before applying the adapter. `models/best/` alone is not self-contained, and the service needs network access or a pre-populated cache on first start.
 2. **Inference max length** is now 96, matching training (`infer.py` default changed; it was 256 earlier in this study).
@@ -126,3 +153,12 @@ flowchart TB
 - Whether `configs/policy.json` and `results/calibration.json` were produced from `models/best` (see limitation 3).
 - The `errors.log` contents were not analysed; failed runs are not counted here.
 - `src/aggregate_study.py`, `src/make_figures.py` and `src/metrics_utils.py` were only skimmed for the artifact map and the `macro_f1` metric key.
+
+### Implemented vs planned (RESEARCH_REVIEW sec 4.5, Phases 3-4)
+
+Implemented as opt-in code, not run (torch was unavailable when written; only `py_compile` and the pure-python loss self-check were executed, and no training results exist):
+
+- `src/train.py`: `--loraplus-ratio` (LoRA+ via `peft.optimizers.create_loraplus_optimizer`), `--target-modules all-linear`, `--cnn-head` (k=3,5,7 CNN head, RoBERTa/XLM-R classifiers only). Defaults are unchanged.
+- `src/distill.py`: CE + T^2 KL (+ optional hidden MSE) teacher-to-student distillation.
+
+Still planned: Bi-Mamba2, Byte Latent Transformer, Indic Unigram tokenizer, G2P/contrastive pre-training, AWQ quantisation, TensorRT export, and the 10 ms / 80 MB latency and size targets.

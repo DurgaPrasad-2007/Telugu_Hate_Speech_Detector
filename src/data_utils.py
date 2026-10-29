@@ -26,7 +26,7 @@ import re
 import unicodedata
 import pandas as pd
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
+DATA_DIR = os.environ.get("THS_DATA_DIR") or os.path.join(os.path.dirname(__file__), "..", "data")  # THS_DATA_DIR=data/clean -> spam-free splits
 
 REQUIRED_COLS = ["text", "label"]
 
