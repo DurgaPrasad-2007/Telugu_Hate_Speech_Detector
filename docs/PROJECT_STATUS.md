@@ -33,7 +33,7 @@ Guarantee is marginal; a single calibration set scatters around the targets.
 - Moderator Console has not been checked in a browser (only tests).
 - Mamba/BLT/MoE ideas in RESEARCH_REVIEW.md section 4 were not built; projections there are unmeasured.
 
-## How to run (repo root, PowerShell; `.venvScripts\python`)
+## How to run (repo root, PowerShell; `.venv\Scripts\python`)
 ```
 $env:THS_DATA_DIR="data/clean"
 python src/despam.py --eval                                   # despam counts/baseline
