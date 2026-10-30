@@ -1,0 +1,191 @@
+text,expected,functionality,confidence,p_tfidf,p_muril,p_ens,v_tfidf,v_ens,pred_p_tfidf,pass_p_tfidf,pred_p_ens,pass_p_ens
+నువ్వు ఒక వెధవ,abusive,explicit_slur,high,0.9422402874348731,0.967564046382904,0.9549021669088886,BLOCK,BLOCK,abusive,True,abusive,True
+వీడు పచ్చి వెధవ,abusive,explicit_slur,high,0.990803560710451,0.9661694765090942,0.9784865186097726,BLOCK,BLOCK,abusive,True,abusive,True
+ఓరి వెధవ ఇక్కడికి రా,abusive,explicit_slur,high,0.9689384597537111,0.9600384831428528,0.964488471448282,BLOCK,BLOCK,abusive,True,abusive,True
+నీ లాంటి సన్నాసి ఎవరూ ఉండరు,abusive,explicit_slur,high,0.7811805363248274,0.6240901947021484,0.7026353655134879,REVIEW,REVIEW,abusive,True,abusive,True
+ఆ దరిద్రుడు మళ్ళీ వచ్చాడు,abusive,explicit_slur,high,0.7327474580734543,0.879134476184845,0.8059409671291496,REVIEW,BLOCK,abusive,True,abusive,True
+నువ్వు పెద్ద లంజ,abusive,explicit_slur,high,0.9997030958379848,0.986687958240509,0.993195527039247,BLOCK,BLOCK,abusive,True,abusive,True
+ఏంట్రా నా కొడకా మాట్లాడవు,abusive,explicit_slur,high,0.9859382963172577,0.9790194630622864,0.9824788796897721,BLOCK,BLOCK,abusive,True,abusive,True
+పిచ్చి నా కొడకా నోరు మూసుకో,abusive,explicit_slur,low,0.9999190830739819,0.9862139821052551,0.9930665325896185,BLOCK,BLOCK,abusive,True,abusive,True
+ఆ ముండ ఎప్పుడూ ఇంతే,abusive,explicit_slur,high,0.8799980839911968,0.923682689666748,0.9018403868289724,BLOCK,BLOCK,abusive,True,abusive,True
+దొంగ నా కొడకా నిన్ను వదలను,abusive,explicit_slur,high,0.9930514441146352,0.9782738089561462,0.9856626265353907,BLOCK,BLOCK,abusive,True,abusive,True
+వీడొక పనికిమాలిన వెధవ,abusive,explicit_slur,high,0.9660714878959722,0.9738453030586243,0.9699583954772982,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు గాడిద కొడకా,abusive,explicit_slur,high,0.9997125405290122,0.9801202416419983,0.9899163910855052,BLOCK,BLOCK,abusive,True,abusive,True
+ఓరి లం.. కొడకా,abusive,explicit_slur,low,0.9939520585924086,0.9703007340431213,0.982126396317765,BLOCK,BLOCK,abusive,True,abusive,True
+మీరందరూ వెధవలు,abusive,explicit_slur,high,0.7665177388925867,0.9277905225753784,0.8471541307339825,REVIEW,BLOCK,abusive,True,abusive,True
+ఎవడ్రా ఈ వెధవ,abusive,explicit_slur,high,0.9913192744108164,0.9574080109596252,0.9743636426852208,BLOCK,BLOCK,abusive,True,abusive,True
+"చీ నీ బతుకు చెడ, వెధవ",abusive,explicit_slur,high,0.9990277047961178,0.9729885458946228,0.9860081253453703,BLOCK,BLOCK,abusive,True,abusive,True
+వీళ్ళంతా నా కొడుకులు,abusive,explicit_slur,low,0.9692380096753089,0.29495611786842346,0.6320970637718661,BLOCK,REVIEW,abusive,True,abusive,True
+ఈ సన్నాసులకు బుద్ధి లేదు,abusive,explicit_slur,high,0.9375652982642882,0.9314638376235962,0.9345145679439422,BLOCK,BLOCK,abusive,True,abusive,True
+బోడి నా కొడకా ఏం చేస్తావు,abusive,explicit_slur,high,0.9766342387873129,0.981540322303772,0.9790872805455424,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు ఒక చెత్త వెధవవి,abusive,explicit_slur,high,0.9938376494277898,0.9626927375793457,0.9782651935035678,BLOCK,BLOCK,abusive,True,abusive,True
+నీ అమ్మ మొగుడు నువ్వు,abusive,profanity_at_person,low,0.9778534611327048,0.9113775491714478,0.9446155051520763,BLOCK,BLOCK,abusive,True,abusive,True
+ఛీ నీ మొహం చూడాలంటేనే అసహ్యం వెధవ,abusive,profanity_at_person,high,0.9974909959381796,0.9736260175704956,0.9855585067543375,BLOCK,BLOCK,abusive,True,abusive,True
+నోరు ముయ్యరా కుక్క,abusive,profanity_at_person,high,0.9629981878221977,0.9246689677238464,0.943833577773022,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు కుక్క కంటే హీనం,abusive,profanity_at_person,high,0.9737233434195715,0.953387439250946,0.9635553913352588,BLOCK,BLOCK,abusive,True,abusive,True
+వెళ్ళి చావరా వెధవ,abusive,profanity_at_person,high,0.8704745274973165,0.952286422252655,0.9113804748749857,BLOCK,BLOCK,abusive,True,abusive,True
+నీకు బుద్ధి లేదురా దరిద్రుడా,abusive,profanity_at_person,high,0.977928400749195,0.9608707427978516,0.9693995717735233,BLOCK,BLOCK,abusive,True,abusive,True
+ఆమె ఒక చెడిపోయిన లంజ,abusive,profanity_at_person,high,0.9969070761886026,0.9885186553001404,0.9927128657443716,BLOCK,BLOCK,abusive,True,abusive,True
+నీ యమ్మ నీ బతుకు,abusive,profanity_at_person,low,0.9959440672851677,0.9570855498313904,0.9765148085582791,BLOCK,BLOCK,abusive,True,abusive,True
+పోరా పనికిమాలిన వెధవ,abusive,profanity_at_person,high,0.989190202320232,0.971816897392273,0.9805035498562524,BLOCK,BLOCK,abusive,True,abusive,True
+నీలాంటి వాళ్ళు చావాలి ఛండాలుడా,abusive,profanity_at_person,high,0.6646356787404646,0.903098464012146,0.7838670713763053,REVIEW,BLOCK,abusive,True,abusive,True
+ఆడది కాదు అది లంజ,abusive,profanity_at_person,low,0.9930896092850526,0.9886699914932251,0.9908798003891388,BLOCK,BLOCK,abusive,True,abusive,True
+ఏంట్రా కుక్క లాగా మొరుగుతున్నావు వెధవ,abusive,profanity_at_person,high,0.9997871378990093,0.9803623557090759,0.9900747468040426,BLOCK,BLOCK,abusive,True,abusive,True
+ఇడియట్ వెధవ నోరు మూసుకో,abusive,profanity_at_person,high,0.9202887412297165,0.9546009302139282,0.9374448357218224,BLOCK,BLOCK,abusive,True,abusive,True
+నీ మొహానికి సిగ్గు లేదు వెధవ,abusive,profanity_at_person,high,0.9996876771787011,0.9783080220222473,0.9889978496004742,BLOCK,BLOCK,abusive,True,abusive,True
+రేయ్ నా కొడకా నీ అంతు చూస్తా,abusive,profanity_at_person,high,0.9965373514413958,0.9858023524284363,0.991169851934916,BLOCK,BLOCK,abusive,True,abusive,True
+నిన్ను చంపేస్తాను వెధవ,abusive,threat,high,0.9812222298535312,0.9698227643966675,0.9755224971250993,BLOCK,BLOCK,abusive,True,abusive,True
+నిన్ను నరికి పారేస్తాను,abusive,threat,high,0.5428735687536842,0.6976184844970703,0.6202460266253773,REVIEW,REVIEW,abusive,True,abusive,True
+ఇంటికి వస్తే నిన్ను కొట్టి చంపుతాం,abusive,threat,high,0.682117114796664,0.4494132101535797,0.5657651624751219,REVIEW,REVIEW,abusive,True,abusive,True
+నీ కుటుంబాన్ని అంతం చేస్తాం కొడకా,abusive,threat,high,0.7854944485975479,0.9323683977127075,0.8589314231551277,REVIEW,BLOCK,abusive,True,abusive,True
+నిన్ను ఇక్కడే పాతేస్తాను నా కొడకా,abusive,threat,high,0.8762823201814445,0.9791772961616516,0.927729808171548,BLOCK,BLOCK,abusive,True,abusive,True
+ఇంకోసారి మాట్లాడితే నీ తల తీసేస్తా,abusive,threat,high,0.7492318726110476,0.6991192102432251,0.7241755414271364,REVIEW,BLOCK,abusive,True,abusive,True
+మిమ్మల్ని అందరినీ తగలబెడతాం వెధవల్లారా,abusive,threat,high,0.8951879754376788,0.8973516821861267,0.8962698288119028,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు కనిపిస్తే చాలు నరుకుతాను,abusive,threat,high,0.5585776464038165,0.6382749080657959,0.5984262772348061,REVIEW,REVIEW,abusive,True,abusive,True
+రాత్రికి నిన్ను ముక్కలు ముక్కలు చేస్తాను,abusive,threat,high,0.2726748048648256,0.6295163631439209,0.4510955840043732,ALLOW,REVIEW,non_abusive,False,non_abusive,False
+బయటకు రా నిన్ను చంపకుండా వదలను,abusive,threat,high,0.6385632751043069,0.42229601740837097,0.5304296462563389,REVIEW,REVIEW,abusive,True,abusive,True
+ఇది తిట్టు కాదు,non_abusive,negated_hate,high,0.1782298753102774,0.4041377305984497,0.2911838029543635,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నేను ఎవరినీ తిట్టడం లేదు,non_abusive,negated_hate,high,0.10286268126251953,0.028862137347459793,0.06586240930498966,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఇది ద్వేషపూరిత మాట కాదు, కేవలం అభిప్రాయం",non_abusive,negated_hate,high,0.20967592697830265,0.10821106284856796,0.1589434949134353,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నేను అతన్ని వెధవ అనలేదు,non_abusive,negated_hate,high,0.5827931984036319,0.7086783051490784,0.6457357517763551,REVIEW,REVIEW,abusive,False,abusive,False
+ఆమెను లంజ అని ఎవరూ అనకూడదు,non_abusive,negated_hate,high,0.9096343116007805,0.9786102771759033,0.9441222943883418,BLOCK,BLOCK,abusive,False,abusive,False
+తిట్టడం నాకు ఇష్టం లేదు,non_abusive,negated_hate,high,0.04177076752696463,0.09584154933691025,0.06880615843193744,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఎవరినీ అవమానించడం నా ఉద్దేశం కాదు,non_abusive,negated_hate,high,0.2525231144874395,0.04326838254928589,0.1478957485183627,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నాకు ఎవరి మీదా ద్వేషం లేదు,non_abusive,negated_hate,high,0.15270255082063147,0.03886732831597328,0.09578493956830238,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+అతను వెధవ కాదు మంచి వ్యక్తి,non_abusive,negated_hate,high,0.3864627466511589,0.8760548233985901,0.6312587850248745,REVIEW,REVIEW,non_abusive,True,abusive,False
+"నేను నిన్ను చంపను, అసలు అలా ఆలోచించను",non_abusive,negated_hate,high,0.11233516979849936,0.1133328527212143,0.11283401125985683,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"అతను నన్ను వెధవ అని తిట్టాడు, నేను ఫిర్యాదు చేశాను",non_abusive,quoted_reported,low,0.09827610842309802,0.8126012682914734,0.4554386883572857,ALLOW,REVIEW,non_abusive,True,non_abusive,True
+"నిన్న ఒకడు నా కొడకా అని అరిచాడు, అది తప్పు",non_abusive,quoted_reported,low,0.8250096465953835,0.8615283966064453,0.8432690216009144,REVIEW,BLOCK,abusive,False,abusive,False
+"ఆ కామెంట్ లో వెధవ అనే పదం వాడారు, రిపోర్ట్ చేయండి",non_abusive,quoted_reported,low,0.6011235651838637,0.7956445813179016,0.6983840732508826,REVIEW,REVIEW,abusive,False,abusive,False
+మా అక్కను లంజ అని అన్నారని పోలీసులకు చెప్పాను,non_abusive,quoted_reported,low,0.748632186065361,0.9822334051132202,0.8654327955892906,REVIEW,BLOCK,abusive,False,abusive,False
+సినిమాలో హీరో విలన్ ను సన్నాసి అంటాడు,non_abusive,quoted_reported,low,0.5159337183269751,0.4802379608154297,0.4980858395712024,REVIEW,REVIEW,abusive,False,non_abusive,True
+వెధవ అనే పదం తిట్టు అని పిల్లలకు చెప్పండి,non_abusive,quoted_reported,low,0.6712206504309199,0.8834083676338196,0.7773145090323698,REVIEW,BLOCK,abusive,False,abusive,False
+అతను నిన్ను చంపేస్తానని బెదిరించాడని ఆమె చెప్పింది,non_abusive,quoted_reported,low,0.49209759099417344,0.18453723192214966,0.3383174114581615,REVIEW,REVIEW,non_abusive,True,non_abusive,True
+నా కొడకా అనే మాట వాడటం మంచిది కాదు,non_abusive,quoted_reported,low,0.8234676317196793,0.9543356895446777,0.8889016606321785,REVIEW,BLOCK,abusive,False,abusive,False
+ఆ వార్తలో నిందితుడు దూషించాడని రాశారు,non_abusive,quoted_reported,low,0.12852581371517566,0.14118455350399017,0.13485518360958293,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+టీచర్ గారు వెధవ అని అనకూడదు అని చెప్పారు,non_abusive,quoted_reported,low,0.39828737915376966,0.7429823279380798,0.5706348535459247,REVIEW,REVIEW,non_abusive,True,abusive,False
+"ఇలాంటి తిట్లు ఆపండి, అందరూ మనుషులే",non_abusive,counter_speech,high,0.2485104797980162,0.24898982048034668,0.24875015013918145,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+కులం పేరుతో దూషించడం చాలా తప్పు,non_abusive,counter_speech,high,0.11152655916346435,0.1868622750043869,0.1491944170839256,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ద్వేషం వద్దు, ప్రేమ పంచుదాం",non_abusive,counter_speech,high,0.20264230458457058,0.05109839886426926,0.1268703517244199,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఎవరినీ మతం పేరుతో అవమానించవద్దు,non_abusive,counter_speech,high,0.19454715363556746,0.12657402455806732,0.1605605890968174,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+మహిళలను అగౌరవంగా మాట్లాడటం సిగ్గుచేటు,non_abusive,counter_speech,high,0.27527198125075475,0.5926130414009094,0.43394251132583206,ALLOW,REVIEW,non_abusive,True,non_abusive,True
+మనం అందరం కలిసి ఉండాలి,non_abusive,counter_speech,high,0.02109674156732201,0.017521889880299568,0.01930931572381079,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+అసభ్య పదాలు వాడటం మానేయండి దయచేసి,non_abusive,counter_speech,high,0.06611650991650818,0.27355051040649414,0.16983351016150117,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఇలా బెదిరించడం నేరం, ఆపండి",non_abusive,counter_speech,high,0.06680264771034763,0.1815868616104126,0.12419475466038012,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+అందరినీ గౌరవిద్దాం,non_abusive,counter_speech,high,0.1546221760178088,0.027742955833673477,0.09118256592574114,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"తిట్టేవాళ్ళను చూసి నవ్వుకోండి, సమాధానం ఇవ్వకండి",non_abusive,counter_speech,high,0.0429422960178094,0.09030266106128693,0.06662247853954817,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఒరేయ్ బాబు, నువ్వు మహా తింగరివి కదా",non_abusive,friendly_teasing,low,0.4331293438493554,0.28791335225105286,0.36052134805020414,REVIEW,REVIEW,non_abusive,True,non_abusive,True
+"ఏరా మామా ఎక్కడ ఉన్నావు, చాలా రోజులైంది",non_abusive,friendly_teasing,low,0.0206962993536641,0.015004470013082027,0.017850384683373063,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"నా ప్రియమైన స్నేహితుడా, నువ్వు భలే అల్లరివాడివి",non_abusive,friendly_teasing,low,0.09083589178659178,0.018933309242129326,0.05488460051436055,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"అరే పిచ్చోడా, నవ్వించకు ఇక",non_abusive,friendly_teasing,low,0.7464702541903109,0.6749576330184937,0.7107139436044023,REVIEW,REVIEW,abusive,False,abusive,False
+"నా బంగారం, నువ్వు నా ప్రాణం",non_abusive,friendly_teasing,low,0.04936778268804685,0.03435606136918068,0.04186192202861376,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఒసే పిచ్చిదానా, పార్టీకి రావే",non_abusive,friendly_teasing,low,0.8061452543468075,0.9343375563621521,0.8702414053544798,REVIEW,BLOCK,abusive,False,abusive,False
+"ఏంటి గురూ, ఈరోజు చాలా హ్యాండ్సమ్ గా ఉన్నావు",non_abusive,friendly_teasing,low,0.04918974602207829,0.015492015518248081,0.032340880770163186,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"వీడు నా దోస్త్, వీడిని ఏమీ అనకండి",non_abusive,friendly_teasing,low,0.44544889654029396,0.3857145309448242,0.4155817137425591,REVIEW,REVIEW,non_abusive,True,non_abusive,True
+"అయ్యో నా పిచ్చి తల్లి, ఏడవకు",non_abusive,friendly_teasing,low,0.4740049644032633,0.7170126438140869,0.5955088041086751,REVIEW,REVIEW,non_abusive,True,abusive,False
+"నువ్వు మహా కంత్రీ రా, భలే ఆడావు",non_abusive,friendly_teasing,low,0.0972945244444739,0.17820964753627777,0.13775208599037583,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఆయన బ్రాహ్మణుడు, మంచి పండితుడు",non_abusive,identity_neutral_caste,high,0.024035572250124135,0.06005653366446495,0.04204605295729454,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+మా ఊరిలో మాలలు మాదిగలు కలిసి పండుగ చేసుకుంటారు,non_abusive,identity_neutral_caste,high,0.03962275756044143,0.083725705742836,0.06167423165163871,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఆమె కమ్మ కులానికి చెందిన డాక్టర్,non_abusive,identity_neutral_caste,high,0.5462097636869649,0.23570285737514496,0.39095631053105495,REVIEW,REVIEW,abusive,False,non_abusive,True
+రెడ్డి సామాజిక వర్గం సమావేశం రేపు జరుగుతుంది,non_abusive,identity_neutral_caste,high,0.18011224323103722,0.18975122272968292,0.1849317329803601,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+కాపు సంఘం కొత్త భవనం ప్రారంభించారు,non_abusive,identity_neutral_caste,high,0.11211920993198,0.2879001498222351,0.20000967987710755,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"మా పక్కింటి వారు యాదవులు, చాలా మంచివాళ్ళు",non_abusive,identity_neutral_caste,high,0.1256667634052017,0.11145392060279846,0.11856034200400008,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+దళిత విద్యార్థులకు స్కాలర్షిప్ ఇస్తున్నారు,non_abusive,identity_neutral_caste,high,0.05117877731100363,0.10109711438417435,0.07613794584758898,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఎస్సీ ఎస్టీ చట్టం గురించి వివరించండి,non_abusive,identity_neutral_caste,high,0.11616608866116575,0.20598185062408447,0.1610739696426251,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+రేపు ముస్లింల రంజాన్ పండుగ,non_abusive,identity_neutral_religion,high,0.3211218403976703,0.051435235887765884,0.18627853814271808,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+క్రైస్తవులు ఆదివారం చర్చికి వెళ్తారు,non_abusive,identity_neutral_religion,high,0.17767903043831296,0.04237983375787735,0.11002943209809515,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+హిందువులు దీపావళి జరుపుకుంటారు,non_abusive,identity_neutral_religion,high,0.3054149680124442,0.03428161144256592,0.16984828972750507,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ముస్లిం స్నేహితుడు నాకు బిర్యానీ పెట్టాడు,non_abusive,identity_neutral_religion,high,0.12315844393521853,0.09569067507982254,0.10942455950752053,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+సిక్కులు గురుద్వారాలో ప్రార్థన చేస్తారు,non_abusive,identity_neutral_religion,high,0.1507894785041776,0.03848237916827202,0.0946359288362248,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+మా గ్రామంలో క్రైస్తవ హిందూ ముస్లింలు అందరూ కలిసి ఉంటారు,non_abusive,identity_neutral_religion,high,0.2327544435320175,0.02902921847999096,0.1308918310060042,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఆమె ఒక మహిళా పోలీస్ అధికారి,non_abusive,identity_neutral_gender,high,0.37347820641930496,0.04340563341975212,0.20844191991952854,REVIEW,ALLOW,non_abusive,True,non_abusive,True
+స్త్రీలు అన్ని రంగాల్లో ముందుకు వెళ్తున్నారు,non_abusive,identity_neutral_gender,high,0.1696292702538474,0.033152516931295395,0.10139089359257139,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+పురుషులు కూడా ఇంటి పనిలో సహాయం చేయాలి,non_abusive,identity_neutral_gender,high,0.1049809366394107,0.09158787131309509,0.0982844039762529,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ట్రాన్స్ జెండర్ వ్యక్తులకు ఉద్యోగ అవకాశాలు కల్పించాలి,non_abusive,identity_neutral_gender,high,0.1592814173939261,0.1594066321849823,0.1593440247894542,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఆడపిల్లలను చదివించాలి,non_abusive,identity_neutral_gender,high,0.09738206718921827,0.029510924592614174,0.06344649589091622,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఆమె మా కంపెనీ కొత్త మేనేజర్, మహిళ",non_abusive,identity_neutral_gender,high,0.046601063992902265,0.05356850475072861,0.05008478437181543,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఆయన ఆంధ్రా వాడు, నేను తెలంగాణ వాడిని, మేము స్నేహితులం",non_abusive,identity_neutral_region,high,0.05424728358755792,0.02311558648943901,0.03868143503849847,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+తెలంగాణ వాళ్ళ బోనాల పండుగ చాలా బాగుంటుంది,non_abusive,identity_neutral_region,high,0.05323951141307942,0.03604024648666382,0.04463987894987162,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఆంధ్రా వాళ్ళ పులిహోర రుచిగా ఉంటుంది,non_abusive,identity_neutral_region,high,0.22104733849005767,0.05690531060099602,0.13897632454552683,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+రాయలసీమ ప్రాంతంలో వర్షాలు తక్కువ,non_abusive,identity_neutral_region,high,0.031869420647842116,0.06865866482257843,0.050264042735210276,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఉత్తరాంధ్ర మాండలికం చాలా మధురంగా ఉంటుంది,non_abusive,identity_neutral_region,high,0.10903589463305258,0.042476437985897064,0.07575616630947482,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+హైదరాబాద్ లో ఉండే ఆంధ్రా ప్రజలు,non_abusive,identity_neutral_region,high,0.09773955671571428,0.04082684963941574,0.069283203177565,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+కోస్తా జిల్లాల్లో వరదలు వచ్చాయి,non_abusive,identity_neutral_region,high,0.2825826830348337,0.0753951370716095,0.1789889100532216,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+గిరిజనులకు ప్రత్యేక పథకాలు ప్రకటించారు,non_abusive,identity_neutral_region,high,0.2391812003567402,0.15817739069461823,0.1986792955256792,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఆయన ఉత్తర భారతదేశం నుంచి వచ్చారు,non_abusive,identity_neutral_region,high,0.03938129957222973,0.02221190743148327,0.0307966035018565,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+తమిళులు కన్నడిగులు తెలుగువారు అందరూ దక్షిణ భారతీయులే,non_abusive,identity_neutral_region,high,0.10711981662176875,0.026669468730688095,0.06689464267622842,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఏమైంది బిడ్డా, గట్ల అయిపోయినవేంది",non_abusive,dialect_neutral,high,0.07089361226300624,0.34582820534706116,0.2083609088050337,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఇగో ఇటురా, నీతోని మాట్లాడాలె",non_abusive,dialect_neutral,high,0.07896324844196788,0.12918756902217865,0.10407540873207327,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+అవ్వ ఇంట్లో కూర వండింది,non_abusive,dialect_neutral,high,0.0516889214495555,0.03631534054875374,0.04400213099915462,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+మేం రేపు ఊరికి పోతున్నం,non_abusive,dialect_neutral,high,0.20720789001859852,0.016640473157167435,0.11192418158788298,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఏం చెప్తవ్ మరి, నిజమే గదా",non_abusive,dialect_neutral,high,0.14752177174726025,0.01846894435584545,0.08299535805155285,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఏంటి బాబు, ఎలా ఉన్నారు",non_abusive,dialect_neutral,high,0.005825400860340855,0.01210108119994402,0.008963241030142437,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+అమ్మా భోజనం చేశారా అండి,non_abusive,dialect_neutral,high,0.01815191017087343,0.01592610962688923,0.01703900989888133,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నాకైతే గా సినిమా బాగా నచ్చింది,non_abusive,dialect_neutral,high,0.07523621052803331,0.020839091390371323,0.048037650959202316,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఏందయ్యా ఇంత లేట్ అయ్యింది,non_abusive,dialect_neutral,high,0.09709887618092816,0.016320504248142242,0.0567096902145352,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"మీరు ఎప్పుడొచ్చారండీ, కూర్చోండి",non_abusive,dialect_neutral,high,0.13200997951459162,0.04091992601752281,0.08646495276605722,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నువ్వు వె ధ వ,abusive,obfuscation_spaced,high,0.9777441526809824,0.9718057513237,0.9747749520023412,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు వె.ధ.వ,abusive,obfuscation_dotted,high,0.9777441526809824,0.9718057513237,0.9747749520023412,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు వె*ధ*వ,abusive,obfuscation_star,high,0.9777441526809824,0.9718057513237,0.9747749520023412,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు వె‌ధ‌వ,abusive,obfuscation_zerowidth,high,0.9777441526809824,0.9718057513237,0.9747749520023412,BLOCK,BLOCK,abusive,True,abusive,True
+వీడు పెద్ద స న్నా సి,abusive,obfuscation_spaced,high,0.9740368435993535,0.8559396862983704,0.9149882649488619,BLOCK,BLOCK,abusive,True,abusive,True
+వీడు పెద్ద స.న్నా.సి,abusive,obfuscation_dotted,high,0.9740368435993535,0.8559396862983704,0.9149882649488619,BLOCK,BLOCK,abusive,True,abusive,True
+వీడు పెద్ద స*న్నా*సి,abusive,obfuscation_star,high,0.9740368435993535,0.8559396862983704,0.9149882649488619,BLOCK,BLOCK,abusive,True,abusive,True
+వీడు పెద్ద స‌న్నా‌సి,abusive,obfuscation_zerowidth,high,0.9740368435993535,0.8559396862983704,0.9149882649488619,BLOCK,BLOCK,abusive,True,abusive,True
+నిన్ను చంపేస్తాను వె ధ వ,abusive,obfuscation_spaced,high,0.9812222298535312,0.9698227643966675,0.9755224971250993,BLOCK,BLOCK,abusive,True,abusive,True
+నిన్ను చంపేస్తాను వె.ధ.వ,abusive,obfuscation_dotted,high,0.9812222298535312,0.9698227643966675,0.9755224971250993,BLOCK,BLOCK,abusive,True,abusive,True
+నిన్ను చంపేస్తాను వె*ధ*వ,abusive,obfuscation_star,high,0.9812222298535312,0.9698227643966675,0.9755224971250993,BLOCK,BLOCK,abusive,True,abusive,True
+నిన్ను చంపేస్తాను వె‌ధ‌వ,abusive,obfuscation_zerowidth,high,0.9812222298535312,0.9698227643966675,0.9755224971250993,BLOCK,BLOCK,abusive,True,abusive,True
+ఓరి నా కొ డ కా,abusive,obfuscation_spaced,high,0.9818813852320698,0.6312994956970215,0.8065904404645456,BLOCK,BLOCK,abusive,True,abusive,True
+ఓరి నా కొ.డ.కా,abusive,obfuscation_dotted,high,0.9915142802262182,0.9776575565338135,0.9845859183800159,BLOCK,BLOCK,abusive,True,abusive,True
+ఓరి నా కొ*డ*కా,abusive,obfuscation_star,high,0.9915142802262182,0.9776575565338135,0.9845859183800159,BLOCK,BLOCK,abusive,True,abusive,True
+ఓరి నా కొ‌డ‌కా,abusive,obfuscation_zerowidth,high,0.9915142802262182,0.9776575565338135,0.9845859183800159,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు ద రి ద్రు డి వి,abusive,obfuscation_spaced,high,0.8986016089351587,0.9184682965278625,0.9085349527315106,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు ద.రి.ద్రు.డి.వి,abusive,obfuscation_dotted,high,0.8986016089351587,0.9184682965278625,0.9085349527315106,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు ద*రి*ద్రు*డి*వి,abusive,obfuscation_star,high,0.8986016089351587,0.9184682965278625,0.9085349527315106,BLOCK,BLOCK,abusive,True,abusive,True
+నువ్వు ద‌రి‌ద్రు‌డి‌వి,abusive,obfuscation_zerowidth,high,0.8986016089351587,0.9184682965278625,0.9085349527315106,BLOCK,BLOCK,abusive,True,abusive,True
+రేపు వెదవ్వు కొనడానికి సంతకు వెళ్తాను,non_abusive,lookalike_benign,low,0.7194739413001277,0.13443705439567566,0.42695549784790165,REVIEW,REVIEW,abusive,False,non_abusive,True
+మా సన్నిధిలో పూజ జరుగుతుంది,non_abusive,lookalike_benign,low,0.08352116492403742,0.014047523960471153,0.04878434444225429,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+వెదురు బుట్టలు చాలా బాగున్నాయి,non_abusive,lookalike_benign,low,0.25268366056798114,0.10050544887781143,0.17659455472289629,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+కొడుకు పరీక్షల్లో మొదటి స్థానం సాధించాడు,non_abusive,lookalike_benign,low,0.23506666708045343,0.027896462008357048,0.13148156454440524,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నా కొడుకు పేరు కొడాలి వెంకట్,non_abusive,lookalike_benign,low,0.7705341620992242,0.040038101375103,0.4052861317371636,REVIEW,REVIEW,abusive,False,non_abusive,True
+దరిద్ర నారాయణ సేవ చేశారు,non_abusive,lookalike_benign,low,0.36469203247949544,0.5728132128715515,0.4687526226755235,REVIEW,REVIEW,non_abusive,True,non_abusive,True
+పిచ్చుక గూడు కట్టింది,non_abusive,lookalike_benign,low,0.40899487039236293,0.24892179667949677,0.32895833353592985,REVIEW,ALLOW,non_abusive,True,non_abusive,True
+ముండ్లు ఉన్న గులాబీ చెట్టు,non_abusive,lookalike_benign,low,0.7378129090818532,0.2965916395187378,0.5172022743002955,REVIEW,REVIEW,abusive,False,abusive,False
+కుక్కపిల్ల చాలా ముద్దుగా ఉంది,non_abusive,lookalike_benign,low,0.32655522528952896,0.15119332075119019,0.23887427302035957,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+గాడిదపై సామాను మోయిస్తారు,non_abusive,lookalike_benign,low,0.3025258273924039,0.42320501804351807,0.36286542271796096,ALLOW,REVIEW,non_abusive,True,non_abusive,True
+సన్యాసి ఆశ్రమానికి వెళ్ళాడు,non_abusive,lookalike_benign,low,0.47203544460957947,0.130243718624115,0.30113958161684723,REVIEW,ALLOW,non_abusive,True,non_abusive,True
+లంక గ్రామాల్లో వరద వచ్చింది,non_abusive,lookalike_benign,low,0.32150433040037346,0.09256122261285782,0.20703277650661564,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ముండకం ఉపనిషత్తు చదివాను,non_abusive,lookalike_benign,low,0.4478119714074523,0.10232145339250565,0.275066712399979,REVIEW,ALLOW,non_abusive,True,non_abusive,True
+వేదాంతం గురించి ఉపన్యాసం ఉంది,non_abusive,lookalike_benign,low,0.29966414970888683,0.044868189841508865,0.17226616977519785,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+చావడి దగ్గర పంచాయతీ జరిగింది,non_abusive,lookalike_benign,low,0.18486856707998525,0.5249553322792053,0.3549119496795953,ALLOW,REVIEW,non_abusive,True,non_abusive,True
+ప్రభుత్వం రైతులకు ఇచ్చిన హామీలు నెరవేర్చలేదు,non_abusive,political_criticism,high,0.16171840427228665,0.269740492105484,0.21572944818888534,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ బడ్జెట్ లో విద్యకు తక్కువ నిధులు కేటాయించారు,non_abusive,political_criticism,high,0.2663168589097967,0.05284177139401436,0.15957931515190554,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ముఖ్యమంత్రి నిర్ణయం తప్పు అని నా అభిప్రాయం,non_abusive,political_criticism,high,0.09467771148939451,0.07341158390045166,0.08404464769492309,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ప్రతిపక్షం ప్రశ్నలకు సమాధానం చెప్పాలి,non_abusive,political_criticism,high,0.07087823824261881,0.38418594002723694,0.22753208913492787,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ పథకం వల్ల పేదలకు ఉపయోగం లేదు,non_abusive,political_criticism,high,0.39332704667790136,0.10148397833108902,0.2474055125044952,REVIEW,ALLOW,non_abusive,True,non_abusive,True
+ఎన్నికల్లో మార్పు కావాలి,non_abusive,political_criticism,high,0.15043145027835073,0.22305940091609955,0.18674542559722512,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+మంత్రి గారి వ్యాఖ్యలను నేను ఖండిస్తున్నాను,non_abusive,political_criticism,high,0.1077676221230605,0.08031250536441803,0.09404006374373927,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"రోడ్ల పరిస్థితి చాలా దారుణంగా ఉంది, అధికారులు స్పందించాలి",non_abusive,political_criticism,high,0.17210508542571756,0.14346137642860413,0.15778323092716084,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ ప్రభుత్వం అవినీతిని అరికట్టడంలో విఫలమైంది,non_abusive,political_criticism,high,0.0788806774701149,0.40111052989959717,0.23999560368485603,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నేతల మాటలకు చేతలకు పొంతన లేదు,non_abusive,political_criticism,high,0.15405840941266663,0.41271162033081055,0.2833850148717386,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"పన్నుల భారం పెరిగింది, ప్రజలు ఇబ్బంది పడుతున్నారు",non_abusive,political_criticism,high,0.18422043840638685,0.056875694543123245,0.12054806647475505,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ చట్టాన్ని వెనక్కి తీసుకోవాలి,non_abusive,political_criticism,high,0.028563068867479224,0.31299886107444763,0.17078096497096343,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ రోజు మేష రాశి వారికి శుభ ఫలితాలు,non_abusive,astrology_spam_neutral,high,0.035689576937663725,0.041743066161870956,0.03871632154976734,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+వృషభ రాశి వారు ధన లాభం పొందుతారు,non_abusive,astrology_spam_neutral,high,0.17002706404366652,0.08147810399532318,0.12575258401949485,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+గురు గ్రహ సంచారం వల్ల అదృష్టం కలుస్తుంది,non_abusive,astrology_spam_neutral,high,0.047068086618653034,0.07963286340236664,0.06335047501050983,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+మా ఛానల్ ను సబ్స్క్రైబ్ చేయండి,non_abusive,astrology_spam_neutral,high,0.10655240783740562,0.01894928701221943,0.06275084742481252,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ లింక్ పై క్లిక్ చేసి బహుమతి గెలుచుకోండి,non_abusive,astrology_spam_neutral,high,0.1242074147670753,0.022298678755760193,0.07325304676141775,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+"ఉచితంగా రీఛార్జ్ పొందండి, ఇప్పుడే నమోదు చేసుకోండి",non_abusive,astrology_spam_neutral,high,0.20572020327190316,0.04154602438211441,0.12363311382700878,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+శుభోదయం అందరికీ,non_abusive,astrology_spam_neutral,high,0.015175048098181898,0.010432417504489422,0.01280373280133566,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈరోజు పంచాంగం ప్రకారం రాహుకాలం మధ్యాహ్నం మూడు గంటలకు,non_abusive,astrology_spam_neutral,high,0.3285684372574668,0.137570321559906,0.2330693794086864,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+జాతకం చూపించుకోవాలంటే మమ్మల్ని సంప్రదించండి,non_abusive,astrology_spam_neutral,high,0.9246458456088241,0.1547522246837616,0.5396990351462929,BLOCK,REVIEW,abusive,False,abusive,False
+వీడియో నచ్చితే లైక్ షేర్ చేయండి,non_abusive,astrology_spam_neutral,high,0.013881470878158754,0.017507053911685944,0.01569426239492235,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ సినిమా చాలా బాగుంది,non_abusive,benign_general,high,0.006302617187111625,0.009676976129412651,0.007989796658262138,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+రేపు వర్షం పడే అవకాశం ఉంది,non_abusive,benign_general,high,0.12464822601456785,0.06450112164020538,0.09457467382738662,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+నాకు మామిడి పండ్లు ఇష్టం,non_abusive,benign_general,high,0.24496526941619567,0.035662438720464706,0.1403138540683302,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+మీ సహాయానికి ధన్యవాదాలు,non_abusive,benign_general,high,0.0521986973483778,0.00975425262004137,0.030976474984209586,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+పరీక్షలు బాగా రాశాను,non_abusive,benign_general,high,0.11367933003691537,0.022420799359679222,0.0680500646982973,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+పాట చాలా మధురంగా ఉంది,non_abusive,benign_general,high,0.08318889362163655,0.019489703699946404,0.051339298660791476,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+ఈ రోజు క్రికెట్ మ్యాచ్ చూశారా,non_abusive,benign_general,high,0.036520878300283846,0.05753055214881897,0.04702571522455141,ALLOW,ALLOW,non_abusive,True,non_abusive,True
+అమ్మ చేసిన పులిహోర రుచిగా ఉంది,non_abusive,benign_general,high,0.20624917793367784,0.03877347707748413,0.12251132750558098,ALLOW,ALLOW,non_abusive,True,non_abusive,True

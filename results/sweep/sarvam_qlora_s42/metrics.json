@@ -1,0 +1,47 @@
+{
+  "run_name": "sarvam_qlora_s42",
+  "model": "sarvamai/sarvam-1",
+  "method": "qlora",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 42,
+  "test_accuracy": 0.8931407942238268,
+  "test_precision": 0.8934504451336657,
+  "test_recall": 0.8925697318471684,
+  "test_macro_f1": 0.8928901374066225,
+  "test_weighted_f1": 0.8930809358794197,
+  "val_macro_f1": 0.8965831137543016,
+  "total_params": 1286580224,
+  "trainable_params": 23973888,
+  "trainable_pct": 1.8633807323312317,
+  "training_time_sec": 5328.142328739166,
+  "peak_gpu_memory_mb": 2359.1748046875,
+  "avg_inference_latency_ms": 39.31563600001027,
+  "throughput_samples_per_sec": 25.435172916946804,
+  "hyperparams": {
+    "lr": 0.0001,
+    "epochs": 2,
+    "train_bs": 4,
+    "max_length": 128,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": "all-linear",
+    "lr_scheduler": "cosine",
+    "early_stop_patience": 2,
+    "use_dora": false,
+    "loraplus_ratio": null,
+    "cnn_head": false,
+    "best_epoch": 2.0
+  },
+  "confusion_matrix": [
+    [
+      1304,
+      132
+    ],
+    [
+      164,
+      1170
+    ]
+  ]
+}

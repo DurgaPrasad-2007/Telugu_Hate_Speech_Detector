@@ -1,0 +1,32 @@
+{
+ "google/muril-base-cased": {
+  "tok_per_word": 1.9756421612046058,
+  "unk": 115,
+  "n_tok": 4461,
+  "cls": "BertTokenizerFast"
+ },
+ "FacebookAI/xlm-roberta-base": {
+  "tok_per_word": 2.2046058458813107,
+  "unk": 9,
+  "n_tok": 4978,
+  "cls": "XLMRobertaTokenizerFast"
+ },
+ "jhu-clsp/mmBERT-base": {
+  "tok_per_word": 3.795837023914969,
+  "unk": 0,
+  "n_tok": 8571,
+  "cls": "PreTrainedTokenizerFast"
+ },
+ "ai4bharat/IndicBERTv2-MLM-only": {
+  "tok_per_word": 1.7471213463241806,
+  "unk": 12,
+  "n_tok": 3945,
+  "cls": "PreTrainedTokenizerFast"
+ },
+ "sarvamai/sarvam-1": {
+  "tok_per_word": 2.7781222320637733,
+  "unk": 0,
+  "n_tok": 6273,
+  "cls": "LlamaTokenizerFast"
+ }
+}

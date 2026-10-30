@@ -1,0 +1,47 @@
+{
+  "run_name": "indic_full_s42",
+  "model": "ai4bharat/IndicBERTv2-MLM-only",
+  "method": "full",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 42,
+  "test_accuracy": 0.9032490974729241,
+  "test_precision": 0.9033652800776089,
+  "test_recall": 0.9028514990415655,
+  "test_macro_f1": 0.9030610539335515,
+  "test_weighted_f1": 0.9032182706631909,
+  "val_macro_f1": 0.8907242997686678,
+  "total_params": 278042882,
+  "trainable_params": 278042882,
+  "trainable_pct": 100.0,
+  "training_time_sec": 911.8023798465729,
+  "peak_gpu_memory_mb": 5367.4365234375,
+  "avg_inference_latency_ms": 1.0198990000026242,
+  "throughput_samples_per_sec": 980.4892445207093,
+  "hyperparams": {
+    "lr": 2e-05,
+    "epochs": 4,
+    "train_bs": 32,
+    "max_length": 128,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": "query,value",
+    "lr_scheduler": "cosine",
+    "early_stop_patience": 2,
+    "use_dora": false,
+    "loraplus_ratio": null,
+    "cnn_head": false,
+    "best_epoch": 2.0
+  },
+  "confusion_matrix": [
+    [
+      1312,
+      124
+    ],
+    [
+      144,
+      1190
+    ]
+  ]
+}

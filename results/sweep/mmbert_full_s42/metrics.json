@@ -1,0 +1,47 @@
+{
+  "run_name": "mmbert_full_s42",
+  "model": "jhu-clsp/mmBERT-base",
+  "method": "full",
+  "domain": "telugu",
+  "eval_domain": "telugu",
+  "seed": 42,
+  "test_accuracy": 0.8902527075812274,
+  "test_precision": 0.8900381978779421,
+  "test_recall": 0.8903965496360455,
+  "test_macro_f1": 0.8901610904584882,
+  "test_weighted_f1": 0.8902779022899807,
+  "val_macro_f1": 0.8966234557552937,
+  "total_params": 307531778,
+  "trainable_params": 307531778,
+  "trainable_pct": 100.0,
+  "training_time_sec": 2565.2126796245575,
+  "peak_gpu_memory_mb": 6274.36572265625,
+  "avg_inference_latency_ms": 2.1436929999981658,
+  "throughput_samples_per_sec": 466.4847065325378,
+  "hyperparams": {
+    "lr": 2e-05,
+    "epochs": 4,
+    "train_bs": 32,
+    "max_length": 128,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": "query,value",
+    "lr_scheduler": "cosine",
+    "early_stop_patience": 2,
+    "use_dora": false,
+    "loraplus_ratio": null,
+    "cnn_head": false,
+    "best_epoch": 4.0
+  },
+  "confusion_matrix": [
+    [
+      1273,
+      163
+    ],
+    [
+      141,
+      1193
+    ]
+  ]
+}
