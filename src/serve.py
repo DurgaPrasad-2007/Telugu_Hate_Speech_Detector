@@ -98,3 +98,24 @@ def predict(req: PredictRequest):
         raise HTTPException(status_code=500, detail="inference_error")
     log.info("predict n=%d latency_ms=%.1f", len(req.texts), (time.time() - start) * 1000)
     return {"results": results}
+
+
+@app.post("/analyze")
+def analyze(req: PredictRequest):
+    """Like /predict, plus per-word occlusion attribution and the canonicalization diff."""
+    clf = get_classifier()
+    if clf is None:
+        raise HTTPException(status_code=503, detail="model_not_loaded")
+    if any(len(t) > MAX_TEXT_CHARS for t in req.texts):
+        raise HTTPException(status_code=422, detail=f"text exceeds MAX_TEXT_CHARS={MAX_TEXT_CHARS}")
+    try:
+        results = clf.predict(req.texts)
+        for r in results:
+            if r.get("error"):
+                continue
+            r["canon_changed"] = r["canon_text"] != r["text"]
+            r["tokens"] = [{"word": w, "drop": d, "flagged": f} for w, d, f in clf.explain(r["text"])]
+    except Exception:
+        log.exception("analyze error (n_texts=%d)", len(req.texts))
+        raise HTTPException(status_code=500, detail="inference_error")
+    return {"results": results}

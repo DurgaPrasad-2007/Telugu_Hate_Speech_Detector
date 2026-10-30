@@ -331,6 +331,15 @@ def which_for_what():
     return pd.DataFrame(rows)
 
 
+def canon_card(r):
+    """Before/after view of the anti-obfuscation step; empty when nothing was rewritten."""
+    if not r.get("canon_rules"):
+        return ""
+    return (f'<div class="card"><h4>Obfuscation removed before scoring: {html.escape(", ".join(r["canon_rules"]))}</h4>'
+            f'<div class="text">Before: {html.escape(mask_text(str(r["text"])))}<br>'
+            f'After: {html.escape(mask_text(r["canon_text"]))}</div></div>')
+
+
 def render_result(title, r, words):
     d = r["decision"]
     n_flag = sum(1 for w in words if w[2])
@@ -338,9 +347,11 @@ def render_result(title, r, words):
     st.markdown(f"""
 <div class="card verdict-card {d}">
   <div class="verdict"><div><h4>Verdict</h4><div class="v">{VERDICT[d]}</div></div>
-  <div class="p">Abuse probability<br><b style="font-size:1.4rem;color:#0f172a">{r['probability']*100:.1f}%</b></div></div>
+  <div class="p">Abuse probability<br><b style="font-size:1.4rem;color:#0f172a">{r['probability']*100:.1f}%</b>
+  {f'<br><span style="font-size:.75rem;color:#64748b">raw {r["raw_prob"]*100:.1f}% before calibration</span>' if r.get('raw_prob') is not None else ''}</div></div>
   <div class="bar"><i style="width:{r['probability']*100:.1f}%"></i></div>
 </div>
+{canon_card(r)}
 <div class="card"><h4>Analyzed text · {n_flag} word{'s' if n_flag != 1 else ''} hidden</h4>
   <div class="text">{render_text(words)}</div>
   <div class="note">Words driving the score are blurred; hover over one to reveal it.
@@ -975,11 +986,18 @@ with tab_console:
                     p = (p + pm) / 2
                 return p
             p = float(full_fn([norm])[0])
+            raw_m = cal_m = None
+            if C["muril"] is not None:
+                rm = C["muril"].predict([norm], _quiet=True)[0]
+                raw_m, cal_m = rm.get("raw_prob"), rm.get("probability")
             lo, hi = C["pol"]["thr"][beta]
             v = moderator.verdict(p, lo, hi)
             st.markdown(f'<div class="card {v.lower()}"><div class="verdict"><div><h4>Verdict</h4>'
                         f'<div class="v">{v}</div></div><div class="p">Abuse probability<br>'
-                        f'<b style="font-size:1.4rem;color:#0f172a">{p*100:.1f}%</b></div></div>'
+                        f'<b style="font-size:1.4rem;color:#0f172a">{p*100:.1f}%</b>'
+                        + (f'<br><span style="font-size:.75rem;color:#64748b">MuRIL raw {raw_m*100:.1f}% '
+                           f'-> calibrated {cal_m*100:.1f}%</span>' if raw_m is not None else '')
+                        + '</div></div>'
                         f'<div class="note">allow if p &le; {lo:.3f}; block if p &gt; {hi:.3f}; otherwise review '
                         f'(thresholds from val, conformal).</div></div>', unsafe_allow_html=True)
             pairs = moderator.occlusion(norm, tf_fn)  # TF-IDF score only: cheap, no model call per word

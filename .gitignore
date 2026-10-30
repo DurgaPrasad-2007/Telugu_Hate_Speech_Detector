@@ -54,3 +54,16 @@ results/final_best/
 external_data/
 results/*/checkpoints/
 results/*/model/
+results/sweep/
+results/aug_*/
+results/clean_*/
+results/muril_loraplus_alllinear/
+results/relabel_tfidf/
+results/**/model/
+results/**/checkpoints/
+
+# Overleaf and temp packaging
+*.zip
+*.tar.gz
+*.bak
+

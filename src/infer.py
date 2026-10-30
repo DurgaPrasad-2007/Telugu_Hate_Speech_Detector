@@ -178,6 +178,7 @@ class HateSpeechClassifier:
                      self.thresholds["low"], self.thresholds["high"])
         results = [None] * len(texts)
         valid_idx, valid_texts = [], []
+        canon_info = {}  # input index -> (canonical text, rules fired)
         for i, t in enumerate(texts):
             clean = sanitize_text(t)
             if clean.strip() == "":
@@ -186,6 +187,7 @@ class HateSpeechClassifier:
                 if verbose:
                     log.info("[input %d] empty/invalid -> rejected, decision=allow", i)
             else:
+                fired = []
                 if self.defend:
                     clean_c, fired = canonicalize(clean)
                     if fired and not _quiet:
@@ -194,6 +196,7 @@ class HateSpeechClassifier:
                         log.info("[input %d]   after : %s", i, mask_text(clean_c)[:80])
                         log.debug("[input %d]   RAW after: %s", i, clean_c)
                     clean = clean_c
+                canon_info[i] = (clean, fired)
                 norm = normalize_text(clean, preprocess)
                 valid_idx.append(i)
                 valid_texts.append(norm)
@@ -211,6 +214,7 @@ class HateSpeechClassifier:
                                   max_length=self.max_length, return_tensors="pt").to(self.device)
             logits = self.model(**enc).logits
             probs = torch.softmax(logits / self.temperature, dim=-1)
+            raw = torch.softmax(logits, dim=-1)  # uncalibrated (T=1), same emoji max-of-views rule
             # second view without emoji: emoji-flooded text can drown out the words,
             # so an abusive score on either view counts.
             for j, orig_i in enumerate(idxs):
@@ -218,7 +222,11 @@ class HateSpeechClassifier:
                 if stripped and stripped != batch[j]:
                     e2 = self.tokenizer([stripped], truncation=True, max_length=self.max_length,
                                         return_tensors="pt").to(self.device)
-                    p2 = float(torch.softmax(self.model(**e2).logits / self.temperature, dim=-1)[0, 1])
+                    l2 = self.model(**e2).logits
+                    p2 = float(torch.softmax(l2 / self.temperature, dim=-1)[0, 1])
+                    r2 = float(torch.softmax(l2, dim=-1)[0, 1])
+                    if r2 > float(raw[j, 1]):
+                        raw[j, 1], raw[j, 0] = r2, 1 - r2
                     if verbose:
                         log.info("[input %d] emoji-stripped 2nd view: P(abusive)=%.3f (using max of views)",
                                  orig_i, p2)
@@ -228,7 +236,7 @@ class HateSpeechClassifier:
             if verbose:
                 for j, orig_i in enumerate(idxs):
                     n_tok = int(enc["attention_mask"][j].sum())
-                    raw_p = float(torch.softmax(logits[j], dim=-1)[1])
+                    raw_p = float(raw[j, 1])
                     log.info("[input %d] tokenized -> %d subword tokens (max %d) | logits=[%.2f, %.2f] "
                              "| P(abusive) raw=%.3f -> calibrated=%.3f",
                              orig_i, n_tok, self.max_length, float(logits[j, 0]), float(logits[j, 1]),
@@ -242,6 +250,9 @@ class HateSpeechClassifier:
                     "label": LABELS[int(preds[j])],
                     "label_id": int(preds[j]),
                     "probability": p_abusive,
+                    "raw_prob": float(raw[j, 1]),
+                    "canon_text": canon_info[orig_i][0],
+                    "canon_rules": canon_info[orig_i][1],
                     "decision": decision,
                     "review_required": decision == "review",
                 }

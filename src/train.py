@@ -190,6 +190,7 @@ def main():
     p.add_argument("--cnn-head", dest="cnn_head", action="store_true",
                     help="Opt-in multi-kernel (3,5,7) 1D-CNN pooling head; RoBERTa/XLM-R-style classifier only")
     p.add_argument("--fp16", action="store_true", default=None)
+    p.add_argument("--grad_ckpt", action="store_true", help="Opt-in gradient checkpointing (decoder LLMs / QLoRA)")
     p.add_argument("--dump_preds", action="store_true",
                     help="Opt-in: write preds.csv (split,text,label,p_abusive) for val+test; label 1=abusive (internal convention)")
     args = p.parse_args()
@@ -240,6 +241,9 @@ def main():
 
     # ---- Model ----
     model = load_model(args.method, args.model)
+    if tokenizer.pad_token is None:  # decoder LLMs (Llama-style) have no pad token; seq-cls pools at last non-pad token
+        tokenizer.pad_token = tokenizer.eos_token
+    model.config.pad_token_id = tokenizer.pad_token_id
 
     if args.loraplus_ratio is not None and args.method not in {"lora", "qlora", "dora"}:
         raise SystemExit("--loraplus-ratio only applies to lora/qlora/dora")
@@ -281,6 +285,8 @@ def main():
         logging_steps=50,
         report_to="none",
         fp16=use_fp16,
+        gradient_checkpointing=args.grad_ckpt,
+        gradient_checkpointing_kwargs={"use_reentrant": False} if args.grad_ckpt else None,
         seed=args.seed,
     )
 

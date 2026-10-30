@@ -17,10 +17,15 @@ _SPACE_RUN = re.compile(rf"(?<!\S){_U}(?: {_U}){{3,}}(?!\S)")  # v e d h a
 _TE_REPEAT = re.compile(r"([ఀ-౿])\1{2,}")           # వవవవ -> వ
 _LATIN_REPEAT = re.compile(r"([A-Za-z])\1{2,}")               # chaaaala -> chaala
 
+# Lookalikes of the Telugu anusvara ం (and digit zero ౦): Latin o/O, Cyrillic о/О, Greek ο/Ο.
+# Only rewritten when glued right after a Telugu letter/mark, so "good", "2024" stay as-is.
+_HOMOGLYPH = re.compile("(?<=[ఀ-౿])[oOоОοΟ౦]+")
+
 RULES = [
     ("zero-width characters", lambda t: _ZW.sub("", t)),
     ("separators inside a word", lambda t: _SEP_RUN.sub(lambda m: re.sub(_SEP, "", m.group()), t)),
     ("spaced-out letters", lambda t: _SPACE_RUN.sub(lambda m: m.group().replace(" ", ""), t)),
+    ("homoglyphs for ం", lambda t: _HOMOGLYPH.sub(lambda m: "ం" * len(m.group()), t)),
     ("stretched Telugu letters", lambda t: _TE_REPEAT.sub(r"\1", t)),
     ("stretched Latin letters", lambda t: _LATIN_REPEAT.sub(r"\1\1", t)),
 ]
@@ -56,7 +61,9 @@ if __name__ == "__main__":
     assert ok("v e d h a v a") == "vedhava"
     assert ok("v.e.d.h.a") == "vedha"
     assert ok("chaaaaala") == "chaaala".replace("aaa", "aa")
+    assert ok("నాకొడకు") == "నాకొడకు" and ok("నాకొడకుo") == "నాకొడకుం"
+    assert ok("వెధవ" + "о") == "వెధవం"  # Cyrillic о
     # ordinary text must be untouched
-    for s in ["నన్ను చచ్చి", "బాగుంది😂నువ్వు", "బాగుంది.నువ్వు", "good video 👍", "a b c", "వాళ్లలో ఇంకా"]:
+    for s in ["నన్ను చచ్చి", "బాగుంది😂నువ్వు", "బాగుంది.నువ్వు", "good video 👍", "a b c", "వాళ్లలో ఇంకా", "ఇది good", "2024 సంవత్సరం"]:
         assert canonicalize(s)[0] == s, s
     print("canon self-check OK")
